@@ -1,0 +1,249 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  display-name: CalendarService
+  auth: true
+  base-path: /availability-pricing/api/calendar/listings
+  endpoints:
+    retrieveCalendarSingleListing:
+      path: /{id}
+      method: GET
+      docs: >-
+        Use this endpoint to retrieve daily calendar availability and pricing
+        for a given listing ID and date range.
+        IMPORTANT: Multi-unit calendar availability is determined by unit
+        allotment, not its `status` field. To calculate if a multi-unit has
+        availability, use the following formula:
+        ```
+        const isAvailable = _.idNumber(currentDay.allotment)?
+        currentDay.allotment > 0 : currentDay.status === 'available';
+        ```
+      display-name: Retrieve the calendar for a single listing
+      path-parameters:
+        id:
+          docs: Listing ID
+          type: string
+      request:
+        name: CalendarSingleListingRequest
+        query-parameters:
+          startDate:
+            docs: "First day to be returned (format: YYYY-MM-DD)"
+            type: string
+          endDate:
+            docs: "Last day to be returned (format: YYYY-MM-DD)"
+            type: string
+          includeAllotment:
+            docs: Return day objects including allotment
+            type: optional<boolean>
+      response: CalendarSingleListing
+
+    updateCalendarSingleListing:
+      path: /{id}
+      method: PUT
+      docs: >-
+        Set the nightly rate, minimum stay and availability of any calendar date
+        per listing or Use this endpoint to set availability and pricing for
+        multiple dates or date ranges.
+      display-name: Update the calendar for a single listing
+      path-parameters:
+        id:
+          docs: Listing ID
+          type: string
+      request:
+        name: UpdateCalendarSingleListingRequest
+        body:
+          properties:
+            startDate:
+              docs: "First day affected by changes (format: YYYY-MM-DD)"
+              type: string
+            endDate:
+              docs: "Last date affected by changes (format: YYYY-MM-DD)"
+              type: string
+            status:
+              docs: "New status, enum: available, unavailable."
+              type: optional<CalendarStatus>
+            price:
+              docs: New price, in the listing's currency.
+              type: optional<double>
+            isBasePrice:
+              docs: >-
+                Whether to reset prices for the range to the listing's base
+                price
+              type: optional<boolean>
+            minNights:
+              docs: New min nights value
+              type: optional<integer>
+            isBaseMinNights:
+              docs: >-
+                Whether to reset min nights for the range to the listing's base
+                min nights
+              type: optional<boolean>
+            note:
+              docs: Note to add to those dates.
+              type: optional<string>
+            cta:
+              docs: Set Closed To Arrival for the date range.
+              type: optional<boolean>
+            ctd:
+              docs: Set Closed To Departure for the date range.
+              type: optional<boolean>
+            useChildValues:
+              docs: Accept changes to minNights on sub-unit
+              type: optional<boolean>
+      response: string
+
+    retireveMultipleCalendars:
+      path: ""
+      method: GET
+      docs: >-
+        Use this endpoint to retrieve calendar availability and pricing for
+        multiple listings according to a date range.
+      display-name: Retrieve calendars for multiple listings
+      request:
+        name: RetrieveMultipleCalendarsRequest
+        query-parameters:
+          listingIds:
+            docs: Listing IDs (comma separated)
+            type: string
+          startDate:
+            docs: "First day to be returned (format: YYYY-MM-DD)"
+            type: string
+          endDate:
+            docs: "Last day to be returned (format: YYYY-MM-DD)"
+            type: string
+      response: CalendarMultipleListings
+
+    retrieveCalendarMultipleListings:
+      path: ""
+      method: PUT
+      docs: >-
+        Use this endpoint to set availability and pricing for multiple listings
+        across a range of dates.
+      display-name: Update calendar for multiple listings
+      request:
+        name: UpdateCalendarMultipleListings
+        body:
+          properties:
+            listingId:
+              docs: The listing id to update
+              type: string
+            startDate:
+              docs: "First day affected by changes (format: YYYY-MM-DD)"
+              type: string
+            endDate:
+              docs: "Last date affected by changes (format: YYYY-MM-DD)"
+              type: string
+            status:
+              docs: "New status"
+              type: optional<CalendarStatus>
+            price:
+              docs: New price, in the listing's currency.
+              type: optional<double>
+            isBasePrice:
+              docs: >-
+                Whether to reset prices for the range to the listing's base
+                price
+              type: optional<boolean>
+            minNights:
+              docs: New min nights value
+              type: optional<integer>
+            isBaseMinNights:
+              docs: >-
+                Whether to reset min nights for the range to the listing's base
+                min nights
+              type: optional<boolean>
+            note:
+              docs: Note to add to those dates.
+              type: optional<string>
+            cta:
+              docs: Set Closed To Arrival for the date range.
+              type: optional<boolean>
+            ctd:
+              docs: Set Closed To Departure for the date range.
+              type: optional<boolean>
+            useChildValues:
+              docs: Accept changes to minNights on sub-unit
+              type: optional<boolean>
+      response: string
+
+types:
+  CalendarSingleListing:
+    properties:
+      date:
+        docs: Date with format YYYY-MM-DD
+        type: optional<string>
+      listingId: optional<string>
+      currency:
+        docs: Listing's currency value.
+        type: optional<string>
+      price:
+        docs: Price in the listing's currency.
+        type: optional<double>
+      isBasePrice:
+        docs: Flag which shows whether listing is set to base price.
+        type: optional<boolean>
+      minNights:
+        docs: Min nights value.
+        type: optional<double>
+      isBaseMinNights:
+        docs: Flag which shows whether listing is set to base min night.
+        type: optional<boolean>
+      status:
+        docs: "Status value, enum: available, unavailable."
+        type: optional<string>
+      allotment:
+        docs: Allotment value for parent listing.
+        type: optional<double>
+      blocks: optional<map<string, unknown>>
+      blockRefs: optional<list<string>>
+      reservationId: optional<string>
+      reservation: optional<map<string, unknown>>
+      cta:
+        docs: Closed To Arrival value
+        type: optional<boolean>
+      ctd:
+        docs: Closed To Departure value
+        type: optional<boolean>
+
+  CalendarStatus:
+    enum:
+      - available
+      - unavailable
+
+  CalendarMultipleListings:
+    properties:
+      date:
+        docs: Date with format YYYY-MM-DD
+        type: optional<string>
+      listingId: optional<string>
+      currency:
+        docs: Listing's currency value.
+        type: optional<string>
+      price:
+        docs: Price in the listing's currency.
+        type: optional<double>
+      isBasePrice:
+        docs: Flag which shows whether listing is set to base price.
+        type: optional<boolean>
+      minNights:
+        docs: Min nights value.
+        type: optional<double>
+      isBaseMinNights:
+        docs: Flag which shows whether listing is set to base min night.
+        type: optional<boolean>
+      status:
+        docs: "Status value, enum: available, unavailable."
+        type: optional<string>
+      allotment:
+        docs: Allotment value for parent listing.
+        type: optional<double>
+      blocks: optional<map<string, unknown>>
+      blockRefs: optional<list<string>>
+      reservationId: optional<string>
+      reservation: optional<map<string, unknown>>
+      cta:
+        docs: Closed To Arrival value
+        type: optional<boolean>
+      ctd:
+        docs: Closed To Departure value
+        type: optional<boolean>

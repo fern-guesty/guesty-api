@@ -1,0 +1,595 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: /additional-fees
+  endpoints:
+    "":
+      path: /account
+      method: GET
+      display-name: Get list of additional fees for account
+
+    _unnamedOperation82:
+      path: /account
+      method: POST
+      display-name: Create additional fee on account level
+      request:
+        body:
+          docs: >-
+            when configuring the platform and sources fields, user discretion
+            should be taken to choose platforms or sources that are integrated
+            to the account/listing
+          properties:
+            name:
+              docs: define an internal name for your additional fee
+              type: string
+            type: _InlinedType1148
+            value:
+              docs: >-
+                1. must be bigger then 0,
+                2. when 'isPercentage' is 'true' then must be also smaller or
+                equal to 100
+              type: integer
+            isPercentage:
+              docs: >-
+                sets wether 'value' should be used as a fixed amount or
+                percentage
+              type: boolean
+            targetFee:
+              docs: >-
+                1. the fee to use for the additional fee amount calculation when
+                'isPercentage' is 'true',
+                2. required when 'isPercentage' is 'true'
+              type: optional<_InlinedType1149>
+            multiplier:
+              docs: >-
+                1. sets the factor by which the 'value' will be multiplied in
+                the additional fee amount calculation when 'isPercentage' is
+                'false',
+                2. required when 'isPercentage' is 'false'
+              type: optional<_InlinedType1150>
+            isSyncToSupportedChannelsEnabled:
+              docs: >-
+                1. Sync fee to listing settings and all future reservations for
+                supported booking channels.
+              type: optional<boolean>
+            isAutomated:
+              docs: >-
+                1. indicates if there are booking channels in which the
+                additional fee should be added automatically to reservations
+                once the reservation arrives in Guesty,
+                2. if set to 'true', you must configure at least one of
+                'allSources', 'automationSources', 'allPlatforms',
+                'automationPlatforms', 'allRUSources', 'RUSources'
+              type: optional<boolean>
+            allPlatforms:
+              docs: >-
+                1. if 'true' then the additional fee will be added to all future
+                reservations in Guesty for all booking channels,
+                2. can not be 'true' when 'isAutomated' is 'false',
+                3. can not be 'true' when 'automationPlatforms' is not empty
+              type: optional<boolean>
+            automationPlatforms:
+              docs: >-
+                1. additional fee will be added to future reservations in Guesty
+                for specified booking channels,
+                2. can not contain values when 'isAutomated' is 'false',
+                3. can not contain values when 'allPlatforms' is 'true'
+              type: optional<list<_InlinedType1151>>
+            allSources:
+              docs: >-
+                1. if 'true' then the additional fee will be added to all future
+                reservations for all manual sources,
+                2. can not be 'true' when 'isAutomated' is 'false',
+                3. can not be 'true' when 'automationSources' is not empty
+              type: optional<boolean>
+            automationSources:
+              docs: >-
+                1. additional fee will be added to future reservations in Guesty
+                for specified manual sources,
+                2. can not contain values when 'isAutomated' is 'false',
+                3. can not contain values when 'allSources' is 'true'
+              type: optional<list<string>>
+            allRUSources:
+              docs: >-
+                1. if 'true' then the additional fee will be added to all future
+                rentals united reservations in Guesty for all rentals united
+                booking channels,
+                2. can not be 'true' when 'isAutomated' is 'false'
+                3. can not be 'true' when 'RUSources' is not empty,
+                4. when 'true' then 'rentalsUnited' must be included in
+                'automationPlatforms' or 'allPlatforms' must be 'true'
+              type: optional<boolean>
+            RUSources:
+              docs: >-
+                1. additional fee will be added to future rentals united
+                reservations in Guesty for specified rentals united booking
+                channels, 
+                2. can not contain values when 'isAutomated' is 'false',
+                3. can not contain values when 'allRUSources' is 'true',
+                4. when not empty then 'rentalsUnited' must be included in
+                'automationPlatforms' or 'allPlatforms' must be 'true'
+              type: optional<list<_InlinedType1152>>
+
+    _unnamedOperation83:
+      path: /listing/{listingId}
+      method: GET
+      display-name: Get list of additional fees for listing
+      path-parameters:
+        listingId: string
+
+    _unnamedOperation84:
+      path: /listing/{listingId}
+      method: POST
+      display-name: Create additional fee on listing level
+      path-parameters:
+        listingId: string
+      request:
+        body:
+          docs: >-
+            when configuring the platform and sources fields, user discretion
+            should be taken to choose platforms or sources that are integrated
+            to the account/listing
+          properties:
+            name:
+              docs: define an internal name for your additional fee
+              type: string
+            type: _InlinedType1153
+            value:
+              docs: >-
+                1. must be bigger then 0,
+                2. when 'isPercentage' is 'true' then must be also smaller or
+                equal to 100
+              type: integer
+            isPercentage:
+              docs: >-
+                sets wether 'value' should be used as a fixed amount or
+                percentage
+              type: boolean
+            targetFee:
+              docs: >-
+                1. the fee to use for the additional fee amount calculation when
+                'isPercentage' is 'true',
+                2. required when 'isPercentage' is 'true'
+              type: optional<_InlinedType1154>
+            multiplier:
+              docs: >-
+                1. sets the factor by which the 'value' will be multiplied in
+                the additional fee amount calculation when 'isPercentage' is
+                'false',
+                2. required when 'isPercentage' is 'false'
+              type: optional<_InlinedType1155>
+            isSyncToSupportedChannelsEnabled:
+              docs: >-
+                1. Sync fee to listing settings and all future reservations for
+                supported booking channels.
+              type: optional<boolean>
+            isAutomated:
+              docs: >-
+                1. indicates if there are booking channels in which the
+                additional fee should be added automatically to reservations
+                once the reservation arrives in Guesty,
+                2. if set to 'true', you must configure at least one of
+                'allSources', 'automationSources', 'allPlatforms',
+                'automationPlatforms', 'allRUSources', 'RUSources'
+              type: optional<boolean>
+            allPlatforms:
+              docs: >-
+                1. if 'true' then the additional fee will be added to all future
+                reservations in Guesty for all booking channels,
+                2. can not be 'true' when 'isAutomated' is 'false',
+                3. can not be 'true' when 'automationPlatforms' is not empty
+              type: optional<boolean>
+            automationPlatforms:
+              docs: >-
+                1. additional fee will be added to future reservations in Guesty
+                for specified booking channels,
+                2. can not contain values when 'isAutomated' is 'false',
+                3. can not contain values when 'allPlatforms' is 'true'
+              type: optional<list<_InlinedType1156>>
+            allSources:
+              docs: >-
+                1. if 'true' then the additional fee will be added to all future
+                reservations for all manual sources,
+                2. can not be 'true' when 'isAutomated' is 'false',
+                3. can not be 'true' when 'automationSources' is not empty
+              type: optional<boolean>
+            automationSources:
+              docs: >-
+                1. additional fee will be added to future reservations in Guesty
+                for specified manual sources,
+                2. can not contain values when 'isAutomated' is 'false',
+                3. can not contain values when 'allSources' is 'true'
+              type: optional<list<string>>
+            allRUSources:
+              docs: >-
+                1. if 'true' then the additional fee will be added to all future
+                rentals united reservations in Guesty for all rentals united
+                booking channels,
+                2. can not be 'true' when 'isAutomated' is 'false'
+                3. can not be 'true' when 'RUSources' is not empty,
+                4. when 'true' then 'rentalsUnited' must be included in
+                'automationPlatforms' or 'allPlatforms' must be 'true'
+              type: optional<boolean>
+            RUSources:
+              docs: >-
+                1. additional fee will be added to future rentals united
+                reservations in Guesty for specified rentals united booking
+                channels, 
+                2. can not contain values when 'isAutomated' is 'false',
+                3. can not contain values when 'allRUSources' is 'true',
+                4. when not empty then 'rentalsUnited' must be included in
+                'automationPlatforms' or 'allPlatforms' must be 'true'
+              type: optional<list<_InlinedType1157>>
+
+    _unnamedOperation85:
+      path: /{id}
+      method: DELETE
+      display-name: Delete existing additional fee
+      path-parameters:
+        id:
+          docs: id of item to remove
+          type: string
+
+    _unnamedOperation86:
+      path: /{id}
+      method: PATCH
+      display-name: Update existing additional fee
+      path-parameters:
+        id:
+          docs: id of item to update
+          type: string
+      request:
+        body:
+          docs: >-
+            when configuring the platform and sources fields, user discretion
+            should be taken to choose platforms or sources that are integrated
+            to the account/listing
+          properties:
+            name: optional<string>
+            type: optional<_InlinedType1158>
+            value:
+              docs: >-
+                1. must be bigger then 0,
+                2. when 'isPercentage' is 'true' then must be also smaller or
+                equal to 100
+              type: optional<integer>
+            isPercentage:
+              docs: >-
+                sets wether 'value' should be used as a fixed amount or
+                percentage
+              type: optional<boolean>
+            targetFee:
+              docs: >-
+                1. the fee to use for the additional fee amount calculation when
+                'isPercentage' is 'true',
+                2. required when 'isPercentage' is 'true'
+              type: optional<_InlinedType1159>
+            multiplier:
+              docs: >-
+                1. sets the factor by which the 'value' will be multiplied in
+                the additional fee amount calculation when 'isPercentage' is
+                'false',
+                2. required when 'isPercentage' is 'false'
+              type: optional<_InlinedType1160>
+            isSyncToSupportedChannelsEnabled:
+              docs: >-
+                1. Sync fee to listing settings and all future reservations for
+                supported booking channels.
+              type: optional<boolean>
+            isAutomated:
+              docs: >-
+                1. indicates if there are booking channels in which the
+                additional fee should be added automatically to reservations
+                once the reservation arrives in Guesty,
+                2. if set to 'true', you must configure at least one of
+                'allSources', 'automationSources', 'allPlatforms',
+                'automationPlatforms', 'allRUSources', 'RUSources'
+              type: optional<boolean>
+            allPlatforms:
+              docs: >-
+                1. if 'true' then the additional fee will be added to all future
+                reservations in Guesty for all booking channels,
+                2. can not be 'true' when 'isAutomated' is 'false',
+                3. can not be 'true' when 'automationPlatforms' is not empty
+              type: optional<boolean>
+            automationPlatforms:
+              docs: >-
+                1. additional fee will be added to future reservations in Guesty
+                for specified booking channels,
+                2. can not contain values when 'isAutomated' is 'false',
+                3. can not contain values when 'allPlatforms' is 'true'
+              type: optional<list<_InlinedType1161>>
+            allSources:
+              docs: >-
+                1. if 'true' then the additional fee will be added to all future
+                reservations for all manual sources,
+                2. can not be 'true' when 'isAutomated' is 'false',
+                3. can not be 'true' when 'automationSources' is not empty
+              type: optional<boolean>
+            automationSources:
+              docs: >-
+                1. additional fee will be added to future reservations in Guesty
+                for specified manual sources,
+                2. can not contain values when 'isAutomated' is 'false',
+                3. can not contain values when 'allSources' is 'true'
+              type: optional<list<string>>
+            allRUSources:
+              docs: >-
+                1. if 'true' then the additional fee will be added to all future
+                rentals united reservations in Guesty for all rentals united
+                booking channels,
+                2. can not be 'true' when 'isAutomated' is 'false'
+                3. can not be 'true' when 'RUSources' is not empty,
+                4. when 'true' then 'rentalsUnited' must be included in
+                'automationPlatforms' or 'allPlatforms' must be 'true'
+              type: optional<boolean>
+            RUSources:
+              docs: >-
+                1. additional fee will be added to future rentals united
+                reservations in Guesty for specified rentals united booking
+                channels, 
+                2. can not contain values when 'isAutomated' is 'false',
+                3. can not contain values when 'allRUSources' is 'true',
+                4. when not empty then 'rentalsUnited' must be included in
+                'automationPlatforms' or 'allPlatforms' must be 'true'
+              type: optional<list<_InlinedType1162>>
+
+types:
+  _InlinedType1148:
+    enum:
+      - ADDITIONAL_BED
+      - AIR_CONDITIONING
+      - EARLY_CHECK_IN
+      - LATE_CHECK_IN
+      - BABY_BED
+      - CLEANING
+      - CLUB_CARD
+      - CONCIERGE
+      - EARLY_CHECKOUT
+      - LATE_CHECKOUT
+      - DEPOSIT
+      - ELECTRICITY
+      - FOOD
+      - HEATING
+      - INTERNET
+      - LAUNDRY
+      - LINENS
+      - TOWELS
+      - MANAGEMENT
+      - OIL
+      - PARKING
+      - PET
+      - POOL
+      - POOL_HEATING
+      - RESORT
+      - SERVICE
+      - TOILETRIES
+      - TOUR
+      - TRANSPORTATION
+      - CAR_RENTAL
+      - WATER
+      - WOOD
+      - TRANSFER
+      - HOUSEKEEPING
+      - INSURANCE
+      - COMMUNITY
+      - CREDIT_CARD_PROCESSING_FEE
+      - DAMAGE_WAIVER
+
+  _InlinedType1149:
+    docs: >-
+      1. the fee to use for the additional fee amount calculation when
+      'isPercentage' is 'true',
+      2. required when 'isPercentage' is 'true'
+    enum:
+      - PAYOUT
+      - CLEANING_FEE
+      - ACCOMMODATION_FARE
+
+  _InlinedType1150:
+    docs: >-
+      1. sets the factor by which the 'value' will be multiplied in the
+      additional fee amount calculation when 'isPercentage' is 'false',
+      2. required when 'isPercentage' is 'false'
+    enum:
+      - PER_NIGHT
+      - PER_GUEST
+      - PER_GUEST_PER_NIGHT
+      - PER_STAY
+
+  _InlinedType1151:
+    enum:
+      - manual
+      - airbnb
+      - airbnb2
+      - rentalsUnited
+      - bookingCom
+      - expedia
+      - homeAway
+      - agoda
+      - tripAdvisor
+      - homeaway2
+      - siteMinder
+      - bookingPal
+
+  _InlinedType1152:
+    enum:
+      - agoda
+      - bookingCom
+      - despegar
+      - expedia
+      - hostelworld
+      - homeAway
+
+  _InlinedType1153:
+    enum:
+      - ADDITIONAL_BED
+      - AIR_CONDITIONING
+      - EARLY_CHECK_IN
+      - LATE_CHECK_IN
+      - BABY_BED
+      - CLEANING
+      - CLUB_CARD
+      - CONCIERGE
+      - EARLY_CHECKOUT
+      - LATE_CHECKOUT
+      - DEPOSIT
+      - ELECTRICITY
+      - FOOD
+      - HEATING
+      - INTERNET
+      - LAUNDRY
+      - LINENS
+      - TOWELS
+      - MANAGEMENT
+      - OIL
+      - PARKING
+      - PET
+      - POOL
+      - POOL_HEATING
+      - RESORT
+      - SERVICE
+      - TOILETRIES
+      - TOUR
+      - TRANSPORTATION
+      - CAR_RENTAL
+      - WATER
+      - WOOD
+      - TRANSFER
+      - HOUSEKEEPING
+      - INSURANCE
+      - COMMUNITY
+      - CREDIT_CARD_PROCESSING_FEE
+      - DAMAGE_WAIVER
+
+  _InlinedType1154:
+    docs: >-
+      1. the fee to use for the additional fee amount calculation when
+      'isPercentage' is 'true',
+      2. required when 'isPercentage' is 'true'
+    enum:
+      - PAYOUT
+      - CLEANING_FEE
+      - ACCOMMODATION_FARE
+
+  _InlinedType1155:
+    docs: >-
+      1. sets the factor by which the 'value' will be multiplied in the
+      additional fee amount calculation when 'isPercentage' is 'false',
+      2. required when 'isPercentage' is 'false'
+    enum:
+      - PER_NIGHT
+      - PER_GUEST
+      - PER_GUEST_PER_NIGHT
+      - PER_STAY
+
+  _InlinedType1156:
+    enum:
+      - manual
+      - airbnb
+      - airbnb2
+      - rentalsUnited
+      - bookingCom
+      - expedia
+      - homeAway
+      - agoda
+      - tripAdvisor
+      - homeaway2
+      - siteMinder
+      - bookingPal
+
+  _InlinedType1157:
+    enum:
+      - agoda
+      - bookingCom
+      - despegar
+      - expedia
+      - hostelworld
+      - homeAway
+
+  _InlinedType1158:
+    enum:
+      - ADDITIONAL_BED
+      - AIR_CONDITIONING
+      - EARLY_CHECK_IN
+      - LATE_CHECK_IN
+      - BABY_BED
+      - CLEANING
+      - CLUB_CARD
+      - CONCIERGE
+      - EARLY_CHECKOUT
+      - LATE_CHECKOUT
+      - DEPOSIT
+      - ELECTRICITY
+      - FOOD
+      - HEATING
+      - INTERNET
+      - LAUNDRY
+      - LINENS
+      - TOWELS
+      - MANAGEMENT
+      - OIL
+      - PARKING
+      - PET
+      - POOL
+      - POOL_HEATING
+      - RESORT
+      - SERVICE
+      - TOILETRIES
+      - TOUR
+      - TRANSPORTATION
+      - CAR_RENTAL
+      - WATER
+      - WOOD
+      - TRANSFER
+      - HOUSEKEEPING
+      - INSURANCE
+      - COMMUNITY
+      - CREDIT_CARD_PROCESSING_FEE
+      - DAMAGE_WAIVER
+
+  _InlinedType1159:
+    docs: >-
+      1. the fee to use for the additional fee amount calculation when
+      'isPercentage' is 'true',
+      2. required when 'isPercentage' is 'true'
+    enum:
+      - PAYOUT
+      - CLEANING_FEE
+      - ACCOMMODATION_FARE
+
+  _InlinedType1160:
+    docs: >-
+      1. sets the factor by which the 'value' will be multiplied in the
+      additional fee amount calculation when 'isPercentage' is 'false',
+      2. required when 'isPercentage' is 'false'
+    enum:
+      - PER_NIGHT
+      - PER_GUEST
+      - PER_GUEST_PER_NIGHT
+      - PER_STAY
+
+  _InlinedType1161:
+    enum:
+      - manual
+      - airbnb
+      - airbnb2
+      - rentalsUnited
+      - bookingCom
+      - expedia
+      - homeAway
+      - agoda
+      - tripAdvisor
+      - homeaway2
+      - siteMinder
+      - bookingPal
+
+  _InlinedType1162:
+    enum:
+      - agoda
+      - bookingCom
+      - despegar
+      - expedia
+      - hostelworld
+      - homeAway

@@ -1,0 +1,102 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: /properties/house-rules
+  endpoints:
+    "":
+      path: /unit-type/{unitTypeId}
+      method: GET
+      display-name: Retrieve unit-type house-rules
+      path-parameters:
+        unitTypeId:
+          docs: ID of the requested unitType
+          type: string
+
+    _unnamedOperation94:
+      path: /unit-type/{unitTypeId}
+      method: PUT
+      display-name: Update unit-type house-rules
+      path-parameters:
+        unitTypeId:
+          docs: ID of the requested unitType
+          type: string
+      request:
+        body:
+          properties:
+            additionalRules: optional<string>
+            childrenRules: optional<_InlinedType1245>
+            petsAllowed: optional<_InlinedType1246>
+            quietBetween: optional<_InlinedType1248>
+            smokingAllowed: optional<_InlinedType1249>
+            suitableForEvents: optional<_InlinedType1250>
+
+    _unnamedOperation95:
+      path: ""
+      method: GET
+      display-name: List house rules
+      request:
+        query-parameters:
+          complexId:
+            docs: ID of the requested complexId
+            type: optional<string>
+
+    _unnamedOperation96:
+      path: ""
+      method: POST
+      display-name: Update multiple unit-type house-rules
+      request:
+        body: _InlinedType1254
+
+types:
+  _InlinedType1245:
+    properties:
+      suitableForChildren: optional<boolean>
+      suitableForInfants: optional<boolean>
+
+  _InlinedType1246:
+    properties:
+      enabled: optional<boolean>
+      chargeType: optional<string>
+
+  _InlinedType1247:
+    properties:
+      start: optional<string>
+      end: optional<string>
+
+  _InlinedType1248:
+    properties:
+      enabled: optional<boolean>
+      hours: optional<_InlinedType1247>
+
+  _InlinedType1249:
+    properties:
+      enabled: optional<boolean>
+
+  _InlinedType1250:
+    properties:
+      enabled: optional<boolean>
+
+  _InlinedType1251:
+    properties:
+      set: optional<boolean>
+      start: optional<string>
+      end: optional<string>
+
+  _InlinedType1252:
+    properties:
+      suitableForChildren: optional<boolean>
+      suitableForInfants: optional<boolean>
+      petsAllowed: optional<boolean>
+      petsCharged: optional<boolean>
+      smokingAllowed: optional<boolean>
+      partiesAllowed: optional<boolean>
+      additional: optional<string>
+      quietHours: optional<_InlinedType1251>
+
+  _InlinedType1253:
+    properties:
+      unitTypeId: optional<string>
+      houseRules: optional<_InlinedType1252>
+
+  _InlinedType1254: list<_InlinedType1253>

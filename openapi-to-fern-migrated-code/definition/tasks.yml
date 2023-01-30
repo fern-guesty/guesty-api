@@ -1,0 +1,549 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: /tasks-open-api
+  endpoints:
+    "":
+      path: /tasks
+      method: GET
+      display-name: Get tasks list
+      request:
+        query-parameters:
+          filters:
+            docs: Object of filters to query by
+            type: optional<string>
+          columns:
+            docs: Selection of columns, separated by space
+            type: string
+          limit:
+            docs: Pagination
+            type: optional<double>
+          skip:
+            docs: Indication of number of results to skip
+            type: optional<double>
+      response: list<_InlinedType855>
+
+    _unnamedOperation53:
+      path: /create-single-task
+      method: POST
+      display-name: Create a new task
+      request:
+        body:
+          properties:
+            title:
+              docs: The name you call the task
+              type: string
+            description:
+              docs: Add any additional information needed to define the task.
+              type: optional<string>
+            priority:
+              docs: Priority value
+              type: optional<_InlinedType856>
+            assigneeGroup:
+              docs: The team the assignees are part of. This is a tag.
+              type: optional<list<string>>
+            assigneeId:
+              docs: The unique identifier of the person assigned to the task.
+              type: optional<string>
+            supervisorId:
+              docs: The uniqueID of the person assigned to supervise the task.
+              type: optional<string>
+            checklist:
+              docs: A list of action items that help define the task.
+              type: optional<list<string>>
+            attachments:
+              docs: The place to attach external files needed for the task.
+              type: optional<list<_InlinedType857>>
+            startTime:
+              docs: >-
+                The date and time the task must begin (specific task). Each task
+                scheduling should be set for fixed or flexible time. If
+                “startTime” has value, leave “canStartFrom” and
+                “mustFinishBefore” blank, and vice versa
+              type: optional<string>
+            canStartAfter:
+              docs: >-
+                The date and the time after which the task can begin (flexible
+                task). Each task scheduling should be set for fixed or flexible
+                time. If “startTime” has value, leave “canStartFrom” and
+                “mustFinishBefore” blank, and vice versa
+              type: optional<string>
+            mustFinishBefore:
+              docs: >-
+                The date and time before which the task must be completed
+                (flexible task). Each task scheduling should be set for fixed or
+                flexible time. If “startTime” has value, leave “canStartFrom”
+                and “mustFinishBefore” blank, and vice versa
+              type: optional<string>
+            listingId:
+              docs: The object ID of the listing the task is attached to
+              type: optional<string>
+            reservationId:
+              docs: The reservation ID of the listing the task is attached to
+              type: optional<string>
+            comments: optional<list<_InlinedType859>>
+            plannedDuration:
+              docs: The amount of time budgeted for the task (hours).
+              type: optional<double>
+      response: _InlinedType861
+
+    _unnamedOperation54:
+      path: /{taskId}
+      method: GET
+      display-name: Get a specific task
+      path-parameters:
+        taskId:
+          docs: Task id
+          type: string
+      response: _InlinedType863
+
+    _unnamedOperation55:
+      path: /{taskId}
+      method: PUT
+      display-name: Update a task
+      path-parameters:
+        taskId:
+          docs: Task id
+          type: string
+      request:
+        body:
+          properties:
+            title:
+              docs: The name you call the task
+              type: optional<string>
+            description:
+              docs: Add any additional information needed to define the task.
+              type: optional<string>
+            priority:
+              docs: Priority value
+              type: optional<_InlinedType864>
+            assigneeGroup:
+              docs: The team the assignees are part of. This is a tag.
+              type: optional<list<string>>
+            assigneeId:
+              docs: The unique identifier of the person assigned to the task.
+              type: optional<string>
+            supervisorId:
+              docs: The uniqueID of the person assigned to supervise the task.
+              type: optional<string>
+            checklist:
+              docs: A list of action items that help define the task.
+              type: optional<list<string>>
+            attachments:
+              docs: The place to attach external files needed for the task.
+              type: optional<list<_InlinedType865>>
+            startTime:
+              docs: >-
+                The date and time the task must begin (specific task). Each task
+                scheduling should be set for fixed or flexible time. If
+                “startTime” has value, leave “canStartFrom” and
+                “mustFinishBefore” blank, and vice versa
+              type: optional<string>
+            canStartAfter:
+              docs: >-
+                The date and the time after which the task can begin (flexible
+                task). Each task scheduling should be set for fixed or flexible
+                time. If “startTime” has value, leave “canStartFrom” and
+                “mustFinishBefore” blank, and vice versa
+              type: optional<string>
+            mustFinishBefore:
+              docs: >-
+                The date and time before which the task must be completed
+                (flexible task). Each task scheduling should be set for fixed or
+                flexible time. If “startTime” has value, leave “canStartFrom”
+                and “mustFinishBefore” blank, and vice versa
+              type: optional<string>
+            listingId:
+              docs: The object ID of the listing the task is attached to
+              type: optional<string>
+            reservationId:
+              docs: The reservation ID of the listing the task is attached to
+              type: optional<string>
+            comments: optional<list<_InlinedType867>>
+            status: optional<_InlinedType868>
+            plannedDuration:
+              docs: The amount of time budgeted for the task (hours).
+              type: optional<double>
+
+    _unnamedOperation56:
+      path: /{taskId}
+      method: DELETE
+      display-name: Delete a task
+      path-parameters:
+        taskId:
+          docs: Task id
+          type: string
+      response: _InlinedType870
+
+types:
+  _InlinedType849:
+    enum:
+      - pending
+      - confirmed
+      - in progress
+      - completed
+      - canceled
+
+  _InlinedType850:
+    properties:
+      children: optional<_InlinedType849>
+
+  _InlinedType851:
+    properties:
+      children: optional<string>
+
+  _InlinedType852:
+    properties:
+      listingId: optional<string>
+      img: optional<string>
+      title: optional<string>
+
+  _InlinedType853:
+    properties:
+      startTime: optional<string>
+      canStartAfter: optional<string>
+      mustFinishBefore: optional<string>
+
+  _InlinedType854:
+    properties:
+      taskId: optional<string>
+      assigneeId: optional<string>
+
+  _InlinedType855:
+    properties:
+      status: optional<_InlinedType850>
+      taskTitle: optional<_InlinedType851>
+      listing: optional<_InlinedType852>
+      reservation: optional<map<string, unknown>>
+      scheduledFor: optional<_InlinedType853>
+      endTime: optional<map<string, unknown>>
+      canStartAfter: optional<map<string, unknown>>
+      mustFinishBefore: optional<map<string, unknown>>
+      assignee: optional<_InlinedType854>
+      id: optional<string>
+
+  _InlinedType856:
+    docs: Priority value
+    enum:
+      - medium
+      - high
+      - low
+
+  _InlinedType857:
+    properties:
+      url:
+        docs: URL location of the attached file.
+        type: optional<string>
+      title:
+        docs: Title name of the attached file.
+        type: optional<string>
+      mimetype:
+        docs: State the kind of file attached
+        type: optional<string>
+      size:
+        docs: The storage size of the attachment
+        type: optional<double>
+      client:
+        docs: Add any additional information needed to define the task.
+        type: optional<string>
+
+  _InlinedType858:
+    properties:
+      name: optional<string>
+      url: optional<string>
+
+  _InlinedType859:
+    properties:
+      text:
+        docs: Textual comment
+        type: optional<string>
+      attachments: optional<list<_InlinedType858>>
+
+  _InlinedType860:
+    docs: The place to attach external files needed for the task.
+    properties:
+      title:
+        docs: Title name of the attached file.
+        type: optional<string>
+      url:
+        docs: URL location of the attached file.
+        type: optional<string>
+      mimetype:
+        docs: State the kind of file attached
+        type: optional<string>
+      size:
+        docs: The storage size of the attachment
+        type: optional<double>
+      client:
+        docs: Add any additional information needed to define the task.
+        type: optional<string>
+
+  _InlinedType861:
+    properties:
+      title:
+        docs: The name you call the task
+        type: optional<string>
+      description:
+        docs: Add any additional information needed to define the task.
+        type: optional<string>
+      priority:
+        docs: 1&2 are a “High” priority, 3 is “Medium, 4&5 are “Low”
+        type: optional<integer>
+      assigneeGroup:
+        docs: The team the assignees are part of. This is a tag.
+        type: optional<list<string>>
+      assigneeId:
+        docs: The unique identifier of the person assigned to the task.
+        type: optional<string>
+      supervisorId:
+        docs: The uniqueID of the person assigned to supervise the task.
+        type: optional<string>
+      checklist:
+        docs: A list of action items that help define the task.
+        type: optional<list<string>>
+      attachments:
+        docs: The place to attach external files needed for the task.
+        type: optional<_InlinedType860>
+      startTime:
+        docs: >-
+          The date and time the task must begin (fixed task). Each task
+          scheduling should be set for fixed or flexible time. If “startTime”
+          has value, leave “canStartFrom” and “mustFinishBefore” blank, and vice
+          versa
+        type: optional<string>
+      plannedDuration:
+        docs: The amount of time budgeted for the task (hours).
+        type: optional<double>
+      canStartAfter:
+        docs: >-
+          The date and the time after which the task can begin (flexible task).
+          Each task scheduling should be set for fixed or flexible time. If
+          “startTime” has value, leave “canStartFrom” and “mustFinishBefore”
+          blank, and vice versa
+        type: optional<string>
+      mustFinishBefore:
+        docs: >-
+          The date and time before which the task must be completed (flexible
+          task). Each task scheduling should be set for fixed or flexible time.
+          If “startTime” has value, leave “canStartFrom” and “mustFinishBefore”
+          blank, and vice versa
+        type: optional<string>
+      listingId:
+        docs: >-
+          The object ID of the listing the task is attached to. Only when
+          reservationId don't exist
+        type: optional<string>
+      reservationId:
+        docs: >-
+          The reservation ID of the listing the task is attached to. Only when
+          listingId don't exist
+        type: optional<string>
+
+  _InlinedType862:
+    docs: The place to attach external files needed for the task.
+    properties:
+      title:
+        docs: Title name of the attached file.
+        type: optional<string>
+      url:
+        docs: URL location of the attached file.
+        type: optional<string>
+      mimetype:
+        docs: State the kind of file attached
+        type: optional<string>
+      size:
+        docs: The storage size of the attachment
+        type: optional<double>
+      client:
+        docs: Add any additional information needed to define the task.
+        type: optional<string>
+
+  _InlinedType863:
+    properties:
+      title:
+        docs: The name you call the task
+        type: optional<string>
+      description:
+        docs: Add any additional information needed to define the task.
+        type: optional<string>
+      priority:
+        docs: 1&2 are a “High” priority, 3 is “Medium, 4&5 are “Low”
+        type: optional<integer>
+      assigneeGroup:
+        docs: The team the assignees are part of. This is a tag.
+        type: optional<list<string>>
+      assigneeId:
+        docs: The unique identifier of the person assigned to the task.
+        type: optional<string>
+      supervisorId:
+        docs: The uniqueID of the person assigned to supervise the task.
+        type: optional<string>
+      checklist:
+        docs: A list of action items that help define the task.
+        type: optional<list<string>>
+      attachments:
+        docs: The place to attach external files needed for the task.
+        type: optional<_InlinedType862>
+      startTime:
+        docs: >-
+          The date and time the task must begin (fixed task). Each task
+          scheduling should be set for fixed or flexible time. If “startTime”
+          has value, leave “canStartFrom” and “mustFinishBefore” blank, and vice
+          versa
+        type: optional<string>
+      plannedDuration:
+        docs: The amount of time budgeted for the task (hours).
+        type: optional<double>
+      canStartAfter:
+        docs: >-
+          The date and the time after which the task can begin (flexible task).
+          Each task scheduling should be set for fixed or flexible time. If
+          “startTime” has value, leave “canStartFrom” and “mustFinishBefore”
+          blank, and vice versa
+        type: optional<string>
+      mustFinishBefore:
+        docs: >-
+          The date and time before which the task must be completed (flexible
+          task). Each task scheduling should be set for fixed or flexible time.
+          If “startTime” has value, leave “canStartFrom” and “mustFinishBefore”
+          blank, and vice versa
+        type: optional<string>
+      listingId:
+        docs: >-
+          The object ID of the listing the task is attached to. Only when
+          reservationId don't exist
+        type: optional<string>
+      reservationId:
+        docs: >-
+          The reservation ID of the listing the task is attached to. Only when
+          listingId don't exist
+        type: optional<string>
+
+  _InlinedType864:
+    docs: Priority value
+    enum:
+      - medium
+      - high
+      - low
+
+  _InlinedType865:
+    properties:
+      url:
+        docs: URL location of the attached file.
+        type: optional<string>
+      title:
+        docs: Title name of the attached file.
+        type: optional<string>
+      mimetype:
+        docs: State the kind of file attached
+        type: optional<string>
+      size:
+        docs: The storage size of the attachment
+        type: optional<double>
+      client:
+        docs: Add any additional information needed to define the task.
+        type: optional<string>
+
+  _InlinedType866:
+    properties:
+      name: optional<string>
+      url: optional<string>
+
+  _InlinedType867:
+    properties:
+      _id:
+        docs: Comment identifier for update specific comment
+        type: optional<string>
+      text:
+        docs: Textual comment
+        type: optional<string>
+      attachments: optional<list<_InlinedType866>>
+
+  _InlinedType868:
+    enum:
+      - pending
+      - confirmed
+      - in progress
+      - completed
+      - canceled
+
+  _InlinedType869:
+    docs: The place to attach external files needed for the task.
+    properties:
+      title:
+        docs: Title name of the attached file.
+        type: optional<string>
+      url:
+        docs: URL location of the attached file.
+        type: optional<string>
+      mimetype:
+        docs: State the kind of file attached
+        type: optional<string>
+      size:
+        docs: The storage size of the attachment
+        type: optional<double>
+      client:
+        docs: Add any additional information needed to define the task.
+        type: optional<string>
+
+  _InlinedType870:
+    properties:
+      title:
+        docs: The name you call the task
+        type: optional<string>
+      description:
+        docs: Add any additional information needed to define the task.
+        type: optional<string>
+      priority:
+        docs: 1&2 are a “High” priority, 3 is “Medium, 4&5 are “Low”
+        type: optional<integer>
+      assigneeGroup:
+        docs: The team the assignees are part of. This is a tag.
+        type: optional<list<string>>
+      assigneeId:
+        docs: The unique identifier of the person assigned to the task.
+        type: optional<string>
+      supervisorId:
+        docs: The uniqueID of the person assigned to supervise the task.
+        type: optional<string>
+      checklist:
+        docs: A list of action items that help define the task.
+        type: optional<list<string>>
+      attachments:
+        docs: The place to attach external files needed for the task.
+        type: optional<_InlinedType869>
+      startTime:
+        docs: >-
+          The date and time the task must begin (fixed task). Each task
+          scheduling should be set for fixed or flexible time. If “startTime”
+          has value, leave “canStartFrom” and “mustFinishBefore” blank, and vice
+          versa
+        type: optional<string>
+      plannedDuration:
+        docs: The amount of time budgeted for the task (hours).
+        type: optional<double>
+      canStartAfter:
+        docs: >-
+          The date and the time after which the task can begin (flexible task).
+          Each task scheduling should be set for fixed or flexible time. If
+          “startTime” has value, leave “canStartFrom” and “mustFinishBefore”
+          blank, and vice versa
+        type: optional<string>
+      mustFinishBefore:
+        docs: >-
+          The date and time before which the task must be completed (flexible
+          task). Each task scheduling should be set for fixed or flexible time.
+          If “startTime” has value, leave “canStartFrom” and “mustFinishBefore”
+          blank, and vice versa
+        type: optional<string>
+      listingId:
+        docs: >-
+          The object ID of the listing the task is attached to. Only when
+          reservationId don't exist
+        type: optional<string>
+      reservationId:
+        docs: >-
+          The reservation ID of the listing the task is attached to. Only when
+          listingId don't exist
+        type: optional<string>

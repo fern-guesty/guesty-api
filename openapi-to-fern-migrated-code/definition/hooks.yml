@@ -1,0 +1,77 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: /hooks
+  endpoints:
+    "":
+      path: ""
+      method: GET
+      display-name: Get hooks
+      request:
+        query-parameters:
+          limit:
+            docs: "Pagination, max: 100"
+            type: optional<integer>
+          skip:
+            docs: Pagination
+            type: optional<integer>
+          listingId:
+            docs: Limit to a specific listing
+            type: optional<string>
+          fields:
+            docs: Selection of fields, separated by space
+            type: optional<string>
+          sort:
+            docs: Field to sort by. Prepend - for DESC.
+            type: optional<string>
+      response: map<string, unknown>
+
+    _unnamedOperation57:
+      path: ""
+      method: POST
+      display-name: Post hook
+      request:
+        body: _InlinedType871
+      response: map<string, unknown>
+
+    _unnamedOperation58:
+      path: /{hookId}
+      method: GET
+      display-name: Get hook by id
+      path-parameters:
+        hookId:
+          docs: Saved Hook Id
+          type: string
+      request:
+        query-parameters:
+          fields:
+            docs: Selection of fields, separated by space
+            type: optional<string>
+      response: map<string, unknown>
+
+    _unnamedOperation59:
+      path: /{hookId}
+      method: PUT
+      display-name: Update hook by id
+      path-parameters:
+        hookId:
+          docs: Saved Hook Id
+          type: string
+      request:
+        body: _InlinedType872
+      response: map<string, unknown>
+
+    _unnamedOperation60:
+      path: /{hookId}
+      method: DELETE
+      display-name: Delete hook by id
+      path-parameters:
+        hookId:
+          docs: Saved Hook Id
+          type: string
+
+types:
+  _InlinedType871: map<string, unknown>
+
+  _InlinedType872: map<string, unknown>

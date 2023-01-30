@@ -1,0 +1,63 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: /vendors
+  endpoints:
+    vendorsControllerGetAll:
+      path: ""
+      method: GET
+      docs: Get a list of vendors
+      display-name: Query vendors
+      request:
+        query-parameters:
+          limit:
+            docs: Pagination param. Limit the number of results
+            type: optional<double>
+          skip:
+            docs: Pagination param. Skip a number of the first results.
+            type: optional<double>
+      response: _InlinedType1389
+
+    vendorsControllerGetById:
+      path: /{id}
+      method: GET
+      docs: Get specific vendor by ID
+      display-name: Query a vendor
+      path-parameters:
+        id:
+          docs: Vendor id to get
+          type: string
+      response: _InlinedType1390
+
+types:
+  _InlinedType1388:
+    properties:
+      id: string
+      company: string
+      firstName: string
+      lastName: string
+      fullName: optional<string>
+      phone: list<string>
+      email: list<string>
+      address: optional<string>
+      code: optional<string>
+      notes: optional<string>
+
+  _InlinedType1389:
+    properties:
+      count: double
+      results: list<_InlinedType1388>
+
+  _InlinedType1390:
+    properties:
+      id: string
+      company: string
+      firstName: string
+      lastName: string
+      fullName: optional<string>
+      phone: list<string>
+      email: list<string>
+      address: optional<string>
+      code: optional<string>
+      notes: optional<string>

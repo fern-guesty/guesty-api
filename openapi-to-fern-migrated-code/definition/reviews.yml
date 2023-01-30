@@ -1,0 +1,349 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: /reviews
+  endpoints:
+    "":
+      path: ""
+      method: GET
+      docs: Retrieve reviews sorted descending by last update time
+      display-name: Retrieve all reviews
+      request:
+        query-parameters:
+          skip:
+            docs: >-
+              The number of items to skip before starting to collect the result
+              set
+            type: optional<integer>
+          limit:
+            docs: The numbers of items to return
+            type: optional<integer>
+          channelId:
+            docs: Channel
+            type: optional<_InlinedType873>
+          listingId:
+            docs: Guesty Listing ID
+            type: optional<string>
+          reservationId:
+            docs: Guesty Reservation ID
+            type: optional<string>
+          externalReservationId:
+            docs: Channel Reservation ID
+            type: optional<string>
+          externalReviewId:
+            docs: Channel Review ID
+            type: optional<string>
+          startDate:
+            docs: Start date-time of get reviews
+            type: optional<string>
+          endDate:
+            docs: End date-time of get reviews
+            type: optional<string>
+      response: _InlinedType879
+
+    _unnamedOperation61:
+      path: /listings-average
+      method: GET
+      docs: Average reviews score by Listings IDs
+      display-name: Average reviews score
+      response: _InlinedType881
+
+    _unnamedOperation62:
+      path: /{reviewId}
+      method: GET
+      docs: Retrieve a review
+      display-name: Retrieve a review
+      path-parameters:
+        reviewId:
+          docs: Guesty Review ID
+          type: string
+      response: _InlinedType886
+
+    _unnamedOperation63:
+      path: /{reviewId}/reply
+      method: PUT
+      docs: >-
+        Publish reply to channel and store in DB. Airbnb and Booking.com allow
+        to publish only one reply per review. Airbnb allows to update reply.
+        Booking.com does not allow to update reply.
+      display-name: Publish reply
+      path-parameters:
+        reviewId:
+          docs: Guesty Review ID
+          type: string
+      request:
+        body:
+          properties:
+            reviewReply: string
+      response: _InlinedType890
+
+types:
+  _InlinedType874:
+    docs: Channel
+    enum:
+      - airbnb2
+      - bookingCom
+
+  _InlinedType875:
+    docs: Channel
+    enum:
+      - airbnb2
+      - bookingCom
+
+  _InlinedType876:
+    enum:
+      - COMPLETED
+      - FAILED
+      - PENDING
+
+  _InlinedType877:
+    properties:
+      reviewReply:
+        docs: text of reply
+        type: optional<string>
+      status: optional<_InlinedType876>
+      replyAt: optional<string>
+
+  _InlinedType878:
+    properties:
+      _id:
+        docs: ID of Guesty review
+        type: string
+      accountId:
+        docs: ID of Guesty account
+        type: string
+      externalReviewId:
+        docs: ID of review in channel
+        type: string
+      channelId:
+        docs: Channel
+        type: _InlinedType875
+      subListingId:
+        docs: >-
+          ID of Guesty MU child listing in case related reservation is assigned
+          to it
+        type: optional<string>
+      listingId:
+        docs: >-
+          ID of Guesty listing that integrated with channel or related
+          reservation is assigned to
+        type: string
+      complexId:
+        docs: ID of Guesty complex if listing integrated with channel is assigned to
+        type: optional<string>
+      externalListingId:
+        docs: ID of airbnb listing or booking.com room to which review belong to
+        type: string
+      externalComplexId:
+        docs: ID of hotel for booking.com, empty for airbnb
+        type: optional<string>
+      reservationId:
+        docs: ID of Guesty reservation linked to review
+        type: optional<string>
+      externalReservationId:
+        docs: ID of linked reservation in channel
+        type: string
+      guestId:
+        docs: ID of guest in Guesty
+        type: optional<string>
+      createdAt:
+        docs: date-time of creation in channel
+        type: string
+      updatedAt:
+        docs: date-time of last update in channel
+        type: string
+      createdAtGuesty:
+        docs: date-time of creation in Guesty
+        type: optional<string>
+      updatedAtGuesty:
+        docs: date-time of last update in Guesty
+        type: optional<string>
+      rawReview:
+        docs: raw review object received from channel
+        type: map<string, unknown>
+      reviewReplies: optional<list<_InlinedType877>>
+
+  _InlinedType879:
+    properties:
+      limit: optional<double>
+      skip: optional<double>
+      data: optional<list<_InlinedType878>>
+
+  _InlinedType880:
+    properties:
+      listingId:
+        docs: Guesty Listing ID
+        type: optional<string>
+      avg:
+        docs: Average reviews score of listing
+        type: optional<double>
+      total:
+        docs: Total count of listing reviews
+        type: optional<double>
+
+  _InlinedType881:
+    properties:
+      data: optional<list<_InlinedType880>>
+
+  _InlinedType882:
+    docs: Channel
+    enum:
+      - airbnb2
+      - bookingCom
+
+  _InlinedType883:
+    enum:
+      - COMPLETED
+      - FAILED
+      - PENDING
+
+  _InlinedType884:
+    properties:
+      reviewReply:
+        docs: text of reply
+        type: optional<string>
+      status: optional<_InlinedType883>
+      replyAt: optional<string>
+
+  _InlinedType885:
+    properties:
+      _id:
+        docs: ID of Guesty review
+        type: string
+      accountId:
+        docs: ID of Guesty account
+        type: string
+      externalReviewId:
+        docs: ID of review in channel
+        type: string
+      channelId:
+        docs: Channel
+        type: _InlinedType882
+      subListingId:
+        docs: >-
+          ID of Guesty MU child listing in case related reservation is assigned
+          to it
+        type: optional<string>
+      listingId:
+        docs: >-
+          ID of Guesty listing that integrated with channel or related
+          reservation is assigned to
+        type: string
+      complexId:
+        docs: ID of Guesty complex if listing integrated with channel is assigned to
+        type: optional<string>
+      externalListingId:
+        docs: ID of airbnb listing or booking.com room to which review belong to
+        type: string
+      externalComplexId:
+        docs: ID of hotel for booking.com, empty for airbnb
+        type: optional<string>
+      reservationId:
+        docs: ID of Guesty reservation linked to review
+        type: optional<string>
+      externalReservationId:
+        docs: ID of linked reservation in channel
+        type: string
+      guestId:
+        docs: ID of guest in Guesty
+        type: optional<string>
+      createdAt:
+        docs: date-time of creation in channel
+        type: string
+      updatedAt:
+        docs: date-time of last update in channel
+        type: string
+      createdAtGuesty:
+        docs: date-time of creation in Guesty
+        type: optional<string>
+      updatedAtGuesty:
+        docs: date-time of last update in Guesty
+        type: optional<string>
+      rawReview:
+        docs: raw review object received from channel
+        type: map<string, unknown>
+      reviewReplies: optional<list<_InlinedType884>>
+
+  _InlinedType886:
+    properties:
+      data: optional<_InlinedType885>
+
+  _InlinedType887:
+    docs: Channel
+    enum:
+      - airbnb2
+      - bookingCom
+
+  _InlinedType888:
+    enum:
+      - COMPLETED
+      - FAILED
+      - PENDING
+
+  _InlinedType889:
+    properties:
+      reviewReply:
+        docs: text of reply
+        type: optional<string>
+      status: optional<_InlinedType888>
+      replyAt: optional<string>
+
+  _InlinedType890:
+    properties:
+      _id:
+        docs: ID of Guesty review
+        type: string
+      accountId:
+        docs: ID of Guesty account
+        type: string
+      externalReviewId:
+        docs: ID of review in channel
+        type: string
+      channelId:
+        docs: Channel
+        type: _InlinedType887
+      subListingId:
+        docs: >-
+          ID of Guesty MU child listing in case related reservation is assigned
+          to it
+        type: optional<string>
+      listingId:
+        docs: >-
+          ID of Guesty listing that integrated with channel or related
+          reservation is assigned to
+        type: string
+      complexId:
+        docs: ID of Guesty complex if listing integrated with channel is assigned to
+        type: optional<string>
+      externalListingId:
+        docs: ID of airbnb listing or booking.com room to which review belong to
+        type: string
+      externalComplexId:
+        docs: ID of hotel for booking.com, empty for airbnb
+        type: optional<string>
+      reservationId:
+        docs: ID of Guesty reservation linked to review
+        type: optional<string>
+      externalReservationId:
+        docs: ID of linked reservation in channel
+        type: string
+      guestId:
+        docs: ID of guest in Guesty
+        type: optional<string>
+      createdAt:
+        docs: date-time of creation in channel
+        type: string
+      updatedAt:
+        docs: date-time of last update in channel
+        type: string
+      createdAtGuesty:
+        docs: date-time of creation in Guesty
+        type: optional<string>
+      updatedAtGuesty:
+        docs: date-time of last update in Guesty
+        type: optional<string>
+      rawReview:
+        docs: raw review object received from channel
+        type: map<string, unknown>
+      reviewReplies: optional<list<_InlinedType889>>

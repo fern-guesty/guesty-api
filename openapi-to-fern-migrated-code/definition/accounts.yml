@@ -1,0 +1,662 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: ""
+  endpoints:
+    "":
+      path: /accounts/me
+      method: GET
+      display-name: Get account details of current user
+      response: _InlinedType57
+
+    _unnamedOperation0:
+      path: /accounts/{id}/custom-fields
+      method: GET
+      display-name: Get All Custom Fields
+      path-parameters:
+        id:
+          docs: e.g. - Account id
+          type: string
+      response: list<_InlinedType60>
+
+    _unnamedOperation1:
+      path: /accounts/{id}/custom-fields
+      method: PUT
+      display-name: Update custom field
+      path-parameters:
+        id: string
+      request:
+        body:
+          properties:
+            customFields:
+              docs: |-
+                **IMPORTANT NOTE:**
+                The oroginal object should be sent,
+                 **The only field editable is 'options' for 'enum' customFiled type**
+              type: optional<list<_InlinedType65>>
+      response: list<_InlinedType68>
+
+    _unnamedOperation2:
+      path: /accounts/{id}/custom-fields
+      method: POST
+      display-name: Create new custom field
+      path-parameters:
+        id:
+          docs: e.g. - Account id
+          type: string
+      request:
+        body:
+          properties:
+            customFields:
+              docs: "Custom Fields Array: all new fields"
+              type: optional<list<unknown>>
+      response: list<_InlinedType71>
+
+    _unnamedOperation3:
+      path: /accounts/{id}/custom-fields/{field_id}
+      method: GET
+      display-name: Get Custom Field
+      path-parameters:
+        id: string
+        field_id: string
+      response: _InlinedType74
+
+    _unnamedOperation4:
+      path: /accounts/{id}/custom-fields/{field_id}
+      method: DELETE
+      display-name: Delete Custom Field
+      path-parameters:
+        id: string
+        field_id: string
+      response: list<_InlinedType77>
+
+    _unnamedOperation5:
+      path: /payment-providers/{id}/assign-listings
+      method: POST
+      display-name: Assign listings to Stripe account
+      path-parameters:
+        id:
+          docs: Stripe payment provider
+          type: string
+      request:
+        body:
+          properties:
+            listingIds:
+              docs: Array of listing ids to assign
+              type: list<string>
+      response: _InlinedType78
+
+types:
+  _InlinedType0:
+    properties: {}
+
+  _InlinedType1:
+    properties: {}
+
+  _InlinedType2:
+    properties:
+      id: optional<string>
+      question: optional<string>
+      answer: optional<string>
+
+  _InlinedType3:
+    properties:
+      lat: optional<double>
+      lng: optional<double>
+      full: optional<string>
+
+  _InlinedType4:
+    enum:
+      - check-in
+      - check-out
+      - per_night
+
+  _InlinedType5:
+    properties:
+      _id: optional<string>
+      name: optional<string>
+      contactFirstname: optional<string>
+      contactLastname: optional<string>
+      contactEmail: optional<string>
+      contactPhone: optional<string>
+      businessType: optional<string>
+      vatNum: optional<double>
+      country: optional<string>
+      address: optional<string>
+      city: optional<string>
+      zipCode: optional<string>
+      corporationPlace: optional<string>
+      submittedAt: optional<string>
+
+  _InlinedType6:
+    properties:
+      createdFirstHookAt: optional<string>
+      zendeskTicketId: optional<string>
+
+  _InlinedType7:
+    properties:
+      rateStrategy: optional<string>
+
+  _InlinedType8:
+    properties: {}
+
+  _InlinedType9:
+    properties:
+      billingCycle: optional<string>
+      billingDay: optional<double>
+      nextBillingDate: optional<string>
+      paymentMethods: optional<list<unknown>>
+      noFreezingFlow: optional<boolean>
+      stripeCustomerId: optional<string>
+
+  _InlinedType10:
+    properties:
+      id: optional<string>
+      livemode: optional<boolean>
+      token_type: optional<string>
+      stripe_publishable_key: optional<string>
+      stripe_user_id: optional<string>
+      scope: optional<string>
+
+  _InlinedType11:
+    properties:
+      active: optional<boolean>
+      status: optional<string>
+      accountName: optional<string>
+      defaultCurrency: optional<string>
+      syncedAt: optional<string>
+      payload: optional<_InlinedType10>
+
+  _InlinedType12:
+    properties:
+      stripe: optional<_InlinedType11>
+
+  _InlinedType13:
+    properties:
+      active: optional<boolean>
+      paymentProviders: optional<_InlinedType12>
+
+  _InlinedType14:
+    properties:
+      defaultStatusForNewReservations: optional<string>
+      defaultSort: optional<string>
+      includedListings: optional<list<unknown>>
+      excludedListings: optional<list<unknown>>
+
+  _InlinedType15:
+    properties:
+      requireReasonForUpdatingPricing: optional<boolean>
+
+  _InlinedType16:
+    properties:
+      active: optional<boolean>
+      days: optional<double>
+      toStatus: optional<string>
+
+  _InlinedType17:
+    properties:
+      statusFade: optional<_InlinedType16>
+      markAsDirtyOnCheckIn: optional<boolean>
+
+  _InlinedType18:
+    properties:
+      paymentProcessing: optional<_InlinedType13>
+      website: optional<_InlinedType14>
+      calendar: optional<_InlinedType15>
+      cleaningStatus: optional<_InlinedType17>
+
+  _InlinedType19:
+    properties:
+      integrationEmailDomains: optional<list<unknown>>
+      shouldWhiteLabelApp: optional<boolean>
+
+  _InlinedType20:
+    enum:
+      - listing
+      - reservation
+
+  _InlinedType21:
+    enum:
+      - user
+      - boolean
+      - enum
+      - longtext
+      - date
+      - text
+      - time
+      - contact
+      - number
+
+  _InlinedType22:
+    properties:
+      id: optional<string>
+      displayName: optional<string>
+      isPublic: optional<boolean>
+      key: optional<string>
+      object: optional<_InlinedType20>
+      options: optional<list<string>>
+      type: optional<_InlinedType21>
+
+  _InlinedType23:
+    properties:
+      id: optional<string>
+      name: optional<string>
+      planType: optional<string>
+      value: optional<double>
+      isLocked: optional<boolean>
+
+  _InlinedType24:
+    properties:
+      tax: optional<double>
+
+  _InlinedType25:
+    properties:
+      value: optional<double>
+      of: optional<list<string>>
+      tax: optional<double>
+
+  _InlinedType26:
+    properties:
+      commission: optional<_InlinedType25>
+
+  _InlinedType27:
+    properties:
+      value: optional<double>
+      of: optional<list<string>>
+      tax: optional<double>
+
+  _InlinedType28:
+    properties:
+      commission: optional<_InlinedType27>
+
+  _InlinedType29:
+    properties:
+      bookingCom: optional<_InlinedType24>
+      expedia: optional<_InlinedType26>
+      agoda: optional<_InlinedType28>
+
+  _InlinedType30:
+    properties:
+      tax: optional<double>
+
+  _InlinedType31:
+    properties:
+      value: optional<double>
+      of: optional<list<string>>
+      tax: optional<double>
+
+  _InlinedType32:
+    properties:
+      commission: optional<_InlinedType31>
+
+  _InlinedType33:
+    properties:
+      rentalsUnited: optional<_InlinedType29>
+      bookingCom: optional<_InlinedType30>
+      homeaway2: optional<_InlinedType32>
+      useAccountSettings: optional<boolean>
+
+  _InlinedType34:
+    properties:
+      id: optional<string>
+      channelCommission: optional<_InlinedType33>
+
+  _InlinedType35:
+    enum:
+      - hidden
+      - unselected
+      - selected
+
+  _InlinedType36:
+    enum:
+      - hidden
+      - unselected
+      - selected
+
+  _InlinedType37:
+    enum:
+      - hidden
+      - unselected
+      - selected
+
+  _InlinedType38:
+    enum:
+      - hidden
+      - unselected
+      - selected
+
+  _InlinedType39:
+    enum:
+      - hidden
+      - unselected
+      - selected
+
+  _InlinedType40:
+    enum:
+      - hidden
+      - unselected
+      - selected
+
+  _InlinedType41:
+    enum:
+      - hidden
+      - unselected
+      - selected
+
+  _InlinedType42:
+    enum:
+      - hidden
+      - unselected
+      - selected
+
+  _InlinedType43:
+    properties:
+      Onboarding experience: optional<_InlinedType35>
+      Missing features: optional<_InlinedType36>
+      Technical issues: optional<_InlinedType37>
+      System usability: optional<_InlinedType38>
+      Value for money: optional<_InlinedType39>
+      Customer support: optional<_InlinedType40>
+      Guest Communication Service: optional<_InlinedType41>
+      Other: optional<_InlinedType42>
+
+  _InlinedType44:
+    enum:
+      - hidden
+      - unselected
+      - selected
+
+  _InlinedType45:
+    properties:
+      Other: optional<_InlinedType44>
+      OtherInput: optional<string>
+
+  _InlinedType46:
+    properties:
+      Other: optional<_InlinedType45>
+
+  _InlinedType47:
+    properties:
+      id: optional<string>
+      date: optional<string>
+      reasons: optional<_InlinedType43>
+      subReasons: optional<_InlinedType46>
+
+  _InlinedType48:
+    properties:
+      firstName: optional<string>
+      lastName: optional<string>
+      userEmail: optional<string>
+      date: optional<string>
+
+  _InlinedType49:
+    properties:
+      airbnbIntegration: optional<string>
+
+  _InlinedType50:
+    properties:
+      agreedToTOS: optional<_InlinedType48>
+      features: optional<_InlinedType49>
+      oldOnboardingStatus: optional<string>
+      accountManager: optional<string>
+      onboardingStatus: optional<string>
+
+  _InlinedType51:
+    properties:
+      id: optional<string>
+      name: optional<string>
+      type: optional<string>
+      units: optional<string>
+      quantifier: optional<string>
+      amount: optional<double>
+
+  _InlinedType52:
+    properties:
+      amount: optional<double>
+      units: optional<string>
+      status: optional<string>
+
+  _InlinedType53:
+    properties:
+      agoda: optional<_InlinedType52>
+
+  _InlinedType54:
+    properties:
+      ittt: optional<list<unknown>>
+
+  _InlinedType55:
+    properties:
+      checklist: optional<list<unknown>>
+
+  _InlinedType56:
+    properties:
+      receptionDesk: optional<_InlinedType54>
+      screening: optional<_InlinedType55>
+      contactPersonUserId: optional<string>
+
+  _InlinedType57:
+    properties:
+      id: optional<string>
+      active:
+        docs: Status of connection
+        type: optional<boolean>
+      name: optional<string>
+      email: optional<string>
+      timezone: optional<string>
+      mailgun: optional<_InlinedType0>
+      isInterestedInServiceOnExistingReservations: optional<boolean>
+      siqnupQuestions: optional<_InlinedType1>
+      ignoredHooks: optional<list<string>>
+      initialLocation: optional<string>
+      recognizedRevenueDays: optional<double>
+      initialReferrer: optional<_InlinedType2>
+      mailingAddress: optional<_InlinedType3>
+      sisenseAccess: optional<boolean>
+      recognizedRevenueMode: optional<_InlinedType4>
+      companyInformation: optional<_InlinedType5>
+      createdAt: optional<string>
+      RUFeeActivation: optional<boolean>
+      currency: optional<string>
+      companyLogo: optional<string>
+      accountCategorization: optional<double>
+      accountCategorizationIsManual: optional<boolean>
+      agodaEmail: optional<string>
+      onBoarding: optional<_InlinedType6>
+      migration: optional<_InlinedType7>
+      pricePlanMinimum: optional<double>
+      pricePlanMaximum: optional<double>
+      SaaS: optional<_InlinedType8>
+      billing: optional<_InlinedType9>
+      weekendBasePriceMigrationDone: optional<boolean>
+      pms: optional<_InlinedType18>
+      whiteLabel: optional<_InlinedType19>
+      hadFirstBookingAt: optional<string>
+      availablePhoneNumbers: optional<list<unknown>>
+      customFields: optional<list<_InlinedType22>>
+      plan: optional<list<_InlinedType23>>
+      financials: optional<_InlinedType34>
+      commissionFormula: optional<string>
+      netIncomeFormula: optional<string>
+      ownerRevenueFormula: optional<string>
+      cancellationSurvey: optional<list<_InlinedType47>>
+      internalData: optional<_InlinedType50>
+      taxes: optional<list<_InlinedType51>>
+      commissionTaxPercentage: optional<double>
+      systemEmailsRecipients: optional<list<string>>
+      apiKeys: optional<list<unknown>>
+      markups: optional<_InlinedType53>
+      signupQuestions: optional<list<unknown>>
+      receptionistsService: optional<_InlinedType56>
+
+  _InlinedType58:
+    enum:
+      - listing
+      - reservation
+
+  _InlinedType59:
+    enum:
+      - user
+      - boolean
+      - enum
+      - longtext
+      - date
+      - text
+      - time
+      - contact
+      - number
+
+  _InlinedType60:
+    properties:
+      fieldId: optional<string>
+      displayName: optional<string>
+      isPublic: optional<boolean>
+      key: optional<string>
+      object: optional<_InlinedType58>
+      options: optional<list<string>>
+      type: optional<_InlinedType59>
+
+  _InlinedType61:
+    docs: |-
+      Use when createing *options* customField: ```type:enum```
+       This case required options arry in edition
+    properties:
+      isPublic: boolean
+      key: string
+      object: _InlinedType62
+      options: list<string>
+      type: _InlinedType63
+
+  _InlinedType64:
+    properties:
+      fieldId: string
+
+  _InlinedType65:
+    extends:
+      - _InlinedType61
+      - _InlinedType64
+
+  _InlinedType66:
+    enum:
+      - listing
+      - reservation
+
+  _InlinedType67:
+    enum:
+      - user
+      - boolean
+      - enum
+      - longtext
+      - date
+      - text
+      - time
+      - contact
+      - number
+
+  _InlinedType68:
+    properties:
+      id: optional<string>
+      displayName: optional<string>
+      isPublic: optional<boolean>
+      key: optional<string>
+      object: optional<_InlinedType66>
+      options: optional<list<string>>
+      type: optional<_InlinedType67>
+
+  _InlinedType69:
+    enum:
+      - listing
+      - reservation
+
+  _InlinedType70:
+    enum:
+      - user
+      - boolean
+      - enum
+      - longtext
+      - date
+      - text
+      - time
+      - contact
+      - number
+
+  _InlinedType71:
+    properties:
+      id: optional<string>
+      displayName: optional<string>
+      isPublic: optional<boolean>
+      key: optional<string>
+      object: optional<_InlinedType69>
+      options: optional<list<string>>
+      type: optional<_InlinedType70>
+
+  _InlinedType72:
+    enum:
+      - listing
+      - reservation
+
+  _InlinedType73:
+    enum:
+      - user
+      - boolean
+      - enum
+      - longtext
+      - date
+      - text
+      - time
+      - contact
+      - number
+
+  _InlinedType74:
+    properties:
+      fieldId: optional<string>
+      displayName: optional<string>
+      isPublic: optional<boolean>
+      key: optional<string>
+      object: optional<_InlinedType72>
+      options: optional<list<string>>
+      type: optional<_InlinedType73>
+
+  _InlinedType75:
+    enum:
+      - listing
+      - reservation
+
+  _InlinedType76:
+    enum:
+      - user
+      - boolean
+      - enum
+      - longtext
+      - date
+      - text
+      - time
+      - contact
+      - number
+
+  _InlinedType77:
+    properties:
+      id: optional<string>
+      displayName: optional<string>
+      isPublic: optional<boolean>
+      key: optional<string>
+      object: optional<_InlinedType75>
+      options: optional<list<string>>
+      type: optional<_InlinedType76>
+
+  _InlinedType78:
+    properties:
+      id: optional<string>
+      status: optional<string>
+      syncedAt: optional<string>
+      lastPendingPaymentDate: optional<string>
+      listings: optional<list<string>>
+      pendingPaymentsCount: optional<double>
+      paymentMethodsCount: optional<double>
+      providerAccountId: optional<string>
+      isDefault: optional<boolean>
+      providerType: optional<string>
+      connectedBy: optional<string>
+      accountName: optional<string>
+      defaultCurrency: optional<string>
+      statsLastUpdated: optional<string>

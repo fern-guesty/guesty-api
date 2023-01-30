@@ -1,0 +1,134 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: /properties/spaces
+  endpoints:
+    "":
+      path: /bed-types
+      method: GET
+      display-name: List bed-types
+
+    _unnamedOperation87:
+      path: /room-types
+      method: GET
+      display-name: List room-types
+
+    _unnamedOperation88:
+      path: /unit-type/{unitTypeId}
+      method: GET
+      display-name: Retrieve spaces for a unit-type
+      path-parameters:
+        unitTypeId:
+          docs: ID of the requested unit type
+          type: string
+
+    _unnamedOperation89:
+      path: /complex/{complexId}
+      method: GET
+      display-name: Retrieve spaces for a complex
+      path-parameters:
+        complexId:
+          docs: ID of the requested complexId
+          type: string
+
+    _unnamedOperation90:
+      path: /unit-type/{unitTypeId}/add
+      method: POST
+      display-name: Add space to unit-type (Create Space)
+      path-parameters:
+        unitTypeId:
+          docs: Unit type Id to add room to
+          type: string
+      request:
+        body:
+          properties:
+            _id: optional<string>
+            name: optional<string>
+            type: optional<_InlinedType1239>
+            airbnb_room_id: optional<string>
+            beds: optional<_InlinedType1240>
+            other: optional<_InlinedType1241>
+
+    _unnamedOperation91:
+      path: /space/{spaceId}/details
+      method: PATCH
+      display-name: Edit space details
+      path-parameters:
+        spaceId:
+          docs: spaceId to edit
+          type: string
+      request:
+        body:
+          properties:
+            name: optional<string>
+            type: optional<_InlinedType1242>
+            airbnb_room_id: optional<string>
+
+    _unnamedOperation92:
+      path: /space/{spaceId}/remove
+      method: POST
+      display-name: Remove space from unit-type
+      path-parameters:
+        spaceId:
+          docs: spaceId to remove
+          type: string
+
+    _unnamedOperation93:
+      path: /space/{spaceId}/edit
+      method: POST
+      display-name: Edit space beds
+      path-parameters:
+        spaceId:
+          docs: spaceId to edit
+          type: string
+      request:
+        body:
+          properties:
+            beds: optional<_InlinedType1243>
+            other: optional<_InlinedType1244>
+
+types:
+  _InlinedType1239:
+    enum:
+      - SHARED_SPACE
+      - BEDROOM
+
+  _InlinedType1240:
+    properties:
+      KING_BED: optional<double>
+      QUEEN_BED: optional<double>
+      DOUBLE_BED: optional<double>
+      SINGLE_BED: optional<double>
+      SOFA_BED: optional<double>
+      AIR_MATTRESS: optional<double>
+      BUNK_BED: optional<double>
+
+  _InlinedType1241:
+    properties:
+      FLOOR_MATTRESS: optional<double>
+      WATER_BED: optional<double>
+      TODDLER_BED: optional<double>
+      CRIB: optional<double>
+
+  _InlinedType1242:
+    enum:
+      - SHARED_SPACE
+      - BEDROOM
+
+  _InlinedType1243:
+    properties:
+      KING_BED: optional<double>
+      QUEEN_BED: optional<double>
+      DOUBLE_BED: optional<double>
+      SINGLE_BED: optional<double>
+      SOFA_BED: optional<double>
+      AIR_MATTRESS: optional<double>
+      BUNK_BED: optional<double>
+
+  _InlinedType1244:
+    properties:
+      FLOOR_MATTRESS: optional<double>
+      WATER_BED: optional<double>
+      TODDLER_BED: optional<double>
+      CRIB: optional<double>

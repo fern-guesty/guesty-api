@@ -1,0 +1,493 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: /users
+  endpoints:
+    usersHttpControllerGetUsers:
+      path: ""
+      method: GET
+      docs: List all users
+      display-name: List all users
+      request:
+        query-parameters:
+          fields:
+            docs: >-
+              Selection of fields, separated by space. If fields not be chosen
+              response will be return with all fields. The selected fields from
+              the users table will be returned inside the response
+            type: optional<string>
+          skip:
+            docs: Pagination
+            type: optional<double>
+          limit:
+            docs: "Pagination, max: 200"
+            type: optional<double>
+          sort: optional<string>
+          q:
+            docs: Search query string. Searches in fullName, emails, phones
+            type: optional<string>
+      response: _InlinedType89
+
+    usersHttpControllerCreateUser:
+      path: ""
+      method: POST
+      display-name: Create user
+      request:
+        body:
+          properties:
+            email: string
+            emails: optional<list<string>>
+            firstName: string
+            lastName: string
+            title: optional<string>
+            timezone: optional<string>
+            picture: optional<_InlinedType90>
+            tags: optional<list<string>>
+            phone: optional<string>
+            phones: optional<list<string>>
+            preferredContactMethod: optional<string>
+            noteBeforeContacting: optional<string>
+            notes: optional<string>
+            roles: list<_InlinedType92>
+            favs: optional<_InlinedType93>
+            displayLanguage: optional<string>
+            settings: optional<_InlinedType99>
+
+    usersHttpControllerGetUserById:
+      path: /{id}
+      method: GET
+      display-name: Get user
+      path-parameters:
+        id:
+          docs: User MongoDB _id
+          type: string
+      request:
+        query-parameters:
+          fields: optional<string>
+      response: _InlinedType109
+
+    usersHttpControllerUpdateUser:
+      path: /{id}
+      method: PUT
+      display-name: Update user
+      path-parameters:
+        id:
+          docs: User MongoDB _id
+          type: string
+      request:
+        body:
+          properties:
+            email: optional<string>
+            emails: optional<list<string>>
+            firstName: optional<string>
+            lastName: optional<string>
+            title: optional<string>
+            timezone: optional<string>
+            picture: optional<_InlinedType110>
+            tags: optional<list<string>>
+            phone: optional<string>
+            phones: optional<list<string>>
+            preferredContactMethod: optional<string>
+            noteBeforeContacting: optional<string>
+            notes: optional<string>
+            roles: optional<list<_InlinedType112>>
+            favs: optional<_InlinedType113>
+            displayLanguage: optional<string>
+            settings: optional<_InlinedType119>
+      response: _InlinedType129
+
+    usersHttpControllerRemoveUser:
+      path: /{id}
+      method: DELETE
+      display-name: Delete user
+      path-parameters:
+        id:
+          docs: User MongoDB _id
+          type: string
+
+types:
+  _InlinedType79:
+    properties:
+      thumbnail: string
+      regular: string
+      large: string
+
+  _InlinedType80:
+    properties:
+      roleId:
+        docs: |-
+          Role ID:
+          * `58db6932ea2a13ea9f4855a5` - Account manager
+          * `578b52a6dddfe2b1d0781b0e` - Listing Viewer
+          * `578b52a6dddfe2b1d0781b0f` - Calendar Availability Control
+          * `578b52a6dddfe2b1d0781b12` - Listing Admin
+          * `578b52a6dddfe2b1d0781b10` - Calendar Full Control
+          * `578b52a6dddfe2b1d0781b11` - Listing's Financials
+          * `57447a900ebc04ba98064035` - Account admin
+          * `57c2d040cf6c3fed6a4d1775` - Integration Manager
+          * `58db693fea2a13ea9f4855aa` - Viewer
+          * `579e1769cf6c3fed6a3f6b1a` - Listing Manager
+          * `5e567a850ba1fb0244146fc0` - Calendar Viewer
+          * `5e57b0826b4440002a603a93` - Communication Agent
+          * `60d1b0fb396b25993e756e63` - Revenue Manager
+        type: string
+      listingIds: optional<list<string>>
+
+  _InlinedType81:
+    properties:
+      views: list<string>
+
+  _InlinedType82:
+    properties:
+      subscriptions: list<_InlinedType85>
+
+  _InlinedType86:
+    docs: Notification settings
+    extends:
+      - _InlinedType82
+
+  _InlinedType87:
+    properties:
+      notifications:
+        docs: Notification settings
+        type: optional<_InlinedType86>
+
+  _InlinedType88:
+    properties:
+      _id:
+        docs: User MongoDB _id
+        type: optional<string>
+      accountId:
+        docs: Your account ID
+        type: optional<string>
+      email: optional<string>
+      emails: optional<list<string>>
+      firstName: optional<string>
+      lastName: optional<string>
+      fullName: optional<string>
+      title: optional<string>
+      timezone: optional<string>
+      picture: optional<_InlinedType79>
+      tags: optional<list<string>>
+      lastActivityTime: optional<double>
+      phone: optional<string>
+      phones: optional<list<string>>
+      preferredContactMethod: optional<string>
+      noteBeforeContacting: optional<string>
+      notes: optional<string>
+      roles: optional<list<_InlinedType80>>
+      favs: optional<_InlinedType81>
+      displayLanguage: optional<string>
+      settings: optional<_InlinedType87>
+
+  _InlinedType89:
+    properties:
+      count: double
+      fields: string
+      sort: string
+      skip: double
+      limit: double
+      results: list<_InlinedType88>
+
+  _InlinedType90:
+    properties:
+      thumbnail: string
+      regular: string
+      large: string
+
+  _InlinedType91:
+    docs: |-
+      Role ID:
+      * `58db6932ea2a13ea9f4855a5` - Account manager
+      * `578b52a6dddfe2b1d0781b0e` - Listing Viewer
+      * `578b52a6dddfe2b1d0781b0f` - Calendar Availability Control
+      * `578b52a6dddfe2b1d0781b12` - Listing Admin
+      * `578b52a6dddfe2b1d0781b10` - Calendar Full Control
+      * `578b52a6dddfe2b1d0781b11` - Listing's Financials
+      * `57447a900ebc04ba98064035` - Account admin
+      * `57c2d040cf6c3fed6a4d1775` - Integration Manager
+      * `58db693fea2a13ea9f4855aa` - Viewer
+      * `579e1769cf6c3fed6a3f6b1a` - Listing Manager
+      * `5e567a850ba1fb0244146fc0` - Calendar Viewer
+      * `5e57b0826b4440002a603a93` - Communication Agent
+      * `60d1b0fb396b25993e756e63` - Revenue Manager
+    enum:
+      - 57447a900ebc04ba98064035
+      - 58db6932ea2a13ea9f4855a5
+      - 578b52a6dddfe2b1d0781b0e
+      - 578b52a6dddfe2b1d0781b0f
+      - 578b52a6dddfe2b1d0781b12
+      - 578b52a6dddfe2b1d0781b10
+      - 578b52a6dddfe2b1d0781b11
+      - 57c2d040cf6c3fed6a4d1775
+      - 58db693fea2a13ea9f4855aa
+      - 579e1769cf6c3fed6a3f6b1a
+      - 5e567a850ba1fb0244146fc0
+      - 5e57b0826b4440002a603a93
+      - 60d1b0fb396b25993e756e63
+
+  _InlinedType92:
+    properties:
+      roleId:
+        docs: |-
+          Role ID:
+          * `58db6932ea2a13ea9f4855a5` - Account manager
+          * `578b52a6dddfe2b1d0781b0e` - Listing Viewer
+          * `578b52a6dddfe2b1d0781b0f` - Calendar Availability Control
+          * `578b52a6dddfe2b1d0781b12` - Listing Admin
+          * `578b52a6dddfe2b1d0781b10` - Calendar Full Control
+          * `578b52a6dddfe2b1d0781b11` - Listing's Financials
+          * `57447a900ebc04ba98064035` - Account admin
+          * `57c2d040cf6c3fed6a4d1775` - Integration Manager
+          * `58db693fea2a13ea9f4855aa` - Viewer
+          * `579e1769cf6c3fed6a3f6b1a` - Listing Manager
+          * `5e567a850ba1fb0244146fc0` - Calendar Viewer
+          * `5e57b0826b4440002a603a93` - Communication Agent
+          * `60d1b0fb396b25993e756e63` - Revenue Manager
+        type: _InlinedType91
+      listingIds: optional<list<string>>
+
+  _InlinedType93:
+    properties:
+      views: list<string>
+
+  _InlinedType94:
+    properties:
+      subscriptions: list<_InlinedType97>
+
+  _InlinedType98:
+    docs: Notification settings
+    extends:
+      - _InlinedType94
+
+  _InlinedType99:
+    properties:
+      notifications:
+        docs: Notification settings
+        type: optional<_InlinedType98>
+
+  _InlinedType100:
+    properties:
+      thumbnail: string
+      regular: string
+      large: string
+
+  _InlinedType101:
+    properties:
+      roleId:
+        docs: |-
+          Role ID:
+          * `58db6932ea2a13ea9f4855a5` - Account manager
+          * `578b52a6dddfe2b1d0781b0e` - Listing Viewer
+          * `578b52a6dddfe2b1d0781b0f` - Calendar Availability Control
+          * `578b52a6dddfe2b1d0781b12` - Listing Admin
+          * `578b52a6dddfe2b1d0781b10` - Calendar Full Control
+          * `578b52a6dddfe2b1d0781b11` - Listing's Financials
+          * `57447a900ebc04ba98064035` - Account admin
+          * `57c2d040cf6c3fed6a4d1775` - Integration Manager
+          * `58db693fea2a13ea9f4855aa` - Viewer
+          * `579e1769cf6c3fed6a3f6b1a` - Listing Manager
+          * `5e567a850ba1fb0244146fc0` - Calendar Viewer
+          * `5e57b0826b4440002a603a93` - Communication Agent
+          * `60d1b0fb396b25993e756e63` - Revenue Manager
+        type: string
+      listingIds: optional<list<string>>
+
+  _InlinedType102:
+    properties:
+      views: list<string>
+
+  _InlinedType103:
+    properties:
+      subscriptions: list<_InlinedType106>
+
+  _InlinedType107:
+    docs: Notification settings
+    extends:
+      - _InlinedType103
+
+  _InlinedType108:
+    properties:
+      notifications:
+        docs: Notification settings
+        type: optional<_InlinedType107>
+
+  _InlinedType109:
+    properties:
+      _id:
+        docs: User MongoDB _id
+        type: optional<string>
+      accountId:
+        docs: Your account ID
+        type: optional<string>
+      email: optional<string>
+      emails: optional<list<string>>
+      firstName: optional<string>
+      lastName: optional<string>
+      fullName: optional<string>
+      title: optional<string>
+      timezone: optional<string>
+      picture: optional<_InlinedType100>
+      tags: optional<list<string>>
+      lastActivityTime: optional<double>
+      phone: optional<string>
+      phones: optional<list<string>>
+      preferredContactMethod: optional<string>
+      noteBeforeContacting: optional<string>
+      notes: optional<string>
+      roles: optional<list<_InlinedType101>>
+      favs: optional<_InlinedType102>
+      displayLanguage: optional<string>
+      settings: optional<_InlinedType108>
+
+  _InlinedType110:
+    properties:
+      thumbnail: string
+      regular: string
+      large: string
+
+  _InlinedType111:
+    docs: |-
+      Role ID:
+      * `58db6932ea2a13ea9f4855a5` - Account manager
+      * `578b52a6dddfe2b1d0781b0e` - Listing Viewer
+      * `578b52a6dddfe2b1d0781b0f` - Calendar Availability Control
+      * `578b52a6dddfe2b1d0781b12` - Listing Admin
+      * `578b52a6dddfe2b1d0781b10` - Calendar Full Control
+      * `578b52a6dddfe2b1d0781b11` - Listing's Financials
+      * `57447a900ebc04ba98064035` - Account admin
+      * `57c2d040cf6c3fed6a4d1775` - Integration Manager
+      * `58db693fea2a13ea9f4855aa` - Viewer
+      * `579e1769cf6c3fed6a3f6b1a` - Listing Manager
+      * `5e567a850ba1fb0244146fc0` - Calendar Viewer
+      * `5e57b0826b4440002a603a93` - Communication Agent
+      * `60d1b0fb396b25993e756e63` - Revenue Manager
+    enum:
+      - 57447a900ebc04ba98064035
+      - 58db6932ea2a13ea9f4855a5
+      - 578b52a6dddfe2b1d0781b0e
+      - 578b52a6dddfe2b1d0781b0f
+      - 578b52a6dddfe2b1d0781b12
+      - 578b52a6dddfe2b1d0781b10
+      - 578b52a6dddfe2b1d0781b11
+      - 57c2d040cf6c3fed6a4d1775
+      - 58db693fea2a13ea9f4855aa
+      - 579e1769cf6c3fed6a3f6b1a
+      - 5e567a850ba1fb0244146fc0
+      - 5e57b0826b4440002a603a93
+      - 60d1b0fb396b25993e756e63
+
+  _InlinedType112:
+    properties:
+      roleId:
+        docs: |-
+          Role ID:
+          * `58db6932ea2a13ea9f4855a5` - Account manager
+          * `578b52a6dddfe2b1d0781b0e` - Listing Viewer
+          * `578b52a6dddfe2b1d0781b0f` - Calendar Availability Control
+          * `578b52a6dddfe2b1d0781b12` - Listing Admin
+          * `578b52a6dddfe2b1d0781b10` - Calendar Full Control
+          * `578b52a6dddfe2b1d0781b11` - Listing's Financials
+          * `57447a900ebc04ba98064035` - Account admin
+          * `57c2d040cf6c3fed6a4d1775` - Integration Manager
+          * `58db693fea2a13ea9f4855aa` - Viewer
+          * `579e1769cf6c3fed6a3f6b1a` - Listing Manager
+          * `5e567a850ba1fb0244146fc0` - Calendar Viewer
+          * `5e57b0826b4440002a603a93` - Communication Agent
+          * `60d1b0fb396b25993e756e63` - Revenue Manager
+        type: _InlinedType111
+      listingIds: optional<list<string>>
+
+  _InlinedType113:
+    properties:
+      views: list<string>
+
+  _InlinedType114:
+    properties:
+      subscriptions: list<_InlinedType117>
+
+  _InlinedType118:
+    docs: Notification settings
+    extends:
+      - _InlinedType114
+
+  _InlinedType119:
+    properties:
+      notifications:
+        docs: Notification settings
+        type: optional<_InlinedType118>
+
+  _InlinedType120:
+    properties:
+      thumbnail: string
+      regular: string
+      large: string
+
+  _InlinedType121:
+    properties:
+      roleId:
+        docs: |-
+          Role ID:
+          * `58db6932ea2a13ea9f4855a5` - Account manager
+          * `578b52a6dddfe2b1d0781b0e` - Listing Viewer
+          * `578b52a6dddfe2b1d0781b0f` - Calendar Availability Control
+          * `578b52a6dddfe2b1d0781b12` - Listing Admin
+          * `578b52a6dddfe2b1d0781b10` - Calendar Full Control
+          * `578b52a6dddfe2b1d0781b11` - Listing's Financials
+          * `57447a900ebc04ba98064035` - Account admin
+          * `57c2d040cf6c3fed6a4d1775` - Integration Manager
+          * `58db693fea2a13ea9f4855aa` - Viewer
+          * `579e1769cf6c3fed6a3f6b1a` - Listing Manager
+          * `5e567a850ba1fb0244146fc0` - Calendar Viewer
+          * `5e57b0826b4440002a603a93` - Communication Agent
+          * `60d1b0fb396b25993e756e63` - Revenue Manager
+        type: string
+      listingIds: optional<list<string>>
+
+  _InlinedType122:
+    properties:
+      views: list<string>
+
+  _InlinedType123:
+    properties:
+      subscriptions: list<_InlinedType126>
+
+  _InlinedType127:
+    docs: Notification settings
+    extends:
+      - _InlinedType123
+
+  _InlinedType128:
+    properties:
+      notifications:
+        docs: Notification settings
+        type: optional<_InlinedType127>
+
+  _InlinedType129:
+    properties:
+      _id:
+        docs: User MongoDB _id
+        type: optional<string>
+      accountId:
+        docs: Your account ID
+        type: optional<string>
+      email: optional<string>
+      emails: optional<list<string>>
+      firstName: optional<string>
+      lastName: optional<string>
+      fullName: optional<string>
+      title: optional<string>
+      timezone: optional<string>
+      picture: optional<_InlinedType120>
+      tags: optional<list<string>>
+      lastActivityTime: optional<double>
+      phone: optional<string>
+      phones: optional<list<string>>
+      preferredContactMethod: optional<string>
+      noteBeforeContacting: optional<string>
+      notes: optional<string>
+      roles: optional<list<_InlinedType121>>
+      favs: optional<_InlinedType122>
+      displayLanguage: optional<string>
+      settings: optional<_InlinedType128>

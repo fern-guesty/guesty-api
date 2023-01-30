@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: /reservations-api/reservations/{reservationId}/pre-approve
+  path-parameters:
+    reservationId:
+      docs: ID of reservation
+      type: string
+  endpoints:
+    "":
+      path: ""
+      method: POST
+      docs: >-
+        Use this call to send a
+        [pre-approval](https://www.airbnb.com/help/article/35).
+      display-name: Pre-approve an existing inquiry (Airbnb)
+      response: _InlinedType1256
+
+types:
+  _InlinedType1255:
+    properties:
+      platform: optional<string>
+      _id: optional<string>
+
+  _InlinedType1256:
+    properties:
+      _id: string
+      accountId: string
+      listingId: string
+      status: string
+      checkInDateLocalized: string
+      checkOutDateLocalized: string
+      preApproveState: boolean
+      pendingTasks: list<unknown>
+      integration: _InlinedType1255

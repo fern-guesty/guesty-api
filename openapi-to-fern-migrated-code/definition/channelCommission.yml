@@ -1,0 +1,104 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: /channel-commission
+  endpoints:
+    channelCommissionControllerGetAccountChannelCommission:
+      path: /account
+      method: GET
+      docs: Get account channel commission.
+      display-name: Get account channel commission
+
+    channelCommissionControllerUpdateAccountChannelCommission:
+      path: /account
+      method: PUT
+      docs: >-
+        This endpoint allows you to send Guesty an updated amount for channel
+        commissions.
+        Providing an amount to an existing integration object or manual source
+        will update its channel commission value. If the integration object or
+        manual source do not exist, they will be added.
+        example for bookingCom: { bookingCom: {tax: 10, commission: {value: 5,
+        of: ["fareAccommodation"]}}}
+      display-name: Update account channel commission
+      request:
+        body:
+          properties:
+            manual:
+              docs: >-
+                Objects that will be provided in manual array will be upserted
+                to the existing array by source. Limited to 200 items in one
+                request.
+              type: optional<list<_InlinedType1231>>
+            rentalsUnited: optional<map<string, _InlinedType1233>>
+
+    channelCommissionControllerGetListingsChannelCommission:
+      path: /listings
+      method: GET
+      docs: Get channel commission from multiple listings.
+      display-name: Get listings channel commission
+
+    channelCommissionControllerUpdateListingsChannelCommission:
+      path: /listings
+      method: PUT
+      docs: >-
+        This endpoint allows you to send Guesty an updated amount for channel
+        commissions.
+        Providing an amount to an existing integration object or manual source
+        will update its channel commission value. If the integration object or
+        manual source do not exist, they will be added.
+        example for bookingCom: {channelCommissions: [{listingId:
+        "923892d53f4f56cfcb25586d", bookingCom: {tax: 10, commission: {value: 5,
+        of: ["fareAccommodation"]}}}]}
+      display-name: Update listings channel commission
+      request:
+        body:
+          properties:
+            channelCommissions: list<_InlinedType1238>
+
+types:
+  _InlinedType1230:
+    properties:
+      value: double
+      of: list<string>
+
+  _InlinedType1231:
+    properties:
+      commission: optional<_InlinedType1230>
+      tax: optional<double>
+      source: string
+      isPreDeduct: boolean
+
+  _InlinedType1233:
+    properties:
+      commission: optional<_InlinedType1232>
+      tax: optional<double>
+
+  _InlinedType1234:
+    properties:
+      value: double
+      of: list<string>
+
+  _InlinedType1235:
+    properties:
+      commission: optional<_InlinedType1234>
+      tax: optional<double>
+      source: string
+      isPreDeduct: boolean
+
+  _InlinedType1237:
+    properties:
+      commission: optional<_InlinedType1236>
+      tax: optional<double>
+
+  _InlinedType1238:
+    properties:
+      manual:
+        docs: >-
+          Objects that will be provided in manual array will be upserted to the
+          existing array by source. Limited to 200 items in one request.
+        type: optional<list<_InlinedType1235>>
+      rentalsUnited: optional<map<string, _InlinedType1237>>
+      listingId: string
+      useAccountSettings: boolean

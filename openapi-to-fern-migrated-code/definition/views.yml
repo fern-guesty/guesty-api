@@ -1,0 +1,380 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: /views
+  endpoints:
+    "":
+      path: ""
+      method: GET
+      display-name: Retrieve all views
+      request:
+        query-parameters:
+          section:
+            docs: One of listings, reservations
+            type: string
+          fields:
+            docs: >-
+              Selection of fields, separated by space. When null retrieves all
+              object.
+            type: optional<string>
+          limit:
+            docs: Pagination
+            type: optional<double>
+          skip:
+            docs: Pagination
+            type: optional<double>
+      response: list<_InlinedType908>
+
+    _unnamedOperation68:
+      path: ""
+      method: POST
+      display-name: Create a view
+      request:
+        body:
+          properties:
+            title: string
+            section:
+              docs: listings, reservation
+              type: string
+      response: _InlinedType912
+
+    _unnamedOperation69:
+      path: /{id}
+      method: GET
+      display-name: Retrieve a view
+      path-parameters:
+        id:
+          docs: View ID
+          type: string
+      request:
+        query-parameters:
+          fields:
+            docs: Selection of fields, separated by space
+            type: optional<string>
+      response: _InlinedType916
+
+    _unnamedOperation70:
+      path: /{id}
+      method: PUT
+      display-name: Update a view
+      path-parameters:
+        id:
+          docs: View ID
+          type: string
+      request:
+        body:
+          properties:
+            _id:
+              docs: Unique id
+              type: optional<string>
+            accountId:
+              docs: Id of the user owning this view
+              type: optional<string>
+            title:
+              docs: Title for the view
+              type: optional<string>
+            filters: optional<list<_InlinedType917>>
+            fields:
+              docs: Selection of fields, separated by space
+              type: optional<string>
+            sort:
+              docs: ascending sort , use - to descending sort
+              type: optional<string>
+            createdAt: optional<string>
+            updatedAt: optional<string>
+            scheduledEmails: optional<list<_InlinedType918>>
+            shares: optional<list<_InlinedType919>>
+      response: _InlinedType923
+
+    _unnamedOperation71:
+      path: /{id}
+      method: DELETE
+      display-name: Delete a view
+      path-parameters:
+        id:
+          docs: View ID
+          type: string
+
+types:
+  _InlinedType905:
+    properties:
+      field:
+        docs: Subject of the filter
+        type: string
+      operator:
+        docs: >-
+          Enhanced MongoDB comparison operator: $eq, $not, $contains,
+          $notcontains, $gt, $lt, $between
+        type: string
+      value:
+        docs: Value to filter by.
+        type: string
+      context:
+        docs: >-
+          Optional preprocessing. Options are now, createdAt, confirmedAt,
+          canceledAt, alteredAt. When given, the date in value is relative to
+          the context.
+        type: optional<string>
+
+  _InlinedType906:
+    properties:
+      days:
+        docs: Array of numbers 0-6, number per day
+        type: optional<list<unknown>>
+      recipient:
+        docs: Emails separated by comma
+        type: optional<string>
+      hour:
+        docs: when the report should be sent
+        type: double
+
+  _InlinedType907:
+    properties:
+      contactId:
+        docs: Required Contact ID to share with
+        type: optional<string>
+
+  _InlinedType908:
+    properties:
+      _id:
+        docs: Unique id
+        type: optional<string>
+      accountId:
+        docs: Id of the user owning this view
+        type: optional<string>
+      title:
+        docs: Title for the view
+        type: optional<string>
+      filters: optional<list<_InlinedType905>>
+      fields:
+        docs: Selection of fields, separated by space
+        type: optional<string>
+      sort:
+        docs: ascending sort , use - to descending sort
+        type: optional<string>
+      createdAt: optional<string>
+      updatedAt: optional<string>
+      scheduledEmails: optional<list<_InlinedType906>>
+      shares: optional<list<_InlinedType907>>
+
+  _InlinedType909:
+    properties:
+      field:
+        docs: Subject of the filter
+        type: string
+      operator:
+        docs: >-
+          Enhanced MongoDB comparison operator: $eq, $not, $contains,
+          $notcontains, $gt, $lt, $between
+        type: string
+      value:
+        docs: Value to filter by.
+        type: string
+      context:
+        docs: >-
+          Optional preprocessing. Options are now, createdAt, confirmedAt,
+          canceledAt, alteredAt. When given, the date in value is relative to
+          the context.
+        type: optional<string>
+
+  _InlinedType910:
+    properties:
+      days:
+        docs: Array of numbers 0-6, number per day
+        type: optional<list<unknown>>
+      recipient:
+        docs: Emails separated by comma
+        type: optional<string>
+      hour:
+        docs: when the report should be sent
+        type: double
+
+  _InlinedType911:
+    properties:
+      contactId:
+        docs: Required Contact ID to share with
+        type: optional<string>
+
+  _InlinedType912:
+    properties:
+      _id:
+        docs: Unique id
+        type: optional<string>
+      accountId:
+        docs: Id of the user owning this view
+        type: optional<string>
+      title:
+        docs: Title for the view
+        type: optional<string>
+      filters: optional<list<_InlinedType909>>
+      fields:
+        docs: Selection of fields, separated by space
+        type: optional<string>
+      sort:
+        docs: ascending sort , use - to descending sort
+        type: optional<string>
+      createdAt: optional<string>
+      updatedAt: optional<string>
+      scheduledEmails: optional<list<_InlinedType910>>
+      shares: optional<list<_InlinedType911>>
+
+  _InlinedType913:
+    properties:
+      field:
+        docs: Subject of the filter
+        type: string
+      operator:
+        docs: >-
+          Enhanced MongoDB comparison operator: $eq, $not, $contains,
+          $notcontains, $gt, $lt, $between
+        type: string
+      value:
+        docs: Value to filter by.
+        type: string
+      context:
+        docs: >-
+          Optional preprocessing. Options are now, createdAt, confirmedAt,
+          canceledAt, alteredAt. When given, the date in value is relative to
+          the context.
+        type: optional<string>
+
+  _InlinedType914:
+    properties:
+      days:
+        docs: Array of numbers 0-6, number per day
+        type: optional<list<unknown>>
+      recipient:
+        docs: Emails separated by comma
+        type: optional<string>
+      hour:
+        docs: when the report should be sent
+        type: double
+
+  _InlinedType915:
+    properties:
+      contactId:
+        docs: Required Contact ID to share with
+        type: optional<string>
+
+  _InlinedType916:
+    properties:
+      _id:
+        docs: Unique id
+        type: optional<string>
+      accountId:
+        docs: Id of the user owning this view
+        type: optional<string>
+      title:
+        docs: Title for the view
+        type: optional<string>
+      filters: optional<list<_InlinedType913>>
+      fields:
+        docs: Selection of fields, separated by space
+        type: optional<string>
+      sort:
+        docs: ascending sort , use - to descending sort
+        type: optional<string>
+      createdAt: optional<string>
+      updatedAt: optional<string>
+      scheduledEmails: optional<list<_InlinedType914>>
+      shares: optional<list<_InlinedType915>>
+
+  _InlinedType917:
+    properties:
+      field:
+        docs: Subject of the filter
+        type: string
+      operator:
+        docs: >-
+          Enhanced MongoDB comparison operator: $eq, $not, $contains,
+          $notcontains, $gt, $lt, $between
+        type: string
+      value:
+        docs: Value to filter by.
+        type: string
+      context:
+        docs: >-
+          Optional preprocessing. Options are now, createdAt, confirmedAt,
+          canceledAt, alteredAt. When given, the date in value is relative to
+          the context.
+        type: optional<string>
+
+  _InlinedType918:
+    properties:
+      days:
+        docs: Array of numbers 0-6, number per day
+        type: optional<list<unknown>>
+      recipient:
+        docs: Emails separated by comma
+        type: optional<string>
+      hour:
+        docs: when the report should be sent
+        type: double
+
+  _InlinedType919:
+    properties:
+      contactId:
+        docs: Required Contact ID to share with
+        type: optional<string>
+
+  _InlinedType920:
+    properties:
+      field:
+        docs: Subject of the filter
+        type: string
+      operator:
+        docs: >-
+          Enhanced MongoDB comparison operator: $eq, $not, $contains,
+          $notcontains, $gt, $lt, $between
+        type: string
+      value:
+        docs: Value to filter by.
+        type: string
+      context:
+        docs: >-
+          Optional preprocessing. Options are now, createdAt, confirmedAt,
+          canceledAt, alteredAt. When given, the date in value is relative to
+          the context.
+        type: optional<string>
+
+  _InlinedType921:
+    properties:
+      days:
+        docs: Array of numbers 0-6, number per day
+        type: optional<list<unknown>>
+      recipient:
+        docs: Emails separated by comma
+        type: optional<string>
+      hour:
+        docs: when the report should be sent
+        type: double
+
+  _InlinedType922:
+    properties:
+      contactId:
+        docs: Required Contact ID to share with
+        type: optional<string>
+
+  _InlinedType923:
+    properties:
+      _id:
+        docs: Unique id
+        type: optional<string>
+      accountId:
+        docs: Id of the user owning this view
+        type: optional<string>
+      title:
+        docs: Title for the view
+        type: optional<string>
+      filters: optional<list<_InlinedType920>>
+      fields:
+        docs: Selection of fields, separated by space
+        type: optional<string>
+      sort:
+        docs: ascending sort , use - to descending sort
+        type: optional<string>
+      createdAt: optional<string>
+      updatedAt: optional<string>
+      scheduledEmails: optional<list<_InlinedType921>>
+      shares: optional<list<_InlinedType922>>

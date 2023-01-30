@@ -1,0 +1,1484 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: ""
+  endpoints:
+    "":
+      path: /guests/{id}/payment-methods
+      method: GET
+      docs: Retrieve payment method list by guest id
+      display-name: List guest's payment methods
+      path-parameters:
+        id:
+          docs: Guest ID
+          type: string
+
+    _unnamedOperation43:
+      path: /guests/{id}/payment-methods
+      method: POST
+      display-name: Create payment method
+      path-parameters:
+        id:
+          docs: Guest ID
+          type: string
+      request:
+        body:
+          properties:
+            stripeCardToken:
+              docs: ID from Stripe payment method
+              type: string
+            skipSetupIntent:
+              docs: >-
+                TRUE if credit card was collected with setup_intent performed on
+                the frontend
+              type: optional<boolean>
+            paymentProviderId:
+              docs: >-
+                ID of payment provider used to create stripeCardToken. Default
+                payment provider will be used if not defined
+              type: optional<string>
+            reservationId:
+              docs: Reservation ID
+              type: optional<string>
+
+    guestsOpenApiControllerGetGuestsList:
+      path: /guests-crud
+      method: GET
+      docs: Get guests list
+      display-name: Get guests list
+      request:
+        query-parameters:
+          columns:
+            docs: Selection of columns, separated by space
+            type: string
+          filters:
+            docs: Object of filters to query by
+            type: optional<string>
+          limit:
+            docs: Limit guests results
+            type: optional<double>
+          skip:
+            docs: Pagination skip
+            type: optional<double>
+      response: _InlinedType754
+
+    guestsOpenApiControllerCreateGuest:
+      path: /guests-crud
+      method: POST
+      docs: Create guest
+      display-name: Create guest
+      request:
+        body:
+          properties:
+            firstName: string
+            lastName: string
+            hometown: optional<string>
+            address: optional<map<string, unknown>>
+            picture:
+              docs: A link to guest’s picture in different sizes
+              type: optional<map<string, unknown>>
+            email:
+              docs: The main contact email of the guest
+              type: optional<string>
+            emails:
+              docs: List of additional emails of the guest
+              type: optional<list<string>>
+            phone:
+              docs: The main contact phone number
+              type: optional<string>
+            phones:
+              docs: List of additional phone numbers of the guest
+              type: optional<list<string>>
+            notes:
+              docs: >-
+                Attention notes about the guest, describing important pieces of
+                information about the guest, to review for all reservations
+                (e.g. “Requires accessibility equipment”). Displayed as
+                “Attention notes” in the user interface.
+              type: optional<string>
+            tags:
+              docs: >-
+                Tags for describing the guest at a glance + show the enum for
+                the field to show the allowed options
+              type: list<_InlinedType755>
+            goodToKnowNotes:
+              docs: >-
+                “Good to know” notes about the guest. Notes to help capture
+                facts about the guest that will help the team to personalize the
+                guest’s stays (e.g. “Big football fan”)
+              type: optional<string>
+            preferredLanguage: optional<_InlinedType756>
+            birthday: optional<string>
+            gender: optional<_InlinedType757>
+            maritalStatus: optional<_InlinedType758>
+            dietaryPreferences:
+              docs: >-
+                You can pick one of the predefined options, or create a new one
+                for your account
+              type: optional<list<string>>
+            allergies:
+              docs: >-
+                You can pick one of the predefined options, or create a new one
+                for your account
+              type: optional<list<string>>
+            interests:
+              docs: >-
+                You can pick one of the predefined options, or create a new one
+                for your account
+              type: optional<list<string>>
+            pronouns: optional<_InlinedType759>
+            kids: optional<double>
+            passportNumber: optional<string>
+            identityNumber:
+              docs: Identity Card Number
+              type: optional<string>
+            nationality: optional<_InlinedType760>
+            otaLinks:
+              docs: A link to the guest’s profile on an OTA
+              type: optional<list<_InlinedType763>>
+      response: _InlinedType767
+
+    guestsOpenApiControllerGetGuest:
+      path: /guests-crud/{guestId}
+      method: GET
+      docs: Get guest by id
+      display-name: Get guest by id
+      path-parameters:
+        guestId:
+          docs: Guest id
+          type: string
+      request:
+        query-parameters:
+          fields:
+            docs: Fields
+            type: string
+      response: _InlinedType771
+
+    guestsOpenApiControllerUpdateGuest:
+      path: /guests-crud/{guestId}
+      method: PUT
+      docs: Update guest
+      display-name: Update guest
+      path-parameters:
+        guestId:
+          docs: Guest id
+          type: string
+      request:
+        body:
+          properties:
+            firstName: optional<string>
+            lastName: optional<string>
+            hometown: optional<string>
+            address: optional<map<string, unknown>>
+            picture:
+              docs: A link to guest’s picture in different sizes
+              type: optional<map<string, unknown>>
+            email:
+              docs: The main contact email of the guest
+              type: optional<string>
+            emails:
+              docs: List of additional emails of the guest
+              type: optional<list<string>>
+            phone:
+              docs: The main contact phone number
+              type: optional<string>
+            phones:
+              docs: List of additional phone numbers of the guest
+              type: optional<list<string>>
+            notes:
+              docs: >-
+                Attention notes about the guest, describing important pieces of
+                information about the guest, to review for all reservations
+                (e.g. “Requires accessibility equipment”). Displayed as
+                “Attention notes” in the user interface.
+              type: optional<string>
+            tags:
+              docs: >-
+                Tags for describing the guest at a glance + show the enum for
+                the field to show the allowed options
+              type: list<_InlinedType772>
+            goodToKnowNotes:
+              docs: >-
+                “Good to know” notes about the guest. Notes to help capture
+                facts about the guest that will help the team to personalize the
+                guest’s stays (e.g. “Big football fan”)
+              type: optional<string>
+            preferredLanguage: optional<_InlinedType773>
+            birthday: optional<string>
+            gender: optional<_InlinedType774>
+            maritalStatus: optional<_InlinedType775>
+            dietaryPreferences:
+              docs: >-
+                You can pick one of the predefined options, or create a new one
+                for your account
+              type: optional<list<string>>
+            allergies:
+              docs: >-
+                You can pick one of the predefined options, or create a new one
+                for your account
+              type: optional<list<string>>
+            interests:
+              docs: >-
+                You can pick one of the predefined options, or create a new one
+                for your account
+              type: optional<list<string>>
+            pronouns: optional<_InlinedType776>
+            kids: optional<double>
+            passportNumber: optional<string>
+            identityNumber:
+              docs: Identity Card Number
+              type: optional<string>
+            nationality: optional<_InlinedType777>
+            otaLinks:
+              docs: A link to the guest’s profile on an OTA
+              type: optional<list<_InlinedType780>>
+      response: _InlinedType784
+
+types:
+  _InlinedType754:
+    properties:
+      results: map<string, unknown>
+      total: double
+
+  _InlinedType755:
+    enum:
+      - vip
+      - friendsAndFamily
+      - staff
+      - management
+      - blocklisted
+      - loyaltyProgram
+
+  _InlinedType756:
+    enum:
+      - en
+      - es
+      - fr
+      - ma
+      - aa
+      - ab
+      - ae
+      - af
+      - ak
+      - am
+      - an
+      - ar
+      - as
+      - av
+      - ay
+      - az
+      - ba
+      - be
+      - bg
+      - bh
+      - bi
+      - bm
+      - bn
+      - bo
+      - br
+      - bs
+      - ca
+      - ce
+      - ch
+      - co
+      - cr
+      - cs
+      - cu
+      - cv
+      - cy
+      - da
+      - de
+      - dv
+      - dz
+      - ee
+      - el
+      - eo
+      - et
+      - eu
+      - fa
+      - ff
+      - fi
+      - fj
+      - fo
+      - fy
+      - ga
+      - gd
+      - gl
+      - gn
+      - gu
+      - gv
+      - ha
+      - he
+      - hi
+      - ho
+      - hr
+      - ht
+      - hu
+      - hy
+      - hz
+      - ia
+      - id
+      - ie
+      - ig
+      - ii
+      - ik
+      - io
+      - is
+      - it
+      - iu
+      - ja
+      - jv
+      - ka
+      - kg
+      - ki
+      - kj
+      - kk
+      - kl
+      - km
+      - kn
+      - ko
+      - kr
+      - ks
+      - ku
+      - kv
+      - kw
+      - ky
+      - la
+      - lb
+      - lg
+      - li
+      - ln
+      - lo
+      - lt
+      - lu
+      - lv
+      - mg
+      - mh
+      - mi
+      - mk
+      - ml
+      - mn
+      - mr
+      - ms
+      - mt
+      - my
+      - na
+      - nb
+      - nd
+      - ne
+      - ng
+      - nl
+      - nn
+      - "no"
+      - nr
+      - nv
+      - ny
+      - oc
+      - oj
+      - om
+      - or
+      - os
+      - pa
+      - pi
+      - pl
+      - ps
+      - pt
+      - qu
+      - rm
+      - rn
+      - ro
+      - ru
+      - rw
+      - sa
+      - sc
+      - sd
+      - se
+      - sg
+      - si
+      - sk
+      - sl
+      - sm
+      - sn
+      - so
+      - sq
+      - sr
+      - ss
+      - st
+      - su
+      - sv
+      - sw
+      - ta
+      - te
+      - tg
+      - th
+      - ti
+      - tk
+      - tl
+      - tn
+      - to
+      - tr
+      - ts
+      - tt
+      - tw
+      - ty
+      - ug
+      - uk
+      - ur
+      - uz
+      - ve
+      - vi
+      - vo
+      - wa
+      - wo
+      - xh
+      - yi
+      - yo
+      - za
+      - zh
+      - zu
+
+  _InlinedType757:
+    enum:
+      - male
+      - female
+      - other
+
+  _InlinedType758:
+    enum:
+      - single
+      - married
+      - widowed
+      - separated
+      - divorced
+
+  _InlinedType759:
+    enum:
+      - he/him/his
+      - she/her/hers
+      - they/them/their
+      - xe/xem/xyr
+
+  _InlinedType760:
+    enum:
+      - af
+      - ax
+      - al
+      - dz
+      - as
+      - ad
+      - ao
+      - ai
+      - aq
+      - ag
+      - ar
+      - am
+      - aw
+      - au
+      - at
+      - az
+      - bs
+      - bh
+      - bd
+      - bb
+      - by
+      - be
+      - bz
+      - bj
+      - bm
+      - bt
+      - bo
+      - bq
+      - ba
+      - bw
+      - bv
+      - br
+      - io
+      - bn
+      - bg
+      - bf
+      - bi
+      - kh
+      - cm
+      - ca
+      - cv
+      - ky
+      - cf
+      - td
+      - cl
+      - cn
+      - cx
+      - cc
+      - co
+      - km
+      - cg
+      - cd
+      - ck
+      - cr
+      - ci
+      - hr
+      - cu
+      - cw
+      - cy
+      - cz
+      - dk
+      - dj
+      - dm
+      - do
+      - ec
+      - eg
+      - sv
+      - gq
+      - er
+      - ee
+      - et
+      - fk
+      - fo
+      - fj
+      - fi
+      - fr
+      - gf
+      - pf
+      - tf
+      - ga
+      - gm
+      - ge
+      - de
+      - gh
+      - gi
+      - gr
+      - gl
+      - gd
+      - gp
+      - gu
+      - gt
+      - gg
+      - gn
+      - gw
+      - gy
+      - ht
+      - hm
+      - va
+      - hn
+      - hk
+      - hu
+      - is
+      - in
+      - id
+      - ir
+      - iq
+      - ie
+      - im
+      - il
+      - it
+      - jm
+      - jp
+      - je
+      - jo
+      - kz
+      - ke
+      - ki
+      - kp
+      - kr
+      - xk
+      - kw
+      - kg
+      - la
+      - lv
+      - lb
+      - ls
+      - lr
+      - ly
+      - li
+      - lt
+      - lu
+      - mo
+      - mk
+      - mg
+      - mw
+      - my
+      - mv
+      - ml
+      - mt
+      - mh
+      - mq
+      - mr
+      - mu
+      - yt
+      - mx
+      - fm
+      - md
+      - mc
+      - mn
+      - me
+      - ms
+      - ma
+      - mz
+      - mm
+      - na
+      - nr
+      - np
+      - nl
+      - an
+      - nc
+      - nz
+      - ni
+      - ne
+      - ng
+      - nu
+      - nf
+      - mp
+      - "no"
+      - om
+      - pk
+      - pw
+      - ps
+      - pa
+      - pg
+      - py
+      - pe
+      - ph
+      - pn
+      - pl
+      - pt
+      - pr
+      - qa
+      - re
+      - ro
+      - ru
+      - rw
+      - bl
+      - sh
+      - kn
+      - lc
+      - mf
+      - pm
+      - vc
+      - ws
+      - sm
+      - st
+      - sa
+      - sn
+      - rs
+      - cs
+      - sc
+      - sl
+      - sg
+      - sx
+      - sk
+      - si
+      - sb
+      - so
+      - za
+      - gs
+      - ss
+      - es
+      - lk
+      - sd
+      - sr
+      - sj
+      - sz
+      - se
+      - ch
+      - sy
+      - tw
+      - tj
+      - tz
+      - th
+      - tl
+      - tg
+      - tk
+      - to
+      - tt
+      - tn
+      - tr
+      - tm
+      - tc
+      - tv
+      - ug
+      - ua
+      - ae
+      - gb
+      - us
+      - um
+      - uy
+      - uz
+      - vu
+      - ve
+      - vn
+      - vg
+      - vi
+      - wf
+      - eh
+      - ye
+      - zm
+      - zw
+
+  _InlinedType761:
+    enum:
+      - airbnb
+
+  _InlinedType762:
+    docs: The url must include “https://” prefix
+    enum:
+      - https://www.airbnb.com
+
+  _InlinedType763:
+    properties:
+      type: optional<_InlinedType761>
+      url:
+        docs: The url must include “https://” prefix
+        type: optional<_InlinedType762>
+
+  _InlinedType764:
+    enum:
+      - airbnb
+
+  _InlinedType765:
+    docs: The url must include “https://” prefix
+    enum:
+      - https://www.airbnb.com
+
+  _InlinedType766:
+    properties:
+      type: optional<_InlinedType764>
+      url:
+        docs: The url must include “https://” prefix
+        type: optional<_InlinedType765>
+
+  _InlinedType767:
+    properties:
+      _id: string
+      firstName: string
+      lastName: string
+      fullName: optional<string>
+      hometown: optional<string>
+      createdAt: optional<string>
+      address: optional<map<string, unknown>>
+      picture:
+        docs: A link to guest’s picture in different sizes
+        type: optional<map<string, unknown>>
+      email:
+        docs: The main contact email of the guest
+        type: optional<string>
+      emails:
+        docs: List of additional emails of the guest
+        type: optional<list<string>>
+      phone:
+        docs: The main contact phone number
+        type: optional<string>
+      phones:
+        docs: List of additional phone numbers of the guest
+        type: optional<list<string>>
+      notes:
+        docs: >-
+          Attention notes about the guest, describing important pieces of
+          information about the guest, to review for all reservations (e.g.
+          “Requires accessibility equipment”)
+        type: optional<string>
+      tags:
+        docs: >-
+          Tags for describing the guest at a glance + show the enum for the
+          field to show the allowed options
+        type: optional<list<string>>
+      goodToKnowNotes:
+        docs: >-
+          “Good to know” notes about the guest. Notes to help capture facts
+          about the guest that will help the team to personalize the guest’s
+          stays (e.g. “Big football fan”)
+        type: optional<string>
+      preferredLanguage: optional<string>
+      birthday: optional<string>
+      gender: optional<string>
+      maritalStatus: optional<string>
+      dietaryPreferences:
+        docs: >-
+          You can pick one of the predefined options, or create a new one for
+          your account
+        type: optional<list<string>>
+      allergies:
+        docs: >-
+          You can pick one of the predefined options, or create a new one for
+          your account
+        type: optional<list<string>>
+      interests: optional<list<string>>
+      pronouns: optional<string>
+      otaLinks:
+        docs: A link to the guest’s profile on an OTA
+        type: optional<list<_InlinedType766>>
+      kids: optional<double>
+      passportNumber: optional<string>
+      identityNumber: optional<string>
+      nationality: optional<string>
+      airbnb2: optional<map<string, unknown>>
+      rentalsUnited: optional<map<string, unknown>>
+      bookingCom: optional<map<string, unknown>>
+      homeAway: optional<map<string, unknown>>
+      tripAdvisor: optional<map<string, unknown>>
+      policy: optional<map<string, unknown>>
+      returningGuest: boolean
+
+  _InlinedType768:
+    enum:
+      - airbnb
+
+  _InlinedType769:
+    docs: The url must include “https://” prefix
+    enum:
+      - https://www.airbnb.com
+
+  _InlinedType770:
+    properties:
+      type: optional<_InlinedType768>
+      url:
+        docs: The url must include “https://” prefix
+        type: optional<_InlinedType769>
+
+  _InlinedType771:
+    properties:
+      _id: string
+      firstName: string
+      lastName: string
+      fullName: optional<string>
+      hometown: optional<string>
+      createdAt: optional<string>
+      address: optional<map<string, unknown>>
+      picture:
+        docs: A link to guest’s picture in different sizes
+        type: optional<map<string, unknown>>
+      email:
+        docs: The main contact email of the guest
+        type: optional<string>
+      emails:
+        docs: List of additional emails of the guest
+        type: optional<list<string>>
+      phone:
+        docs: The main contact phone number
+        type: optional<string>
+      phones:
+        docs: List of additional phone numbers of the guest
+        type: optional<list<string>>
+      notes:
+        docs: >-
+          Attention notes about the guest, describing important pieces of
+          information about the guest, to review for all reservations (e.g.
+          “Requires accessibility equipment”)
+        type: optional<string>
+      tags:
+        docs: >-
+          Tags for describing the guest at a glance + show the enum for the
+          field to show the allowed options
+        type: optional<list<string>>
+      goodToKnowNotes:
+        docs: >-
+          “Good to know” notes about the guest. Notes to help capture facts
+          about the guest that will help the team to personalize the guest’s
+          stays (e.g. “Big football fan”)
+        type: optional<string>
+      preferredLanguage: optional<string>
+      birthday: optional<string>
+      gender: optional<string>
+      maritalStatus: optional<string>
+      dietaryPreferences:
+        docs: >-
+          You can pick one of the predefined options, or create a new one for
+          your account
+        type: optional<list<string>>
+      allergies:
+        docs: >-
+          You can pick one of the predefined options, or create a new one for
+          your account
+        type: optional<list<string>>
+      interests: optional<list<string>>
+      pronouns: optional<string>
+      otaLinks:
+        docs: A link to the guest’s profile on an OTA
+        type: optional<list<_InlinedType770>>
+      kids: optional<double>
+      passportNumber: optional<string>
+      identityNumber: optional<string>
+      nationality: optional<string>
+      airbnb2: optional<map<string, unknown>>
+      rentalsUnited: optional<map<string, unknown>>
+      bookingCom: optional<map<string, unknown>>
+      homeAway: optional<map<string, unknown>>
+      tripAdvisor: optional<map<string, unknown>>
+      policy: optional<map<string, unknown>>
+      returningGuest: boolean
+
+  _InlinedType772:
+    enum:
+      - vip
+      - friendsAndFamily
+      - staff
+      - management
+      - blocklisted
+      - loyaltyProgram
+
+  _InlinedType773:
+    enum:
+      - en
+      - es
+      - fr
+      - ma
+      - aa
+      - ab
+      - ae
+      - af
+      - ak
+      - am
+      - an
+      - ar
+      - as
+      - av
+      - ay
+      - az
+      - ba
+      - be
+      - bg
+      - bh
+      - bi
+      - bm
+      - bn
+      - bo
+      - br
+      - bs
+      - ca
+      - ce
+      - ch
+      - co
+      - cr
+      - cs
+      - cu
+      - cv
+      - cy
+      - da
+      - de
+      - dv
+      - dz
+      - ee
+      - el
+      - eo
+      - et
+      - eu
+      - fa
+      - ff
+      - fi
+      - fj
+      - fo
+      - fy
+      - ga
+      - gd
+      - gl
+      - gn
+      - gu
+      - gv
+      - ha
+      - he
+      - hi
+      - ho
+      - hr
+      - ht
+      - hu
+      - hy
+      - hz
+      - ia
+      - id
+      - ie
+      - ig
+      - ii
+      - ik
+      - io
+      - is
+      - it
+      - iu
+      - ja
+      - jv
+      - ka
+      - kg
+      - ki
+      - kj
+      - kk
+      - kl
+      - km
+      - kn
+      - ko
+      - kr
+      - ks
+      - ku
+      - kv
+      - kw
+      - ky
+      - la
+      - lb
+      - lg
+      - li
+      - ln
+      - lo
+      - lt
+      - lu
+      - lv
+      - mg
+      - mh
+      - mi
+      - mk
+      - ml
+      - mn
+      - mr
+      - ms
+      - mt
+      - my
+      - na
+      - nb
+      - nd
+      - ne
+      - ng
+      - nl
+      - nn
+      - "no"
+      - nr
+      - nv
+      - ny
+      - oc
+      - oj
+      - om
+      - or
+      - os
+      - pa
+      - pi
+      - pl
+      - ps
+      - pt
+      - qu
+      - rm
+      - rn
+      - ro
+      - ru
+      - rw
+      - sa
+      - sc
+      - sd
+      - se
+      - sg
+      - si
+      - sk
+      - sl
+      - sm
+      - sn
+      - so
+      - sq
+      - sr
+      - ss
+      - st
+      - su
+      - sv
+      - sw
+      - ta
+      - te
+      - tg
+      - th
+      - ti
+      - tk
+      - tl
+      - tn
+      - to
+      - tr
+      - ts
+      - tt
+      - tw
+      - ty
+      - ug
+      - uk
+      - ur
+      - uz
+      - ve
+      - vi
+      - vo
+      - wa
+      - wo
+      - xh
+      - yi
+      - yo
+      - za
+      - zh
+      - zu
+
+  _InlinedType774:
+    enum:
+      - male
+      - female
+      - other
+
+  _InlinedType775:
+    enum:
+      - single
+      - married
+      - widowed
+      - separated
+      - divorced
+
+  _InlinedType776:
+    enum:
+      - he/him/his
+      - she/her/hers
+      - they/them/their
+      - xe/xem/xyr
+
+  _InlinedType777:
+    enum:
+      - af
+      - ax
+      - al
+      - dz
+      - as
+      - ad
+      - ao
+      - ai
+      - aq
+      - ag
+      - ar
+      - am
+      - aw
+      - au
+      - at
+      - az
+      - bs
+      - bh
+      - bd
+      - bb
+      - by
+      - be
+      - bz
+      - bj
+      - bm
+      - bt
+      - bo
+      - bq
+      - ba
+      - bw
+      - bv
+      - br
+      - io
+      - bn
+      - bg
+      - bf
+      - bi
+      - kh
+      - cm
+      - ca
+      - cv
+      - ky
+      - cf
+      - td
+      - cl
+      - cn
+      - cx
+      - cc
+      - co
+      - km
+      - cg
+      - cd
+      - ck
+      - cr
+      - ci
+      - hr
+      - cu
+      - cw
+      - cy
+      - cz
+      - dk
+      - dj
+      - dm
+      - do
+      - ec
+      - eg
+      - sv
+      - gq
+      - er
+      - ee
+      - et
+      - fk
+      - fo
+      - fj
+      - fi
+      - fr
+      - gf
+      - pf
+      - tf
+      - ga
+      - gm
+      - ge
+      - de
+      - gh
+      - gi
+      - gr
+      - gl
+      - gd
+      - gp
+      - gu
+      - gt
+      - gg
+      - gn
+      - gw
+      - gy
+      - ht
+      - hm
+      - va
+      - hn
+      - hk
+      - hu
+      - is
+      - in
+      - id
+      - ir
+      - iq
+      - ie
+      - im
+      - il
+      - it
+      - jm
+      - jp
+      - je
+      - jo
+      - kz
+      - ke
+      - ki
+      - kp
+      - kr
+      - xk
+      - kw
+      - kg
+      - la
+      - lv
+      - lb
+      - ls
+      - lr
+      - ly
+      - li
+      - lt
+      - lu
+      - mo
+      - mk
+      - mg
+      - mw
+      - my
+      - mv
+      - ml
+      - mt
+      - mh
+      - mq
+      - mr
+      - mu
+      - yt
+      - mx
+      - fm
+      - md
+      - mc
+      - mn
+      - me
+      - ms
+      - ma
+      - mz
+      - mm
+      - na
+      - nr
+      - np
+      - nl
+      - an
+      - nc
+      - nz
+      - ni
+      - ne
+      - ng
+      - nu
+      - nf
+      - mp
+      - "no"
+      - om
+      - pk
+      - pw
+      - ps
+      - pa
+      - pg
+      - py
+      - pe
+      - ph
+      - pn
+      - pl
+      - pt
+      - pr
+      - qa
+      - re
+      - ro
+      - ru
+      - rw
+      - bl
+      - sh
+      - kn
+      - lc
+      - mf
+      - pm
+      - vc
+      - ws
+      - sm
+      - st
+      - sa
+      - sn
+      - rs
+      - cs
+      - sc
+      - sl
+      - sg
+      - sx
+      - sk
+      - si
+      - sb
+      - so
+      - za
+      - gs
+      - ss
+      - es
+      - lk
+      - sd
+      - sr
+      - sj
+      - sz
+      - se
+      - ch
+      - sy
+      - tw
+      - tj
+      - tz
+      - th
+      - tl
+      - tg
+      - tk
+      - to
+      - tt
+      - tn
+      - tr
+      - tm
+      - tc
+      - tv
+      - ug
+      - ua
+      - ae
+      - gb
+      - us
+      - um
+      - uy
+      - uz
+      - vu
+      - ve
+      - vn
+      - vg
+      - vi
+      - wf
+      - eh
+      - ye
+      - zm
+      - zw
+
+  _InlinedType778:
+    enum:
+      - airbnb
+
+  _InlinedType779:
+    docs: The url must include “https://” prefix
+    enum:
+      - https://www.airbnb.com
+
+  _InlinedType780:
+    properties:
+      type: optional<_InlinedType778>
+      url:
+        docs: The url must include “https://” prefix
+        type: optional<_InlinedType779>
+
+  _InlinedType781:
+    enum:
+      - airbnb
+
+  _InlinedType782:
+    docs: The url must include “https://” prefix
+    enum:
+      - https://www.airbnb.com
+
+  _InlinedType783:
+    properties:
+      type: optional<_InlinedType781>
+      url:
+        docs: The url must include “https://” prefix
+        type: optional<_InlinedType782>
+
+  _InlinedType784:
+    properties:
+      _id: string
+      firstName: string
+      lastName: string
+      fullName: optional<string>
+      hometown: optional<string>
+      createdAt: optional<string>
+      address: optional<map<string, unknown>>
+      picture:
+        docs: A link to guest’s picture in different sizes
+        type: optional<map<string, unknown>>
+      email:
+        docs: The main contact email of the guest
+        type: optional<string>
+      emails:
+        docs: List of additional emails of the guest
+        type: optional<list<string>>
+      phone:
+        docs: The main contact phone number
+        type: optional<string>
+      phones:
+        docs: List of additional phone numbers of the guest
+        type: optional<list<string>>
+      notes:
+        docs: >-
+          Attention notes about the guest, describing important pieces of
+          information about the guest, to review for all reservations (e.g.
+          “Requires accessibility equipment”)
+        type: optional<string>
+      tags:
+        docs: >-
+          Tags for describing the guest at a glance + show the enum for the
+          field to show the allowed options
+        type: optional<list<string>>
+      goodToKnowNotes:
+        docs: >-
+          “Good to know” notes about the guest. Notes to help capture facts
+          about the guest that will help the team to personalize the guest’s
+          stays (e.g. “Big football fan”)
+        type: optional<string>
+      preferredLanguage: optional<string>
+      birthday: optional<string>
+      gender: optional<string>
+      maritalStatus: optional<string>
+      dietaryPreferences:
+        docs: >-
+          You can pick one of the predefined options, or create a new one for
+          your account
+        type: optional<list<string>>
+      allergies:
+        docs: >-
+          You can pick one of the predefined options, or create a new one for
+          your account
+        type: optional<list<string>>
+      interests: optional<list<string>>
+      pronouns: optional<string>
+      otaLinks:
+        docs: A link to the guest’s profile on an OTA
+        type: optional<list<_InlinedType783>>
+      kids: optional<double>
+      passportNumber: optional<string>
+      identityNumber: optional<string>
+      nationality: optional<string>
+      airbnb2: optional<map<string, unknown>>
+      rentalsUnited: optional<map<string, unknown>>
+      bookingCom: optional<map<string, unknown>>
+      homeAway: optional<map<string, unknown>>
+      tripAdvisor: optional<map<string, unknown>>
+      policy: optional<map<string, unknown>>
+      returningGuest: boolean

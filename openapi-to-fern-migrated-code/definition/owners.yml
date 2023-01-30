@@ -1,0 +1,393 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: /owners
+  endpoints:
+    "":
+      path: ""
+      method: GET
+      docs: Get list of owners
+      display-name: Get list of owners
+      request:
+        query-parameters:
+          pagination:
+            docs: Use pagination response
+            type: optional<boolean>
+          limit:
+            docs: When use pagination, limit amount of docs per page
+            type: optional<double>
+          skip:
+            docs: When use pagination
+            type: optional<double>
+          sort:
+            docs: Ordered list of fields name to sort by, separated by spaces.
+            type: optional<string>
+          q:
+            docs: Query against (fullName OR lastName OR firstName)
+            type: optional<string>
+          fields:
+            docs: >-
+              Selection of fields, separated by space. If fields not be chosen
+              response will be return with all fields.
+              `fields`:
+              > `_id` `ownersPortalSettings` `listings` `locale` `active`
+              `allowReservations` `showReservationTooltips` `workingCapital`
+              `firstName` `lastName` `fullName` `email` `address` `phone`
+              `picture` `notes` `createdAt`
+            type: optional<string>
+      response: _InlinedType791
+
+    _unnamedOperation44:
+      path: ""
+      method: POST
+      display-name: Create an owner
+      request:
+        body:
+          docs: desctiption test
+          properties:
+            ownersPortalSettings:
+              docs: The OPSettings object
+              type: optional<_InlinedType792>
+            listings:
+              docs: Listings Id
+              type: list<_InlinedType793>
+            locale:
+              docs: Localization
+              type: optional<string>
+            active: optional<boolean>
+            allowReservations: optional<boolean>
+            showReservationTooltips: optional<boolean>
+            workingCapital: optional<double>
+            firstName: string
+            lastName: string
+            fullName: optional<string>
+            email:
+              docs: Primary email address
+              type: string
+            address: optional<string>
+            phone:
+              docs: Primary phone number
+              type: optional<string>
+            picture: optional<_InlinedType794>
+            notes: optional<string>
+            createdAt:
+              docs: date ISO
+              type: optional<string>
+      response: _InlinedType797
+
+    _unnamedOperation45:
+      path: /{id}
+      method: GET
+      display-name: Get owner
+      path-parameters:
+        id:
+          docs: Owner's ID
+          type: string
+      request:
+        query-parameters:
+          fields:
+            docs: >-
+              Selection of fields, separated by space. If fields not be chosen
+              response will be return with all fields.
+              `fields`:
+              > `_id` `ownersPortalSettings` `listings` `locale` `active`
+              `allowReservations` `showReservationTooltips` `workingCapital`
+              `firstName` `lastName` `fullName` `email` `address` `phone`
+              `picture` `notes` `createdAt`
+            type: optional<string>
+      response: _InlinedType803
+
+    _unnamedOperation46:
+      path: /{id}
+      method: PUT
+      docs: updatet owner, enterd fileds will be update (support partial updatet)
+      display-name: Update owner
+      path-parameters:
+        id:
+          docs: Owner ID
+          type: string
+      request:
+        body:
+          properties:
+            ownersPortalSettings:
+              docs: The OPSettings object
+              type: optional<_InlinedType804>
+            listings:
+              docs: Listings Id
+              type: optional<list<string>>
+            locale:
+              docs: Localization
+              type: optional<string>
+            active: optional<boolean>
+            allowReservations: optional<boolean>
+            showReservationTooltips: optional<boolean>
+            workingCapital: optional<double>
+            firstName: optional<string>
+            lastName: optional<string>
+            fullName: optional<string>
+            email:
+              docs: Primary email address
+              type: optional<string>
+            address: optional<string>
+            phone:
+              docs: Primary phone number
+              type: optional<string>
+            picture: optional<_InlinedType805>
+            notes: optional<string>
+            createdAt:
+              docs: date ISO
+              type: optional<string>
+      response: _InlinedType811
+
+    _unnamedOperation47:
+      path: /{id}
+      method: DELETE
+      display-name: Delete owner
+      path-parameters:
+        id:
+          docs: Owner's ID
+          type: string
+
+types:
+  _InlinedType785:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType786:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType787:
+    properties:
+      ownersPortalSettings:
+        docs: The OPSettings object
+        type: optional<_InlinedType788>
+      listings:
+        docs: Listings Id
+        type: optional<list<string>>
+      locale:
+        docs: Localization
+        type: optional<string>
+      active: optional<boolean>
+      allowReservations: optional<boolean>
+      showReservationTooltips: optional<boolean>
+      workingCapital: optional<double>
+      firstName: optional<string>
+      lastName: optional<string>
+      fullName: optional<string>
+      email:
+        docs: Primary email address
+        type: optional<string>
+      address: optional<string>
+      phone:
+        docs: Primary phone number
+        type: optional<string>
+      picture: optional<_InlinedType789>
+      notes: optional<string>
+      createdAt:
+        docs: date ISO
+        type: optional<string>
+
+  _InlinedType790:
+    extends:
+      - _InlinedType785
+      - _InlinedType786
+      - _InlinedType787
+
+  _InlinedType791:
+    properties:
+      results: optional<list<_InlinedType790>>
+      count: optional<double>
+      limit: optional<double>
+      skip: optional<double>
+
+  _InlinedType792:
+    docs: The OPSettings object
+    properties:
+      bookedNights: optional<boolean>
+      revenue: optional<boolean>
+      accommodationFare: optional<boolean>
+      guestsReports: optional<boolean>
+      occupancy: optional<boolean>
+      avgNightlyRate: optional<boolean>
+      revPal: optional<boolean>
+
+  _InlinedType793:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType794:
+    properties:
+      thumbnail: optional<string>
+      regular: optional<string>
+      large: optional<string>
+
+  _InlinedType795:
+    docs: The OPSettings object
+    properties:
+      bookedNights: optional<boolean>
+      revenue: optional<boolean>
+      accommodationFare: optional<boolean>
+      guestsReports: optional<boolean>
+      occupancy: optional<boolean>
+      avgNightlyRate: optional<boolean>
+      revPal: optional<boolean>
+
+  _InlinedType796:
+    properties:
+      thumbnail: optional<string>
+      regular: optional<string>
+      large: optional<string>
+
+  _InlinedType797:
+    properties:
+      ownersPortalSettings:
+        docs: The OPSettings object
+        type: optional<_InlinedType795>
+      listings:
+        docs: Listings Id
+        type: optional<list<string>>
+      locale:
+        docs: Localization
+        type: optional<string>
+      active: optional<boolean>
+      allowReservations: optional<boolean>
+      showReservationTooltips: optional<boolean>
+      workingCapital: optional<double>
+      firstName: optional<string>
+      lastName: optional<string>
+      fullName: optional<string>
+      email:
+        docs: Primary email address
+        type: optional<string>
+      address: optional<string>
+      phone:
+        docs: Primary phone number
+        type: optional<string>
+      picture: optional<_InlinedType796>
+      notes: optional<string>
+      createdAt:
+        docs: date ISO
+        type: optional<string>
+
+  _InlinedType798:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType799:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType800:
+    properties:
+      ownersPortalSettings:
+        docs: The OPSettings object
+        type: optional<_InlinedType801>
+      listings:
+        docs: Listings Id
+        type: optional<list<string>>
+      locale:
+        docs: Localization
+        type: optional<string>
+      active: optional<boolean>
+      allowReservations: optional<boolean>
+      showReservationTooltips: optional<boolean>
+      workingCapital: optional<double>
+      firstName: optional<string>
+      lastName: optional<string>
+      fullName: optional<string>
+      email:
+        docs: Primary email address
+        type: optional<string>
+      address: optional<string>
+      phone:
+        docs: Primary phone number
+        type: optional<string>
+      picture: optional<_InlinedType802>
+      notes: optional<string>
+      createdAt:
+        docs: date ISO
+        type: optional<string>
+
+  _InlinedType803:
+    extends:
+      - _InlinedType798
+      - _InlinedType799
+      - _InlinedType800
+
+  _InlinedType804:
+    docs: The OPSettings object
+    properties:
+      bookedNights: optional<boolean>
+      revenue: optional<boolean>
+      accommodationFare: optional<boolean>
+      guestsReports: optional<boolean>
+      occupancy: optional<boolean>
+      avgNightlyRate: optional<boolean>
+      revPal: optional<boolean>
+
+  _InlinedType805:
+    properties:
+      thumbnail: optional<string>
+      regular: optional<string>
+      large: optional<string>
+
+  _InlinedType806:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType807:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType808:
+    properties:
+      ownersPortalSettings:
+        docs: The OPSettings object
+        type: optional<_InlinedType809>
+      listings:
+        docs: Listings Id
+        type: optional<list<string>>
+      locale:
+        docs: Localization
+        type: optional<string>
+      active: optional<boolean>
+      allowReservations: optional<boolean>
+      showReservationTooltips: optional<boolean>
+      workingCapital: optional<double>
+      firstName: optional<string>
+      lastName: optional<string>
+      fullName: optional<string>
+      email:
+        docs: Primary email address
+        type: optional<string>
+      address: optional<string>
+      phone:
+        docs: Primary phone number
+        type: optional<string>
+      picture: optional<_InlinedType810>
+      notes: optional<string>
+      createdAt:
+        docs: date ISO
+        type: optional<string>
+
+  _InlinedType811:
+    extends:
+      - _InlinedType806
+      - _InlinedType807
+      - _InlinedType808

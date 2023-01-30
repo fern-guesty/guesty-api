@@ -1,0 +1,1497 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: /owners-reservations
+  endpoints:
+    "":
+      path: ""
+      method: GET
+      display-name: List owners-reservations
+      request:
+        query-parameters:
+          fields:
+            docs: |-
+              String of fields, separated by space. 
+                Allowed fields are "account", "listing" and "owner" fields with its according subkeys 
+               Please note: Allowed list of keys depend on user role and permissions
+            type: optional<string>
+          sort:
+            docs: ascending sort, use - to descending sort
+            type: optional<string>
+          limit:
+            docs: "Pagination, max: 100"
+            type: optional<integer>
+          skip: optional<integer>
+      response: _InlinedType965
+
+    _unnamedOperation72:
+      path: /{id}
+      method: GET
+      display-name: Retrieve an owner reservation
+      path-parameters:
+        id:
+          docs: Reservation Id
+          type: string
+      response: _InlinedType1006
+
+    _unnamedOperation73:
+      path: /{id}
+      method: PUT
+      display-name: Update an owner reservation
+      path-parameters:
+        id:
+          docs: Reservation ID
+          type: string
+      request:
+        body:
+          properties:
+            checkIn: string
+            checkOut: string
+            note: optional<string>
+      response: _InlinedType1053
+
+types:
+  _InlinedType925:
+    properties:
+      availableStatuses: optional<list<unknown>>
+
+  _InlinedType926:
+    properties:
+      invalidCreditCards: optional<list<unknown>>
+      reports: optional<list<unknown>>
+
+  _InlinedType927:
+    properties:
+      limitations: optional<_InlinedType925>
+      bookingCom: optional<_InlinedType926>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      platform: optional<string>
+
+  _InlinedType928:
+    properties:
+      commission: optional<double>
+      feeMinimum: optional<double>
+      fee: optional<double>
+      feeUsd: optional<double>
+      isMinimumFee: optional<boolean>
+      isMaximumFee: optional<boolean>
+      planItems: optional<list<unknown>>
+
+  _InlinedType929:
+    properties:
+      shouldReview: optional<boolean>
+
+  _InlinedType930:
+    properties:
+      useAccountSettings: optional<boolean>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      manual: optional<list<unknown>>
+
+  _InlinedType931:
+    properties:
+      appliedOnFees: optional<string>
+      appliedByDefaultOnChannels: optional<list<unknown>>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      name: optional<string>
+      units: optional<string>
+      quantifier: optional<string>
+      amount: optional<double>
+      appliedToAllFees: optional<boolean>
+      type: optional<string>
+
+  _InlinedType932:
+    properties:
+      snapshotCreated: optional<boolean>
+      channelCommission: optional<_InlinedType930>
+      taxes: optional<list<_InlinedType931>>
+      monthlyPriceFactor: optional<double>
+      weeklyPriceFactor: optional<double>
+      useAccountRevenueShare: optional<boolean>
+
+  _InlinedType933:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      title: optional<string>
+      amount: optional<double>
+      currency: optional<string>
+      type: optional<string>
+      isLocked: optional<boolean>
+      isTax: optional<boolean>
+      normalType: optional<string>
+      isAutoAdditionalFee: optional<boolean>
+      secondIdentifier: optional<string>
+
+  _InlinedType934:
+    properties:
+      lastAuthMsgSentDate: optional<string>
+      authenticationUrl: optional<string>
+
+  _InlinedType935:
+    properties:
+      city: optional<string>
+      country: optional<string>
+      line1: optional<string>
+      line2: optional<string>
+      postal_code: optional<string>
+      state: optional<string>
+
+  _InlinedType936:
+    properties:
+      address: optional<_InlinedType935>
+      email: optional<string>
+      name: optional<string>
+      phone: optional<string>
+
+  _InlinedType937:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      confirmationCode: optional<string>
+      reservationId:
+        docs: Unique Id
+        type: optional<string>
+      OTA: optional<string>
+      listingId:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType938:
+    properties:
+      network_status: optional<string>
+      reason: optional<string>
+      risk_level: optional<string>
+      risk_score: optional<double>
+      seller_message: optional<string>
+      type: optional<string>
+
+  _InlinedType939:
+    properties:
+      cvc_check: optional<string>
+
+  _InlinedType940:
+    properties:
+      brand: optional<string>
+      checks: optional<_InlinedType939>
+      country: optional<string>
+      exp_month: optional<double>
+      exp_year: optional<double>
+      fingerprint: optional<string>
+      funding: optional<string>
+      last4: optional<string>
+      network: optional<string>
+
+  _InlinedType941:
+    properties:
+      card: optional<_InlinedType940>
+      type: optional<string>
+
+  _InlinedType942:
+    properties:
+      object: optional<string>
+      data: optional<list<unknown>>
+      has_more: optional<boolean>
+      total_count: optional<double>
+      url: optional<string>
+
+  _InlinedType943:
+    properties:
+      id: optional<string>
+      object: optional<string>
+      amount: optional<double>
+      amount_captured: optional<double>
+      amount_refunded: optional<double>
+      application: optional<string>
+      billing_details: optional<_InlinedType936>
+      calculated_statement_descriptor: optional<string>
+      captured: optional<boolean>
+      created: optional<double>
+      currency: optional<string>
+      customer: optional<string>
+      description: optional<string>
+      disputed: optional<boolean>
+      failure_code: optional<string>
+      failure_message: optional<string>
+      livemode: optional<boolean>
+      metadata: optional<_InlinedType937>
+      outcome: optional<_InlinedType938>
+      paid: optional<boolean>
+      payment_intent: optional<string>
+      payment_method: optional<string>
+      payment_method_details: optional<_InlinedType941>
+      refunded: optional<boolean>
+      refunds: optional<_InlinedType942>
+      statement_descriptor: optional<string>
+      status: optional<string>
+
+  _InlinedType944:
+    properties:
+      object: optional<string>
+      data: optional<list<_InlinedType943>>
+      has_more: optional<boolean>
+      total_count: optional<double>
+      url: optional<string>
+
+  _InlinedType945:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      confirmationCode: optional<string>
+      reservationId:
+        docs: Unique Id
+        type: optional<string>
+      OTA: optional<string>
+      listingId:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType946:
+    properties:
+      directory_server_id: optional<string>
+      algorithm: optional<string>
+      certificate: optional<string>
+      root_certificate_authorities: optional<list<unknown>>
+
+  _InlinedType947:
+    properties:
+      type: optional<string>
+      merchant: optional<string>
+      three_d_secure_2_source: optional<string>
+      directory_server_name: optional<string>
+      server_transaction_id: optional<string>
+      three_ds_method_url: optional<string>
+      three_ds_optimizations: optional<string>
+      directory_server_encryption: optional<_InlinedType946>
+
+  _InlinedType948:
+    properties:
+      type: optional<string>
+      use_stripe_sdk: optional<_InlinedType947>
+
+  _InlinedType949:
+    properties:
+      request_three_d_secure: optional<string>
+
+  _InlinedType950:
+    properties:
+      card: optional<_InlinedType949>
+
+  _InlinedType951:
+    properties:
+      id:
+        docs: Unique Id
+        type: optional<string>
+      object: optional<string>
+      amount: optional<double>
+      amount_capturable: optional<double>
+      amount_received: optional<double>
+      application: optional<string>
+      capture_method: optional<string>
+      charges: optional<_InlinedType944>
+      client_secret: optional<string>
+      confirmation_method: optional<string>
+      created: optional<double>
+      currency: optional<string>
+      customer: optional<string>
+      description: optional<string>
+      livemode: optional<boolean>
+      metadata: optional<_InlinedType945>
+      next_action: optional<_InlinedType948>
+      payment_method: optional<string>
+      payment_method_options: optional<_InlinedType950>
+      payment_method_types: optional<list<unknown>>
+      statement_descriptor: optional<string>
+      status: optional<string>
+
+  _InlinedType952:
+    properties:
+      city: optional<string>
+      country: optional<string>
+      line1: optional<string>
+      line2: optional<string>
+      postal_code: optional<string>
+      state: optional<string>
+
+  _InlinedType953:
+    properties:
+      address: optional<_InlinedType952>
+      email: optional<string>
+      name: optional<string>
+      phone: optional<string>
+
+  _InlinedType954:
+    properties:
+      cvc_check: optional<string>
+
+  _InlinedType955:
+    properties:
+      available: optional<list<unknown>>
+
+  _InlinedType956:
+    properties:
+      supported: optional<boolean>
+
+  _InlinedType957:
+    properties:
+      brand: optional<string>
+      checks: optional<_InlinedType954>
+      country: optional<string>
+      exp_month: optional<double>
+      exp_year: optional<double>
+      fingerprint: optional<string>
+      funding: optional<string>
+      last4: optional<string>
+      networks: optional<_InlinedType955>
+      three_d_secure_usage: optional<_InlinedType956>
+
+  _InlinedType958:
+    properties:
+      id: optional<string>
+      object: optional<string>
+      billing_details: optional<_InlinedType953>
+      card: optional<_InlinedType957>
+      created: optional<double>
+      customer: optional<string>
+      livemode: optional<boolean>
+      type: optional<string>
+
+  _InlinedType959:
+    properties:
+      charge: optional<string>
+      code: optional<string>
+      decline_code: optional<string>
+      doc_url: optional<string>
+      message: optional<string>
+      payment_intent: optional<_InlinedType951>
+      payment_method: optional<_InlinedType958>
+      type: optional<string>
+      statusCode: optional<double>
+      requestId: optional<string>
+
+  _InlinedType960:
+    properties:
+      createdAt: optional<string>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      status: optional<string>
+      error: optional<string>
+      payload: optional<_InlinedType959>
+
+  _InlinedType961:
+    properties:
+      authenticationRequiredData: optional<_InlinedType934>
+      paymentMethodStatus: optional<string>
+      isAuthorizationHold: optional<boolean>
+      status: optional<string>
+      refunds: optional<list<unknown>>
+      authorizationHoldCaptures: optional<list<unknown>>
+      createdAt: optional<string>
+      attempts: optional<list<_InlinedType960>>
+      receiptTargets: optional<list<unknown>>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      amount: optional<double>
+      shouldBePaidAt: optional<string>
+      paymentMethodId:
+        docs: Unique Id
+        type: optional<string>
+      guestId:
+        docs: Unique Id
+        type: optional<string>
+      currency: optional<string>
+
+  _InlinedType962:
+    properties:
+      altered: optional<boolean>
+      invoiceItems: optional<list<_InlinedType933>>
+      payments: optional<list<_InlinedType961>>
+      autoPaymentsPolicy: optional<list<unknown>>
+      currency: optional<string>
+      paymentProviderIds: optional<list<unknown>>
+      fareAccommodationAdjustment: optional<double>
+      fareAccommodationDiscount: optional<double>
+      fareAccommodation: optional<double>
+      fareAccommodationAdjusted: optional<double>
+      fareCleaning: optional<double>
+      hostServiceFee: optional<double>
+      hostServiceFeeTax: optional<double>
+      hostServiceFeeIncTax: optional<double>
+      subTotalPrice: optional<double>
+      hostPayout: optional<double>
+      hostPayoutUsd: optional<double>
+      totalTaxes: optional<double>
+      totalRefunded: optional<double>
+      totalPaid: optional<double>
+      paymentsDue: optional<double>
+      balanceDue: optional<double>
+      isFullyPaid: optional<boolean>
+      useAccountRevenueShare: optional<boolean>
+      netIncomeFormula: optional<string>
+      netIncome: optional<double>
+      commissionFormula: optional<string>
+      commission: optional<double>
+      commissionTaxPercentage: optional<double>
+      commissionTax: optional<double>
+      commissionIncTax: optional<double>
+      ownerRevenueFormula: optional<string>
+      ownerRevenue: optional<double>
+      currencyConversionRateToAccount: optional<double>
+      isTouchedPayments: optional<boolean>
+
+  _InlinedType963:
+    properties:
+      assigned: optional<boolean>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType964:
+    properties:
+      automationSources: optional<list<unknown>>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      isPercentage: optional<boolean>
+      isAutomated: optional<boolean>
+      name: optional<string>
+      type: optional<string>
+      value: optional<double>
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      multiplier: optional<string>
+      targetFee: optional<string>
+
+  _InlinedType965:
+    properties:
+      integration: optional<_InlinedType927>
+      guestyFeeDetails: optional<_InlinedType928>
+      review: optional<_InlinedType929>
+      atTimeOfConfirmation: optional<_InlinedType932>
+      flag: optional<boolean>
+      accountingEnabled: optional<boolean>
+      isBMApplied: optional<boolean>
+      confirmedPreBookings: optional<list<unknown>>
+      pulledByDailySync: optional<boolean>
+      manuallyCreated: optional<boolean>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      status: optional<string>
+      checkIn: optional<string>
+      checkOut: optional<string>
+      nightsCount: optional<double>
+      guestsCount: optional<double>
+      money: optional<_InlinedType962>
+      listingId:
+        docs: Unique Id
+        type: optional<string>
+      checkInDateLocalized: optional<string>
+      checkOutDateLocalized: optional<string>
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      guestId:
+        docs: Unique Id
+        type: optional<string>
+      source: optional<string>
+      confirmationCode: optional<string>
+      mtl: optional<_InlinedType963>
+      isReturningGuest: optional<boolean>
+      confirmedAt: optional<string>
+      importedAt: optional<string>
+      additionalFeesAtCreation: optional<list<_InlinedType964>>
+      createdAt: optional<string>
+      pendingTasks: optional<list<unknown>>
+      customFields: optional<list<unknown>>
+      lastUpdatedAt: optional<string>
+      __v: optional<double>
+      conversationId:
+        docs: Unique Id
+        type: optional<string>
+      id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType966:
+    properties:
+      availableStatuses: optional<list<unknown>>
+
+  _InlinedType967:
+    properties:
+      invalidCreditCards: optional<list<unknown>>
+      reports: optional<list<unknown>>
+
+  _InlinedType968:
+    properties:
+      limitations: optional<_InlinedType966>
+      bookingCom: optional<_InlinedType967>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      platform: optional<string>
+
+  _InlinedType969:
+    properties:
+      commission: optional<double>
+      feeMinimum: optional<double>
+      fee: optional<double>
+      feeUsd: optional<double>
+      isMinimumFee: optional<boolean>
+      isMaximumFee: optional<boolean>
+      planItems: optional<list<unknown>>
+
+  _InlinedType970:
+    properties:
+      shouldReview: optional<boolean>
+
+  _InlinedType971:
+    properties:
+      useAccountSettings: optional<boolean>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      manual: optional<list<unknown>>
+
+  _InlinedType972:
+    properties:
+      appliedOnFees: optional<string>
+      appliedByDefaultOnChannels: optional<list<unknown>>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      name: optional<string>
+      units: optional<string>
+      quantifier: optional<string>
+      amount: optional<double>
+      appliedToAllFees: optional<boolean>
+      type: optional<string>
+
+  _InlinedType973:
+    properties:
+      snapshotCreated: optional<boolean>
+      channelCommission: optional<_InlinedType971>
+      taxes: optional<list<_InlinedType972>>
+      monthlyPriceFactor: optional<double>
+      weeklyPriceFactor: optional<double>
+      useAccountRevenueShare: optional<boolean>
+
+  _InlinedType974:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      title: optional<string>
+      amount: optional<double>
+      currency: optional<string>
+      type: optional<string>
+      isLocked: optional<boolean>
+      isTax: optional<boolean>
+      normalType: optional<string>
+      isAutoAdditionalFee: optional<boolean>
+      secondIdentifier: optional<string>
+
+  _InlinedType975:
+    properties:
+      lastAuthMsgSentDate: optional<string>
+      authenticationUrl: optional<string>
+
+  _InlinedType976:
+    properties:
+      city: optional<string>
+      country: optional<string>
+      line1: optional<string>
+      line2: optional<string>
+      postal_code: optional<string>
+      state: optional<string>
+
+  _InlinedType977:
+    properties:
+      address: optional<_InlinedType976>
+      email: optional<string>
+      name: optional<string>
+      phone: optional<string>
+
+  _InlinedType978:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      confirmationCode: optional<string>
+      reservationId:
+        docs: Unique Id
+        type: optional<string>
+      OTA: optional<string>
+      listingId:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType979:
+    properties:
+      network_status: optional<string>
+      reason: optional<string>
+      risk_level: optional<string>
+      risk_score: optional<double>
+      seller_message: optional<string>
+      type: optional<string>
+
+  _InlinedType980:
+    properties:
+      cvc_check: optional<string>
+
+  _InlinedType981:
+    properties:
+      brand: optional<string>
+      checks: optional<_InlinedType980>
+      country: optional<string>
+      exp_month: optional<double>
+      exp_year: optional<double>
+      fingerprint: optional<string>
+      funding: optional<string>
+      last4: optional<string>
+      network: optional<string>
+
+  _InlinedType982:
+    properties:
+      card: optional<_InlinedType981>
+      type: optional<string>
+
+  _InlinedType983:
+    properties:
+      object: optional<string>
+      data: optional<list<unknown>>
+      has_more: optional<boolean>
+      total_count: optional<double>
+      url: optional<string>
+
+  _InlinedType984:
+    properties:
+      id: optional<string>
+      object: optional<string>
+      amount: optional<double>
+      amount_captured: optional<double>
+      amount_refunded: optional<double>
+      application: optional<string>
+      billing_details: optional<_InlinedType977>
+      calculated_statement_descriptor: optional<string>
+      captured: optional<boolean>
+      created: optional<double>
+      currency: optional<string>
+      customer: optional<string>
+      description: optional<string>
+      disputed: optional<boolean>
+      failure_code: optional<string>
+      failure_message: optional<string>
+      livemode: optional<boolean>
+      metadata: optional<_InlinedType978>
+      outcome: optional<_InlinedType979>
+      paid: optional<boolean>
+      payment_intent: optional<string>
+      payment_method: optional<string>
+      payment_method_details: optional<_InlinedType982>
+      refunded: optional<boolean>
+      refunds: optional<_InlinedType983>
+      statement_descriptor: optional<string>
+      status: optional<string>
+
+  _InlinedType985:
+    properties:
+      object: optional<string>
+      data: optional<list<_InlinedType984>>
+      has_more: optional<boolean>
+      total_count: optional<double>
+      url: optional<string>
+
+  _InlinedType986:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      confirmationCode: optional<string>
+      reservationId:
+        docs: Unique Id
+        type: optional<string>
+      OTA: optional<string>
+      listingId:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType987:
+    properties:
+      directory_server_id: optional<string>
+      algorithm: optional<string>
+      certificate: optional<string>
+      root_certificate_authorities: optional<list<unknown>>
+
+  _InlinedType988:
+    properties:
+      type: optional<string>
+      merchant: optional<string>
+      three_d_secure_2_source: optional<string>
+      directory_server_name: optional<string>
+      server_transaction_id: optional<string>
+      three_ds_method_url: optional<string>
+      three_ds_optimizations: optional<string>
+      directory_server_encryption: optional<_InlinedType987>
+
+  _InlinedType989:
+    properties:
+      type: optional<string>
+      use_stripe_sdk: optional<_InlinedType988>
+
+  _InlinedType990:
+    properties:
+      request_three_d_secure: optional<string>
+
+  _InlinedType991:
+    properties:
+      card: optional<_InlinedType990>
+
+  _InlinedType992:
+    properties:
+      id:
+        docs: Unique Id
+        type: optional<string>
+      object: optional<string>
+      amount: optional<double>
+      amount_capturable: optional<double>
+      amount_received: optional<double>
+      application: optional<string>
+      capture_method: optional<string>
+      charges: optional<_InlinedType985>
+      client_secret: optional<string>
+      confirmation_method: optional<string>
+      created: optional<double>
+      currency: optional<string>
+      customer: optional<string>
+      description: optional<string>
+      livemode: optional<boolean>
+      metadata: optional<_InlinedType986>
+      next_action: optional<_InlinedType989>
+      payment_method: optional<string>
+      payment_method_options: optional<_InlinedType991>
+      payment_method_types: optional<list<unknown>>
+      statement_descriptor: optional<string>
+      status: optional<string>
+
+  _InlinedType993:
+    properties:
+      city: optional<string>
+      country: optional<string>
+      line1: optional<string>
+      line2: optional<string>
+      postal_code: optional<string>
+      state: optional<string>
+
+  _InlinedType994:
+    properties:
+      address: optional<_InlinedType993>
+      email: optional<string>
+      name: optional<string>
+      phone: optional<string>
+
+  _InlinedType995:
+    properties:
+      cvc_check: optional<string>
+
+  _InlinedType996:
+    properties:
+      available: optional<list<unknown>>
+
+  _InlinedType997:
+    properties:
+      supported: optional<boolean>
+
+  _InlinedType998:
+    properties:
+      brand: optional<string>
+      checks: optional<_InlinedType995>
+      country: optional<string>
+      exp_month: optional<double>
+      exp_year: optional<double>
+      fingerprint: optional<string>
+      funding: optional<string>
+      last4: optional<string>
+      networks: optional<_InlinedType996>
+      three_d_secure_usage: optional<_InlinedType997>
+
+  _InlinedType999:
+    properties:
+      id: optional<string>
+      object: optional<string>
+      billing_details: optional<_InlinedType994>
+      card: optional<_InlinedType998>
+      created: optional<double>
+      customer: optional<string>
+      livemode: optional<boolean>
+      type: optional<string>
+
+  _InlinedType1000:
+    properties:
+      charge: optional<string>
+      code: optional<string>
+      decline_code: optional<string>
+      doc_url: optional<string>
+      message: optional<string>
+      payment_intent: optional<_InlinedType992>
+      payment_method: optional<_InlinedType999>
+      type: optional<string>
+      statusCode: optional<double>
+      requestId: optional<string>
+
+  _InlinedType1001:
+    properties:
+      createdAt: optional<string>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      status: optional<string>
+      error: optional<string>
+      payload: optional<_InlinedType1000>
+
+  _InlinedType1002:
+    properties:
+      authenticationRequiredData: optional<_InlinedType975>
+      paymentMethodStatus: optional<string>
+      isAuthorizationHold: optional<boolean>
+      status: optional<string>
+      refunds: optional<list<unknown>>
+      authorizationHoldCaptures: optional<list<unknown>>
+      createdAt: optional<string>
+      attempts: optional<list<_InlinedType1001>>
+      receiptTargets: optional<list<unknown>>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      amount: optional<double>
+      shouldBePaidAt: optional<string>
+      paymentMethodId:
+        docs: Unique Id
+        type: optional<string>
+      guestId:
+        docs: Unique Id
+        type: optional<string>
+      currency: optional<string>
+
+  _InlinedType1003:
+    properties:
+      altered: optional<boolean>
+      invoiceItems: optional<list<_InlinedType974>>
+      payments: optional<list<_InlinedType1002>>
+      autoPaymentsPolicy: optional<list<unknown>>
+      currency: optional<string>
+      paymentProviderIds: optional<list<unknown>>
+      fareAccommodationAdjustment: optional<double>
+      fareAccommodationDiscount: optional<double>
+      fareAccommodation: optional<double>
+      fareAccommodationAdjusted: optional<double>
+      fareCleaning: optional<double>
+      hostServiceFee: optional<double>
+      hostServiceFeeTax: optional<double>
+      hostServiceFeeIncTax: optional<double>
+      subTotalPrice: optional<double>
+      hostPayout: optional<double>
+      hostPayoutUsd: optional<double>
+      totalTaxes: optional<double>
+      totalRefunded: optional<double>
+      totalPaid: optional<double>
+      paymentsDue: optional<double>
+      balanceDue: optional<double>
+      isFullyPaid: optional<boolean>
+      useAccountRevenueShare: optional<boolean>
+      netIncomeFormula: optional<string>
+      netIncome: optional<double>
+      commissionFormula: optional<string>
+      commission: optional<double>
+      commissionTaxPercentage: optional<double>
+      commissionTax: optional<double>
+      commissionIncTax: optional<double>
+      ownerRevenueFormula: optional<string>
+      ownerRevenue: optional<double>
+      currencyConversionRateToAccount: optional<double>
+      isTouchedPayments: optional<boolean>
+
+  _InlinedType1004:
+    properties:
+      assigned: optional<boolean>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType1005:
+    properties:
+      automationSources: optional<list<unknown>>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      isPercentage: optional<boolean>
+      isAutomated: optional<boolean>
+      name: optional<string>
+      type: optional<string>
+      value: optional<double>
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      multiplier: optional<string>
+      targetFee: optional<string>
+
+  _InlinedType1006:
+    properties:
+      integration: optional<_InlinedType968>
+      guestyFeeDetails: optional<_InlinedType969>
+      review: optional<_InlinedType970>
+      atTimeOfConfirmation: optional<_InlinedType973>
+      flag: optional<boolean>
+      accountingEnabled: optional<boolean>
+      isBMApplied: optional<boolean>
+      confirmedPreBookings: optional<list<unknown>>
+      pulledByDailySync: optional<boolean>
+      manuallyCreated: optional<boolean>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      status: optional<string>
+      checkIn: optional<string>
+      checkOut: optional<string>
+      nightsCount: optional<double>
+      guestsCount: optional<double>
+      money: optional<_InlinedType1003>
+      listingId:
+        docs: Unique Id
+        type: optional<string>
+      checkInDateLocalized: optional<string>
+      checkOutDateLocalized: optional<string>
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      guestId:
+        docs: Unique Id
+        type: optional<string>
+      source: optional<string>
+      confirmationCode: optional<string>
+      mtl: optional<_InlinedType1004>
+      isReturningGuest: optional<boolean>
+      confirmedAt: optional<string>
+      importedAt: optional<string>
+      additionalFeesAtCreation: optional<list<_InlinedType1005>>
+      createdAt: optional<string>
+      pendingTasks: optional<list<unknown>>
+      customFields: optional<list<unknown>>
+      lastUpdatedAt: optional<string>
+      __v: optional<double>
+      conversationId:
+        docs: Unique Id
+        type: optional<string>
+      id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType1007:
+    properties:
+      code: optional<string>
+      expiresAt: optional<integer>
+      accessToken: optional<string>
+      refreshToken: optional<string>
+      lastForceRefresh:
+        docs: date
+        type: optional<string>
+
+  _InlinedType1008:
+    properties:
+      all: optional<boolean>
+      emails: optional<list<string>>
+
+  _InlinedType1009:
+    docs: Only if platform is airbnb
+    properties:
+      credentials: optional<_InlinedType1007>
+      forwardEmails: optional<_InlinedType1008>
+      createdAt:
+        docs: date
+        type: optional<string>
+
+  _InlinedType1010:
+    properties:
+      all: optional<boolean>
+      emails: optional<list<string>>
+
+  _InlinedType1011:
+    enum:
+      - NOT_STARTED
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+      - TIMEOUT
+
+  _InlinedType1012:
+    properties:
+      fetchAllListings: optional<boolean>
+      externalListingIds: optional<list<string>>
+      status: optional<_InlinedType1011>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+      finishedTime:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType1013:
+    enum:
+      - NOT_CONNECTED
+      - CONNECTING
+      - CONNECTED
+      - FAILED
+      - TIMEOUT
+      - DISCONNECTED
+      - PENDING
+
+  _InlinedType1014:
+    enum:
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+
+  _InlinedType1015:
+    enum:
+      - GUESTY
+      - AIRBNB
+
+  _InlinedType1016:
+    properties:
+      at:
+        docs: Date
+        type: optional<string>
+      code: optional<string>
+      message: optional<string>
+      raw: optional<map<string, unknown>>
+
+  _InlinedType1017:
+    properties:
+      status: optional<_InlinedType1014>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+      finishedTime:
+        docs: Date
+        type: optional<string>
+      steps: optional<list<map<string, unknown>>>
+      discrepancyStepExecuted: optional<boolean>
+      discrepancyResolution: optional<_InlinedType1015>
+      listingQuantityDiscrepancyStepExecuted: optional<boolean>
+      error: optional<_InlinedType1016>
+      notes: optional<string>
+      isRollingBack: optional<boolean>
+
+  _InlinedType1018:
+    docs: BookingCom details
+    properties:
+      legalEntityId: optional<string>
+
+  _InlinedType1019:
+    enum:
+      - COMPLETED
+      - IN_PROGRESS
+
+  _InlinedType1020:
+    properties:
+      type: optional<string>
+      status: optional<_InlinedType1019>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType1021:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      airbnb2:
+        docs: Only if platform is airbnb
+        type: optional<_InlinedType1009>
+      forwardEmails: optional<_InlinedType1010>
+      active:
+        docs: Status of connection
+        type: optional<boolean>
+      platform: optional<string>
+      listings: optional<list<map<string, unknown>>>
+      complexes: optional<list<map<string, unknown>>>
+      nickname: optional<string>
+      channelId: optional<string>
+      activatedAt:
+        docs: Date
+        type: optional<string>
+      disconnectedAt:
+        docs: Date
+        type: optional<string>
+      proxyEmail: optional<string>
+      incomingEmail: optional<string>
+      externalAccountId: optional<string>
+      id:
+        docs: External ID
+        type: optional<integer>
+      companyName: optional<string>
+      fetchRequests: optional<list<_InlinedType1012>>
+      status: optional<_InlinedType1013>
+      migration: optional<_InlinedType1017>
+      userId: optional<string>
+      accountId:
+        docs: Owner
+        type: optional<string>
+      tripAdvisor:
+        docs: TripAdvisor details
+        type: optional<map<string, unknown>>
+      homeaway2:
+        docs: Homeaway details
+        type: optional<map<string, unknown>>
+      bookingCom:
+        docs: BookingCom details
+        type: optional<_InlinedType1018>
+      createdAt:
+        docs: Date
+        type: optional<string>
+      missingStep: optional<string>
+      steps: optional<list<_InlinedType1020>>
+      newIntegrationBackup: optional<map<string, unknown>>
+      threadIdsMigrated: optional<boolean>
+      isDeleted: optional<boolean>
+      deletedAt:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType1022:
+    properties:
+      full:
+        docs: full address
+        type: optional<string>
+      lng: optional<double>
+      lat: optional<double>
+      street: optional<string>
+      city: optional<string>
+      country: optional<string>
+
+  _InlinedType1023:
+    properties:
+      full:
+        docs: full address
+        type: optional<string>
+      lng: optional<double>
+      lat: optional<double>
+      street: optional<string>
+      city: optional<string>
+      country: optional<string>
+
+  _InlinedType1024:
+    properties:
+      defaultCleaningTime: optional<string>
+      instructions: optional<string>
+
+  _InlinedType1025:
+    enum:
+      - clean
+      - waitingForInspection
+      - dirty
+      - unknown
+
+  _InlinedType1026:
+    properties:
+      value: optional<_InlinedType1025>
+      updatedAt: optional<string>
+
+  _InlinedType1027:
+    properties:
+      regular: optional<string>
+      thumbnail: optional<string>
+      large: optional<string>
+      caption: optional<string>
+      height: optional<double>
+      original: optional<string>
+      size: optional<double>
+      width: optional<double>
+
+  _InlinedType1028:
+    properties:
+      regular: optional<string>
+      thumbnail: optional<string>
+      large: optional<string>
+      caption: optional<string>
+      height: optional<double>
+      original: optional<string>
+      size: optional<double>
+      width: optional<double>
+
+  _InlinedType1029:
+    properties:
+      minNights: optional<double>
+      maxNights: optional<double>
+      cancellation: optional<string>
+
+  _InlinedType1030:
+    properties:
+      guestsIncludedInRegularFee: optional<double>
+      extraPersonFee: optional<double>
+      basePrice: optional<double>
+      basePriceUSD: optional<double>
+      monthlyPriceFactor: optional<double>
+      weeklyPriceFactor: optional<double>
+      weeendBasePrice: optional<double>
+      securityDepositFee: optional<double>
+      currency: optional<string>
+      cleaningFee: optional<double>
+
+  _InlinedType1031:
+    properties:
+      active: optional<boolean>
+      config: optional<list<string>>
+
+  _InlinedType1032:
+    properties:
+      autoList: optional<_InlinedType1031>
+
+  _InlinedType1033:
+    properties:
+      customSignature: optional<string>
+
+  _InlinedType1034:
+    enum:
+      - clean
+      - waitingForInspection
+      - dirty
+      - unknown
+
+  _InlinedType1035:
+    properties:
+      value: optional<_InlinedType1034>
+      updatedAt: optional<string>
+
+  _InlinedType1036:
+    properties:
+      id: optional<string>
+      livemode: optional<boolean>
+      token_type: optional<string>
+      stripe_publishable_key: optional<string>
+      stripe_user_id: optional<string>
+      scope: optional<string>
+
+  _InlinedType1037:
+    properties:
+      active: optional<boolean>
+      status: optional<string>
+      accountName: optional<string>
+      defaultCurrency: optional<string>
+      syncedAt: optional<string>
+      payload: optional<_InlinedType1036>
+
+  _InlinedType1038:
+    properties:
+      stripe: optional<_InlinedType1037>
+
+  _InlinedType1039:
+    properties:
+      active: optional<boolean>
+      paymentProviders: optional<_InlinedType1038>
+
+  _InlinedType1040:
+    properties:
+      policy: optional<list<unknown>>
+
+  _InlinedType1041:
+    properties:
+      active: optional<boolean>
+      automation: optional<_InlinedType1032>
+      inbox: optional<_InlinedType1033>
+      cleaningStatus: optional<_InlinedType1035>
+      paymentProcessing: optional<_InlinedType1039>
+      autoPayments: optional<_InlinedType1040>
+
+  _InlinedType1042:
+    properties:
+      ittt: optional<list<unknown>>
+
+  _InlinedType1043:
+    properties:
+      checklist: optional<list<unknown>>
+
+  _InlinedType1044:
+    properties:
+      receptionDesk: optional<_InlinedType1042>
+      screening: optional<_InlinedType1043>
+      contactPersonUserId: optional<string>
+
+  _InlinedType1045:
+    properties:
+      _id:
+        docs: String (ObjectId)
+        type: optional<string>
+      accountId:
+        docs: String (ObjectId)
+        type: optional<string>
+      createdAt: optional<string>
+      integrations: optional<list<_InlinedType1021>>
+      isVirtual: optional<boolean>
+      nickname: optional<string>
+      tags: optional<list<string>>
+      isListed: optional<boolean>
+      title: optional<string>
+      propertyType: optional<string>
+      roomType: optional<string>
+      bedType: optional<string>
+      accommodates: optional<double>
+      bedrooms: optional<double>
+      areaSquareFeet: optional<double>
+      address: optional<_InlinedType1022>
+      publishedAddress: optional<_InlinedType1023>
+      timezone: optional<string>
+      defaultCheckInTime: optional<string>
+      defaultCheckOutTime: optional<string>
+      cleaning: optional<_InlinedType1024>
+      cleaningStatus: optional<_InlinedType1026>
+      picture: optional<_InlinedType1027>
+      pictures: optional<list<_InlinedType1028>>
+      amenities: optional<list<string>>
+      amenitiesNotIncluded: optional<list<string>>
+      terms: optional<_InlinedType1029>
+      prices: optional<_InlinedType1030>
+      netIncomeFormula: optional<string>
+      commissionFormula: optional<string>
+      commissionTaxPrecentage: optional<string>
+      pms: optional<_InlinedType1041>
+      receptionistsService: optional<_InlinedType1044>
+      active: optional<boolean>
+      customFields: optional<map<string, unknown>>
+      calendarRules: optional<map<string, unknown>>
+      publicDescription: optional<map<string, unknown>>
+      privateDescription: optional<map<string, unknown>>
+      markups: optional<map<string, unknown>>
+
+  _InlinedType1046:
+    properties:
+      bookedNights: optional<boolean>
+      revenue: optional<boolean>
+
+  _InlinedType1047:
+    properties:
+      expiresAt: optional<string>
+      hash: optional<string>
+
+  _InlinedType1048:
+    properties:
+      locale: optional<string>
+      email: optional<string>
+      fullName: optional<string>
+      listings: optional<list<unknown>>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      active: optional<boolean>
+      allowReservations: optional<boolean>
+      showReservationTooltips: optional<boolean>
+      workingCapital: optional<double>
+      firstName: optional<string>
+      lastName: optional<string>
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      createdAt: optional<string>
+      ownersPortalSettings: optional<_InlinedType1046>
+      forgotPassword: optional<_InlinedType1047>
+      __v: optional<double>
+
+  _InlinedType1049:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      status: optional<string>
+      source: optional<string>
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      listingId:
+        docs: Unique Id
+        type: optional<string>
+      checkIn: optional<string>
+      checkOut: optional<string>
+      note: optional<string>
+      __v: optional<double>
+      createdAt: optional<string>
+      checkInDateLocalized: optional<string>
+      checkOutDateLocalized: optional<string>
+      plannedDeparture: optional<string>
+      plannedArrival: optional<string>
+      lastUpdatedAt: optional<string>
+      listing: optional<_InlinedType1045>
+      ownerId: optional<_InlinedType1048>
+      nightsCount: optional<double>
+      id: optional<string>
+
+  _InlinedType1050:
+    properties:
+      reservations: optional<list<unknown>>
+
+  _InlinedType1051:
+    properties:
+      id: optional<string>
+      createdAt: optional<string>
+      module: optional<string>
+      type: optional<string>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      body: optional<string>
+      attachments: optional<list<unknown>>
+
+  _InlinedType1052:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      ownerId:
+        docs: Unique Id
+        type: optional<string>
+      OwnerReservationId:
+        docs: Unique Id
+        type: optional<string>
+      id: optional<string>
+      lastModifiedAt: optional<string>
+      lastUpdatedAt: optional<string>
+      lastUpdatedFromGuest: optional<string>
+      subject: optional<string>
+      snoozedUntil: optional<string>
+      isRead: optional<boolean>
+      language: optional<string>
+      priority: optional<double>
+      conversationWith: optional<string>
+      readlog: optional<list<unknown>>
+      pendingTask: optional<list<unknown>>
+      __v: optional<double>
+      meta: optional<_InlinedType1050>
+      thread: optional<list<_InlinedType1051>>
+
+  _InlinedType1053:
+    properties:
+      ownerReservation: optional<_InlinedType1049>
+      conversation: optional<_InlinedType1052>

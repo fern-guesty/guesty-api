@@ -1,0 +1,223 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: ""
+  endpoints:
+    reservationsControllerFolioBalances:
+      path: /accounting-api/reservations/{id}/balance
+      method: GET
+      docs: |2-
+                Get folio balances by reservation ID.
+                For each reservation get the accounting folio balances per ledger.
+                Balances represent current and future entries.
+      display-name: Get folio balances
+      path-parameters:
+        id:
+          docs: Reservation ID
+          type: string
+      response: _InlinedType1085
+
+    journalEntriesControllerList:
+      path: /accounting-api/journal-entries
+      method: GET
+      docs: Get journal entries
+      display-name: Get journal entries
+      request:
+        query-parameters:
+          name:
+            docs: >-
+              Filter list by journal entries name, it will search by matching
+              strings from filter input
+            type: optional<string>
+          description:
+            docs: >-
+              Filter list by journal entries description, it will search by
+              matching strings from filter input
+            type: optional<string>
+          skip:
+            docs: Pagination skip value
+            type: optional<double>
+          limit:
+            docs: Pagination limit value
+            type: optional<double>
+          sortByDate:
+            docs: >-
+              Sort by date. For ascending order use 'ASC' value, for descending
+              - 'DESC'
+            type: optional<_InlinedType1090>
+      response: _InlinedType1106
+
+    assignListingControllerUpdate:
+      path: /business-models-api/assignment/{businessModelId}
+      method: PUT
+      docs: Assign provided listings to appropriate Business model
+      display-name: Assign listings to Business Models
+      path-parameters:
+        businessModelId:
+          docs: Business Model ID that provided listings will be assigned to
+          type: string
+      request:
+        body:
+          properties:
+            fromDate:
+              docs: >-
+                Optional, date that the Business Model will reprocess
+                reservations from. Not filling this field will update the
+                Business Model from now on without reprocess
+              type: optional<string>
+            listingIds:
+              docs: List of listingIds that should be assigned exactly to 1 owner
+              type: list<string>
+      response: _InlinedType1107
+
+    businessModelsOaControllerIndex:
+      path: /business-models-api/light-business-models
+      method: GET
+      docs: Get list of Business Models by accountId
+      display-name: Get Business Models
+      request:
+        query-parameters:
+          skip:
+            docs: >-
+              Skip number of records. In case nothing provided so nothing will
+              be skipped
+            type: optional<double>
+          limit:
+            docs: >-
+              Limit for list of records. In case nothing provided all the
+              records will be returned
+            type: optional<double>
+      response: _InlinedType1109
+
+types:
+  _InlinedType1084:
+    properties:
+      name: string
+      balance: double
+
+  _InlinedType1085:
+    properties:
+      currency: string
+      balance: double
+      ledgers: list<_InlinedType1084>
+
+  _InlinedType1091:
+    enum:
+      - ASC
+      - DESC
+
+  _InlinedType1092:
+    properties:
+      id: string
+      name: string
+
+  _InlinedType1093:
+    extends:
+      - _InlinedType1092
+
+  _InlinedType1094:
+    properties:
+      id: string
+      name: string
+
+  _InlinedType1095:
+    extends:
+      - _InlinedType1094
+
+  _InlinedType1096:
+    properties:
+      id: string
+      name: string
+
+  _InlinedType1097:
+    extends:
+      - _InlinedType1096
+
+  _InlinedType1098:
+    properties:
+      value: double
+      currency: string
+
+  _InlinedType1099:
+    extends:
+      - _InlinedType1098
+
+  _InlinedType1100:
+    properties:
+      href: string
+      title: string
+      target: string
+
+  _InlinedType1101:
+    extends:
+      - _InlinedType1100
+
+  _InlinedType1102:
+    properties:
+      href: string
+      title: string
+      target: string
+
+  _InlinedType1103:
+    extends:
+      - _InlinedType1102
+
+  _InlinedType1104:
+    properties:
+      id: double
+      url: string
+      urlThumbnail: string
+      uploadedBy: string
+      uploadedAt: double
+      originalFilename: string
+      originalExtension: string
+
+  _InlinedType1105:
+    properties:
+      id: double
+      transactionId: double
+      date: string
+      description: string
+      ledger: string
+      guest: _InlinedType1093
+      vendor: _InlinedType1095
+      owner: _InlinedType1097
+      amount: _InlinedType1099
+      name: string
+      listing: _InlinedType1101
+      chargeType: string
+      reservationConfirmationCode: _InlinedType1103
+      paymentConfirmationCode: string
+      chargeCode: string
+      trigger: string
+      attachments: list<_InlinedType1104>
+
+  _InlinedType1106:
+    properties:
+      skip: double
+      limit: double
+      current: double
+      total: double
+      data: list<_InlinedType1105>
+
+  _InlinedType1107:
+    properties:
+      message: string
+
+  _InlinedType1108:
+    properties:
+      id: string
+      type: string
+      listingsCount: double
+      name: string
+      modifier: string
+      activationDate: string
+      createdAt: string
+
+  _InlinedType1109:
+    properties:
+      skip: double
+      limit: double
+      count: double
+      list: list<_InlinedType1108>

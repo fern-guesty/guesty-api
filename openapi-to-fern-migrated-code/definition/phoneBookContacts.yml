@@ -1,0 +1,309 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: /contacts
+  endpoints:
+    "":
+      path: ""
+      method: GET
+      docs: List all phone book contacts
+      display-name: List all phone book contacts
+      request:
+        query-parameters:
+          q:
+            docs: Search query string. Searches in fullName, emails, phones
+            type: optional<string>
+          fields:
+            docs: >-
+              Selection of fields, separated by space. If fields not be chosen
+              response will be return with all fields. The selected fields from
+              the users table will be returned inside the response
+            type: optional<string>
+          ids:
+            docs: Limit results to these ids, comma separated string
+            type: optional<string>
+          limit:
+            docs: "Pagination limit, max: 100"
+            type: optional<double>
+          skip:
+            docs: Pagination skip
+            type: optional<double>
+      response: _InlinedType1059
+
+    _unnamedOperation74:
+      path: ""
+      method: POST
+      display-name: Create a phone book contact
+      request:
+        body:
+          properties:
+            firstName: optional<string>
+            lastName: optional<string>
+            fullName: optional<string>
+            nickName: optional<string>
+            title: optional<string>
+            company: optional<string>
+            picture: optional<_InlinedType1060>
+            emails: optional<list<string>>
+            phones: optional<list<string>>
+            preferredContactMethod: optional<_InlinedType1061>
+            email:
+              docs: Primary email for the contact
+              type: optional<string>
+            phone:
+              docs: Primary phone for the contact
+              type: optional<string>
+            notes:
+              docs: Notes about the user
+              type: optional<string>
+      response: _InlinedType1067
+
+    _unnamedOperation75:
+      path: /{id}
+      method: GET
+      docs: Get a specific phone book contact
+      display-name: Get a specific phone book contact
+      path-parameters:
+        id:
+          docs: Contact id
+          type: string
+      request:
+        query-parameters:
+          fields:
+            docs: >-
+              Selection of fields, separated by space. If fields not be chosen
+              response will be return with all fields. The selected fields from
+              the users table will be returned inside the response
+            type: optional<string>
+      response: _InlinedType1073
+
+    _unnamedOperation76:
+      path: /{id}
+      method: PUT
+      docs: >-
+        Retrieve the updated contact, selection of fields that were sent in
+        body.
+      display-name: Update a phone book contact
+      path-parameters:
+        id:
+          docs: Contact ID
+          type: string
+      request:
+        body:
+          extends:
+            - _InlinedType1074
+            - _InlinedType1075
+      response: _InlinedType1083
+
+    _unnamedOperation77:
+      path: /{id}
+      method: DELETE
+      docs: Delete a phone book contact
+      display-name: Delete a phone book contact
+      path-parameters:
+        id:
+          docs: Contact ID
+          type: string
+
+types:
+  _InlinedType1054:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType1055:
+    properties:
+      firstName: optional<string>
+      lastName: optional<string>
+      fullName: optional<string>
+      nickName: optional<string>
+      title: optional<string>
+      company: optional<string>
+      picture: optional<_InlinedType1056>
+      emails: optional<list<string>>
+      phones: optional<list<string>>
+      preferredContactMethod: optional<_InlinedType1057>
+      email:
+        docs: Primary email for the contact
+        type: optional<string>
+      phone:
+        docs: Primary phone for the contact
+        type: optional<string>
+      notes:
+        docs: Notes about the user
+        type: optional<string>
+
+  _InlinedType1058:
+    extends:
+      - _InlinedType1054
+      - _InlinedType1055
+
+  _InlinedType1059:
+    properties:
+      results: optional<list<_InlinedType1058>>
+      count: optional<double>
+      fields: optional<string>
+      limit: optional<double>
+      skip: optional<double>
+
+  _InlinedType1060:
+    properties:
+      thumbnail: optional<string>
+      regular: optional<string>
+      large: optional<string>
+
+  _InlinedType1061:
+    enum:
+      - email
+      - sms
+      - call
+
+  _InlinedType1062:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType1063:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType1064:
+    properties:
+      firstName: optional<string>
+      lastName: optional<string>
+      fullName: optional<string>
+      nickName: optional<string>
+      title: optional<string>
+      company: optional<string>
+      picture: optional<_InlinedType1065>
+      emails: optional<list<string>>
+      phones: optional<list<string>>
+      preferredContactMethod: optional<_InlinedType1066>
+      email:
+        docs: Primary email for the contact
+        type: optional<string>
+      phone:
+        docs: Primary phone for the contact
+        type: optional<string>
+      notes:
+        docs: Notes about the user
+        type: optional<string>
+
+  _InlinedType1067:
+    extends:
+      - _InlinedType1062
+      - _InlinedType1063
+      - _InlinedType1064
+
+  _InlinedType1068:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType1069:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType1070:
+    properties:
+      firstName: optional<string>
+      lastName: optional<string>
+      fullName: optional<string>
+      nickName: optional<string>
+      title: optional<string>
+      company: optional<string>
+      picture: optional<_InlinedType1071>
+      emails: optional<list<string>>
+      phones: optional<list<string>>
+      preferredContactMethod: optional<_InlinedType1072>
+      email:
+        docs: Primary email for the contact
+        type: optional<string>
+      phone:
+        docs: Primary phone for the contact
+        type: optional<string>
+      notes:
+        docs: Notes about the user
+        type: optional<string>
+
+  _InlinedType1073:
+    extends:
+      - _InlinedType1068
+      - _InlinedType1069
+      - _InlinedType1070
+
+  _InlinedType1074:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType1075:
+    properties:
+      firstName: optional<string>
+      lastName: optional<string>
+      fullName: optional<string>
+      nickName: optional<string>
+      title: optional<string>
+      company: optional<string>
+      picture: optional<_InlinedType1076>
+      emails: optional<list<string>>
+      phones: optional<list<string>>
+      preferredContactMethod: optional<_InlinedType1077>
+      email:
+        docs: Primary email for the contact
+        type: optional<string>
+      phone:
+        docs: Primary phone for the contact
+        type: optional<string>
+      notes:
+        docs: Notes about the user
+        type: optional<string>
+
+  _InlinedType1078:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType1079:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType1080:
+    properties:
+      firstName: optional<string>
+      lastName: optional<string>
+      fullName: optional<string>
+      nickName: optional<string>
+      title: optional<string>
+      company: optional<string>
+      picture: optional<_InlinedType1081>
+      emails: optional<list<string>>
+      phones: optional<list<string>>
+      preferredContactMethod: optional<_InlinedType1082>
+      email:
+        docs: Primary email for the contact
+        type: optional<string>
+      phone:
+        docs: Primary phone for the contact
+        type: optional<string>
+      notes:
+        docs: Notes about the user
+        type: optional<string>
+
+  _InlinedType1083:
+    extends:
+      - _InlinedType1078
+      - _InlinedType1079
+      - _InlinedType1080

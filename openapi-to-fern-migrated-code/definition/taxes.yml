@@ -1,0 +1,746 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: /taxes
+  endpoints:
+    taxesControllerCreateTax:
+      path: ""
+      method: POST
+      docs: Create tax configuration with the provided settings.
+      display-name: Create tax
+      request:
+        body:
+          properties:
+            unitTypeId:
+              docs: |-
+                1. The unit (listing) id on which the new tax will apply.
+                2. To apply the tax on account level, leave this field empty.
+              type: optional<string>
+            type:
+              docs: >-
+                1. The tax type.
+                2. Each tax type can only be defined once on account/listing
+                level.
+              type: _InlinedType1163
+            units:
+              docs: >-
+                Determines whether the tax amount should be treated as a fixed
+                or percentage value
+              type: _InlinedType1164
+            amount:
+              docs: >-
+                1. the amount of the tax, could be a fixed value or percentage
+                whether units is 'FIXED' or 'PERCENTAGE' respectively.
+                 2. when 'FIXED' then 'amount' has to be greater then 0
+                 3. when 'PERCENTAGE' then 'amount' has to be greater then 0 and smaller or equal to 100
+              type: double
+            quantifier:
+              docs: Determines by what factor the tax amount will be multiplied
+              type: _InlinedType1165
+            name:
+              docs: The internal name for the tax
+              type: optional<string>
+            appliedToAllFees:
+              docs: >-
+                1. Relevant only when the units equals 'PERCENTAGE'
+                2. When equals 'true', then the tax will be calculated on all
+                fees and 'appliedOnFees' must contain all values
+              type: optional<boolean>
+            appliedOnFees:
+              docs: |-
+                1. Relevant only when the unit equals 'PERCENTAGE'
+                  2. This defines the fees on which the tax will be calculated
+              type: optional<list<string>>
+            isAppliedByDefault:
+              docs: >-
+                1. When set to 'true' and 'appliedByDefaultOnChannels' is not
+                empty, then Guesty will prededuct the tax from the accommodation
+                fare.
+                 2. can not be 'true' when 'appliedByDefaultOnChannels' is empty
+              type: optional<boolean>
+            appliedByDefaultOnChannels:
+              docs: >-
+                1. When contains values and 'isAppliedByDefault' is set to
+                'true', then Guesty will prededuct the tax from the
+                accommodation fare.
+                 2. can not contain elements when 'isAppliedByDefault' is 'false'
+                 3. currently, only supported for reservations received from source Airbnb
+              type: optional<list<_InlinedType1166>>
+            conditionalOverrides:
+              docs: Set additional conditions for this tax
+              type: optional<_InlinedType1173>
+
+    taxesControllerDeleteTax:
+      path: /{id}
+      method: DELETE
+      docs: Delete tax by id.
+      display-name: Delete tax
+      path-parameters:
+        id:
+          docs: The tax id
+          type: string
+
+    taxesControllerUpdateTax:
+      path: /{id}
+      method: PATCH
+      docs: Update tax by id.
+      display-name: Update tax
+      path-parameters:
+        id:
+          docs: The tax id
+          type: string
+      request:
+        body:
+          properties:
+            type:
+              docs: >-
+                1. The tax type.
+                2. Each tax type can only be defined once on account/listing
+                level.
+              type: optional<_InlinedType1174>
+            units:
+              docs: >-
+                Determines whether the tax amount should be treated as a fixed
+                or percentage value
+              type: optional<_InlinedType1175>
+            amount:
+              docs: >-
+                1. the amount of the tax, could be a fixed value or percentage
+                whether units is 'FIXED' or 'PERCENTAGE' respectively.
+                 2. when 'FIXED' then 'amount' has to be greater then 0
+                 3. when 'PERCENTAGE' then 'amount' has to be greater then 0 and smaller or equal to 100
+              type: optional<double>
+            quantifier:
+              docs: Determines by what factor the tax amount will be multiplied
+              type: optional<_InlinedType1176>
+            name:
+              docs: The internal name for the tax
+              type: optional<string>
+            appliedToAllFees:
+              docs: >-
+                1. Relevant only when the units equals 'PERCENTAGE'
+                2. When equals 'true', then the tax will be calculated on all
+                fees and 'appliedOnFees' must contain all values
+              type: optional<boolean>
+            appliedOnFees:
+              docs: |-
+                1. Relevant only when the unit equals 'PERCENTAGE'
+                  2. This defines the fees on which the tax will be calculated
+              type: optional<list<string>>
+            isAppliedByDefault:
+              docs: >-
+                1. When set to 'true' and 'appliedByDefaultOnChannels' is not
+                empty, then Guesty will prededuct the tax from the accommodation
+                fare.
+                 2. can not be 'true' when 'appliedByDefaultOnChannels' is empty
+              type: optional<boolean>
+            appliedByDefaultOnChannels:
+              docs: >-
+                1. When contains values and 'isAppliedByDefault' is set to
+                'true', then Guesty will prededuct the tax from the
+                accommodation fare.
+                 2. can not contain elements when 'isAppliedByDefault' is 'false'
+                 3. currently, only supported for reservations received from source Airbnb
+              type: optional<list<_InlinedType1177>>
+            conditionalOverrides:
+              docs: Set additional conditions for this tax
+              type: optional<_InlinedType1184>
+      response: _InlinedType1194
+
+    taxesControllerGetAccountLevelTaxes:
+      path: /account
+      method: GET
+      docs: Get account level taxes
+      display-name: Get account level taxes
+      response: list<_InlinedType1204>
+
+    taxesControllerGetUnitTypeLevelTaxes:
+      path: /unit-type/{id}
+      method: GET
+      docs: Get unit type (parent unit) level taxes
+      display-name: Get unit type (parent unit) level taxes
+      path-parameters:
+        id:
+          docs: The unit type id
+          type: string
+      response: list<_InlinedType1214>
+
+    taxesControllerGetUnitTypeActualTaxes:
+      path: /unit-type/{id}/actual
+      method: GET
+      docs: Get actual taxes of unit type (parent unit level)
+      display-name: Get actual taxes of unit type (parent unit level)
+      path-parameters:
+        id:
+          docs: The unit type id
+          type: string
+      response: list<_InlinedType1224>
+
+    taxesLevelConfigurationsControllerUpsertTaxesLevelConfigurations:
+      path: /level-configurations
+      method: PUT
+      docs: >-
+        Use to define on which level the taxes are defined for a specific unit
+        type.
+      display-name: Create or update tax level configuration
+      request:
+        body:
+          properties:
+            unitTypeId:
+              docs: 1. The unit (listing) id
+              type: string
+            levelEntityType:
+              docs: >-
+                Sets from what entity will the taxes for reservations made on
+                the unitType will be taken from
+              type: _InlinedType1225
+      response: _InlinedType1227
+
+    taxesLevelConfigurationsControllerGetUnitTypeTaxesLevelConfigurations:
+      path: /level-configurations/unit-type/{id}
+      method: GET
+      docs: Get tax level configuration
+      display-name: Get tax level configuration
+      path-parameters:
+        id:
+          docs: The unit type id
+          type: string
+      response: _InlinedType1229
+
+types:
+  _InlinedType1163:
+    docs: |-
+      1. The tax type.
+      2. Each tax type can only be defined once on account/listing level.
+    enum:
+      - LOCAL_TAX
+      - CITY_TAX
+      - VAT
+      - GOODS_AND_SERVICES_TAX
+      - TOURISM_TAX
+      - OTHER
+      - STATE_TAX
+      - COUNTY_TAX
+      - OCCUPANCY_TAX
+      - TRANSIENT_OCCUPANCY_TAX
+      - HOME_SHARING_TAX
+      - HARMONIZED_SALES_TAX
+      - MINIMUM_ALTERNATE_TAX
+
+  _InlinedType1164:
+    docs: >-
+      Determines whether the tax amount should be treated as a fixed or
+      percentage value
+    enum:
+      - PERCENTAGE
+      - FIXED
+
+  _InlinedType1165:
+    docs: Determines by what factor the tax amount will be multiplied
+    enum:
+      - PER_NIGHT
+      - PER_GUEST
+      - PER_GUEST_PER_NIGHT
+      - PER_STAY
+
+  _InlinedType1166:
+    enum:
+      - manual
+      - airbnb
+      - airbnb2
+      - rentalsUnited
+      - bookingCom
+      - expedia
+      - homeAway
+      - agoda
+      - tripAdvisor
+      - homeaway2
+      - siteMinder
+      - bookingPal
+
+  _InlinedType1167:
+    properties:
+      viewType:
+        docs: |-
+          1. The kind of conditions to set on the tax
+           2. When 'units' is 'FIXED' and 'quantifier' is 'guest'/'stay' then 'NiGHTS' and 'NIGHTS_IN_DATES' viewTypes are forbidden,
+           3. When 'units' is 'PERCENTAGE' then only 'LOS' viewType is allowed
+        type: _InlinedType1168
+      rules:
+        docs: |-
+          1. The dates and nights ranges that the tax condition will apply for.
+           2. When viewType is 'LOS' then rules is forbidden, else rules is required and can not be empty.
+        type: optional<list<_InlinedType1172>>
+      maxNightCountToApplyOn:
+        docs: >-
+          1. The tax will be applied for all reservation that has night count
+          smaller then 'maxNightCountToApplyOn'
+           2. Only when 'viewType' is 'LOS' then this field is allowed and required
+        type: optional<double>
+
+  _InlinedType1173:
+    docs: Set additional conditions for this tax
+    extends:
+      - _InlinedType1167
+
+  _InlinedType1174:
+    docs: |-
+      1. The tax type.
+      2. Each tax type can only be defined once on account/listing level.
+    enum:
+      - LOCAL_TAX
+      - CITY_TAX
+      - VAT
+      - GOODS_AND_SERVICES_TAX
+      - TOURISM_TAX
+      - OTHER
+      - STATE_TAX
+      - COUNTY_TAX
+      - OCCUPANCY_TAX
+      - TRANSIENT_OCCUPANCY_TAX
+      - HOME_SHARING_TAX
+      - HARMONIZED_SALES_TAX
+      - MINIMUM_ALTERNATE_TAX
+
+  _InlinedType1175:
+    docs: >-
+      Determines whether the tax amount should be treated as a fixed or
+      percentage value
+    enum:
+      - PERCENTAGE
+      - FIXED
+
+  _InlinedType1176:
+    docs: Determines by what factor the tax amount will be multiplied
+    enum:
+      - PER_NIGHT
+      - PER_GUEST
+      - PER_GUEST_PER_NIGHT
+      - PER_STAY
+
+  _InlinedType1177:
+    enum:
+      - manual
+      - airbnb
+      - airbnb2
+      - rentalsUnited
+      - bookingCom
+      - expedia
+      - homeAway
+      - agoda
+      - tripAdvisor
+      - homeaway2
+      - siteMinder
+      - bookingPal
+
+  _InlinedType1178:
+    properties:
+      viewType:
+        docs: |-
+          1. The kind of conditions to set on the tax
+           2. When 'units' is 'FIXED' and 'quantifier' is 'guest'/'stay' then 'NiGHTS' and 'NIGHTS_IN_DATES' viewTypes are forbidden,
+           3. When 'units' is 'PERCENTAGE' then only 'LOS' viewType is allowed
+        type: _InlinedType1179
+      rules:
+        docs: |-
+          1. The dates and nights ranges that the tax condition will apply for.
+           2. When viewType is 'LOS' then rules is forbidden, else rules is required and can not be empty.
+        type: optional<list<_InlinedType1183>>
+      maxNightCountToApplyOn:
+        docs: >-
+          1. The tax will be applied for all reservation that has night count
+          smaller then 'maxNightCountToApplyOn'
+           2. Only when 'viewType' is 'LOS' then this field is allowed and required
+        type: optional<double>
+
+  _InlinedType1184:
+    docs: Set additional conditions for this tax
+    extends:
+      - _InlinedType1178
+
+  _InlinedType1185:
+    enum:
+      - LOCAL_TAX
+      - CITY_TAX
+      - VAT
+      - GOODS_AND_SERVICES_TAX
+      - TOURISM_TAX
+      - OTHER
+      - STATE_TAX
+      - COUNTY_TAX
+      - OCCUPANCY_TAX
+      - TRANSIENT_OCCUPANCY_TAX
+      - HOME_SHARING_TAX
+      - HARMONIZED_SALES_TAX
+      - MINIMUM_ALTERNATE_TAX
+
+  _InlinedType1186:
+    enum:
+      - PERCENTAGE
+      - FIXED
+
+  _InlinedType1187:
+    enum:
+      - PER_NIGHT
+      - PER_GUEST
+      - PER_GUEST_PER_NIGHT
+      - PER_STAY
+
+  _InlinedType1188:
+    enum:
+      - manual
+      - airbnb
+      - airbnb2
+      - rentalsUnited
+      - bookingCom
+      - expedia
+      - homeAway
+      - agoda
+      - tripAdvisor
+      - homeaway2
+      - siteMinder
+      - bookingPal
+
+  _InlinedType1189:
+    enum:
+      - NIGHTS
+      - DATES
+      - NIGHTS_IN_DATES
+      - LOS
+
+  _InlinedType1190:
+    properties:
+      from: string
+      to: string
+
+  _InlinedType1191:
+    properties:
+      from: double
+      to: optional<double>
+      amount: double
+
+  _InlinedType1192:
+    properties:
+      dateRange: optional<_InlinedType1190>
+      nightRanges: list<_InlinedType1191>
+
+  _InlinedType1193:
+    properties:
+      viewType: _InlinedType1189
+      rules: optional<list<_InlinedType1192>>
+      maxNightCountToApplyOn: optional<double>
+
+  _InlinedType1194:
+    properties:
+      _id: map<string, unknown>
+      unitTypeId: optional<string>
+      accountId: string
+      type: _InlinedType1185
+      units: _InlinedType1186
+      quantifier: _InlinedType1187
+      appliedOnFees: list<string>
+      appliedByDefaultOnChannels: list<_InlinedType1188>
+      isDeleted: optional<boolean>
+      amount: double
+      name: optional<string>
+      appliedToAllFees: boolean
+      isAppliedByDefault: boolean
+      conditionalOverrides: optional<_InlinedType1193>
+
+  _InlinedType1195:
+    enum:
+      - LOCAL_TAX
+      - CITY_TAX
+      - VAT
+      - GOODS_AND_SERVICES_TAX
+      - TOURISM_TAX
+      - OTHER
+      - STATE_TAX
+      - COUNTY_TAX
+      - OCCUPANCY_TAX
+      - TRANSIENT_OCCUPANCY_TAX
+      - HOME_SHARING_TAX
+      - HARMONIZED_SALES_TAX
+      - MINIMUM_ALTERNATE_TAX
+
+  _InlinedType1196:
+    enum:
+      - PERCENTAGE
+      - FIXED
+
+  _InlinedType1197:
+    enum:
+      - PER_NIGHT
+      - PER_GUEST
+      - PER_GUEST_PER_NIGHT
+      - PER_STAY
+
+  _InlinedType1198:
+    enum:
+      - manual
+      - airbnb
+      - airbnb2
+      - rentalsUnited
+      - bookingCom
+      - expedia
+      - homeAway
+      - agoda
+      - tripAdvisor
+      - homeaway2
+      - siteMinder
+      - bookingPal
+
+  _InlinedType1199:
+    enum:
+      - NIGHTS
+      - DATES
+      - NIGHTS_IN_DATES
+      - LOS
+
+  _InlinedType1200:
+    properties:
+      from: string
+      to: string
+
+  _InlinedType1201:
+    properties:
+      from: double
+      to: optional<double>
+      amount: double
+
+  _InlinedType1202:
+    properties:
+      dateRange: optional<_InlinedType1200>
+      nightRanges: list<_InlinedType1201>
+
+  _InlinedType1203:
+    properties:
+      viewType: _InlinedType1199
+      rules: optional<list<_InlinedType1202>>
+      maxNightCountToApplyOn: optional<double>
+
+  _InlinedType1204:
+    properties:
+      _id: map<string, unknown>
+      unitTypeId: optional<string>
+      accountId: string
+      type: _InlinedType1195
+      units: _InlinedType1196
+      quantifier: _InlinedType1197
+      appliedOnFees: list<string>
+      appliedByDefaultOnChannels: list<_InlinedType1198>
+      isDeleted: optional<boolean>
+      amount: double
+      name: optional<string>
+      appliedToAllFees: boolean
+      isAppliedByDefault: boolean
+      conditionalOverrides: optional<_InlinedType1203>
+
+  _InlinedType1205:
+    enum:
+      - LOCAL_TAX
+      - CITY_TAX
+      - VAT
+      - GOODS_AND_SERVICES_TAX
+      - TOURISM_TAX
+      - OTHER
+      - STATE_TAX
+      - COUNTY_TAX
+      - OCCUPANCY_TAX
+      - TRANSIENT_OCCUPANCY_TAX
+      - HOME_SHARING_TAX
+      - HARMONIZED_SALES_TAX
+      - MINIMUM_ALTERNATE_TAX
+
+  _InlinedType1206:
+    enum:
+      - PERCENTAGE
+      - FIXED
+
+  _InlinedType1207:
+    enum:
+      - PER_NIGHT
+      - PER_GUEST
+      - PER_GUEST_PER_NIGHT
+      - PER_STAY
+
+  _InlinedType1208:
+    enum:
+      - manual
+      - airbnb
+      - airbnb2
+      - rentalsUnited
+      - bookingCom
+      - expedia
+      - homeAway
+      - agoda
+      - tripAdvisor
+      - homeaway2
+      - siteMinder
+      - bookingPal
+
+  _InlinedType1209:
+    enum:
+      - NIGHTS
+      - DATES
+      - NIGHTS_IN_DATES
+      - LOS
+
+  _InlinedType1210:
+    properties:
+      from: string
+      to: string
+
+  _InlinedType1211:
+    properties:
+      from: double
+      to: optional<double>
+      amount: double
+
+  _InlinedType1212:
+    properties:
+      dateRange: optional<_InlinedType1210>
+      nightRanges: list<_InlinedType1211>
+
+  _InlinedType1213:
+    properties:
+      viewType: _InlinedType1209
+      rules: optional<list<_InlinedType1212>>
+      maxNightCountToApplyOn: optional<double>
+
+  _InlinedType1214:
+    properties:
+      _id: map<string, unknown>
+      unitTypeId: optional<string>
+      accountId: string
+      type: _InlinedType1205
+      units: _InlinedType1206
+      quantifier: _InlinedType1207
+      appliedOnFees: list<string>
+      appliedByDefaultOnChannels: list<_InlinedType1208>
+      isDeleted: optional<boolean>
+      amount: double
+      name: optional<string>
+      appliedToAllFees: boolean
+      isAppliedByDefault: boolean
+      conditionalOverrides: optional<_InlinedType1213>
+
+  _InlinedType1215:
+    enum:
+      - LOCAL_TAX
+      - CITY_TAX
+      - VAT
+      - GOODS_AND_SERVICES_TAX
+      - TOURISM_TAX
+      - OTHER
+      - STATE_TAX
+      - COUNTY_TAX
+      - OCCUPANCY_TAX
+      - TRANSIENT_OCCUPANCY_TAX
+      - HOME_SHARING_TAX
+      - HARMONIZED_SALES_TAX
+      - MINIMUM_ALTERNATE_TAX
+
+  _InlinedType1216:
+    enum:
+      - PERCENTAGE
+      - FIXED
+
+  _InlinedType1217:
+    enum:
+      - PER_NIGHT
+      - PER_GUEST
+      - PER_GUEST_PER_NIGHT
+      - PER_STAY
+
+  _InlinedType1218:
+    enum:
+      - manual
+      - airbnb
+      - airbnb2
+      - rentalsUnited
+      - bookingCom
+      - expedia
+      - homeAway
+      - agoda
+      - tripAdvisor
+      - homeaway2
+      - siteMinder
+      - bookingPal
+
+  _InlinedType1219:
+    enum:
+      - NIGHTS
+      - DATES
+      - NIGHTS_IN_DATES
+      - LOS
+
+  _InlinedType1220:
+    properties:
+      from: string
+      to: string
+
+  _InlinedType1221:
+    properties:
+      from: double
+      to: optional<double>
+      amount: double
+
+  _InlinedType1222:
+    properties:
+      dateRange: optional<_InlinedType1220>
+      nightRanges: list<_InlinedType1221>
+
+  _InlinedType1223:
+    properties:
+      viewType: _InlinedType1219
+      rules: optional<list<_InlinedType1222>>
+      maxNightCountToApplyOn: optional<double>
+
+  _InlinedType1224:
+    properties:
+      _id: map<string, unknown>
+      unitTypeId: optional<string>
+      accountId: string
+      type: _InlinedType1215
+      units: _InlinedType1216
+      quantifier: _InlinedType1217
+      appliedOnFees: list<string>
+      appliedByDefaultOnChannels: list<_InlinedType1218>
+      isDeleted: optional<boolean>
+      amount: double
+      name: optional<string>
+      appliedToAllFees: boolean
+      isAppliedByDefault: boolean
+      conditionalOverrides: optional<_InlinedType1223>
+
+  _InlinedType1225:
+    docs: >-
+      Sets from what entity will the taxes for reservations made on the unitType
+      will be taken from
+    enum:
+      - ACCOUNT
+      - UNIT_TYPE
+
+  _InlinedType1226:
+    enum:
+      - ACCOUNT
+      - UNIT_TYPE
+
+  _InlinedType1227:
+    properties:
+      unitTypeId: string
+      accountId: string
+      levelEntityType: _InlinedType1226
+
+  _InlinedType1228:
+    enum:
+      - ACCOUNT
+      - UNIT_TYPE
+
+  _InlinedType1229:
+    properties:
+      unitTypeId: string
+      accountId: string
+      levelEntityType: _InlinedType1228

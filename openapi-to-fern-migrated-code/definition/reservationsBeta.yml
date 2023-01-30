@@ -1,0 +1,576 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: /reservations-v3-api
+  endpoints:
+    reservationsControllerCreateManualReserved:
+      path: /manual/reserved
+      method: POST
+      docs: >-
+        Create a reserved reservation for manual flow - to create a reservation
+        you would need to create a manual inquiry from the inquiries service.
+        Caution: be sure to pass booker object if you haven't passed a booker
+        when creating a manual inquiry
+      display-name: Create a reserved reservation for manual flow
+      request:
+        body:
+          properties:
+            inquiryId:
+              docs: The inquiry ID
+              type: string
+            reservationId:
+              docs: The reservation ID
+              type: optional<string>
+            ratePlanId:
+              docs: The rate plan ID
+              type: string
+            unitId:
+              docs: The unit ID
+              type: optional<string>
+            booker:
+              docs: Keeps info about the booker, e.g. booker ID and full name
+              type: optional<_InlinedType1353>
+            source:
+              docs: Source of reservation
+              type: optional<string>
+            notes:
+              docs: The reservation notes
+              type: optional<_InlinedType1355>
+            reservedUntil:
+              docs: >-
+                Indicates for how long a reservation is valid after creation (in
+                hours)
+              type: _InlinedType1356
+            createdBy:
+              docs: Reservation creator
+              type: optional<string>
+
+    reservationsControllerCreateManualConfirmed:
+      path: /manual/confirmed
+      method: POST
+      docs: >-
+        Create a confirmed reservation for manual flow - to create a reservation
+        you would need to create a manual inquiry from the inquiries service
+      display-name: Create a confirmed reservation for manual flow
+      request:
+        body:
+          properties:
+            inquiryId:
+              docs: The inquiry ID
+              type: string
+            reservationId:
+              docs: The reservation ID
+              type: optional<string>
+            ratePlanId:
+              docs: The rate plan ID
+              type: string
+            unitId:
+              docs: The unit ID
+              type: optional<string>
+            source:
+              docs: Source of reservation
+              type: optional<string>
+            notes:
+              docs: The reservation notes
+              type: optional<_InlinedType1358>
+            booker:
+              docs: Keeps info about the booker, e.g. booker ID and full name
+              type: optional<_InlinedType1360>
+            createdBy:
+              docs: Reservation creator
+              type: optional<string>
+
+    reservationsControllerCreateManualInquiry:
+      path: /manual/inquiry
+      method: POST
+      docs: >-
+        Create a reservation in status inquiry for manual flow - to create a
+        reservation you would need to create a manual inquiry from the inquiries
+        service
+      display-name: Create a reservation in status inquiry for manual flow
+      request:
+        body:
+          properties:
+            inquiryId:
+              docs: The inquiry ID
+              type: string
+            reservationId:
+              docs: The reservation ID
+              type: optional<string>
+            ratePlanId:
+              docs: The rate plan ID
+              type: string
+            unitId:
+              docs: The unit ID
+              type: optional<string>
+            source:
+              docs: Source of reservation
+              type: optional<string>
+            notes:
+              docs: The reservation notes
+              type: optional<_InlinedType1362>
+            booker:
+              docs: Keeps info about the booker, e.g. booker ID and full name
+              type: optional<_InlinedType1364>
+            createdBy:
+              docs: Reservation creator
+              type: optional<string>
+
+    reservationsControllerGetOne:
+      path: /{reservationId}
+      method: GET
+      docs: Get reservation by id
+      display-name: Get reservation by id
+      path-parameters:
+        reservationId: string
+      response: _InlinedType1372
+
+    reservationsControllerConfirmAlteration:
+      path: /{reservationId}/commit-alteration
+      method: POST
+      docs: >-
+        Apply the changes you have from the alteration inquiry to the
+        reservation, if user wants to not change money, he can provide money
+        object that overrides the new calculation
+      display-name: Confirm an alteration of a reservation
+      path-parameters:
+        reservationId: string
+      request:
+        body:
+          properties:
+            inquiryId:
+              docs: The inquiry ID
+              type: string
+            money:
+              docs: Keeps financial data, e.g. fares, taxes, prices, etc.
+              type: optional<_InlinedType1375>
+            status:
+              docs: The reservation status
+              type: optional<_InlinedType1376>
+      response: _InlinedType1384
+
+    reservationsControllerUpdateTravelInformation:
+      path: /{reservationId}/travel-information
+      method: PUT
+      docs: Updates a reservation with travel information
+      display-name: Updates travel information for reservation
+      path-parameters:
+        reservationId: string
+      request:
+        body:
+          properties:
+            transportation:
+              docs: Keeps info on transportation
+              type: optional<_InlinedType1386>
+            reasonForVisit:
+              docs: Reason for user to visit your listing
+              type: optional<_InlinedType1387>
+            agentBooking: optional<boolean>
+      response: map<string, unknown>
+
+    reservationsControllerAlterNotes:
+      path: /{reservationId}/notes
+      method: PUT
+      docs: Updates reservation notes
+      display-name: Updates reservation notes
+      path-parameters:
+        reservationId: string
+      request:
+        body:
+          properties:
+            other:
+              docs: Other notes
+              type: optional<string>
+            cleaning:
+              docs: Cleaning notes
+              type: optional<string>
+            guest:
+              docs: Guest notes
+              type: optional<string>
+      response: map<string, unknown>
+
+    reservationsControllerAlterPlannedSchedule:
+      path: /{reservationId}/change-planned-schedule
+      method: PUT
+      docs: Updates a reservation with a planned schedule data
+      display-name: Alters planned schedule for reservation, for example, ETA/ETD
+      path-parameters:
+        reservationId: string
+      request:
+        body:
+          properties:
+            plannedArrival:
+              docs: Estimated time of arrival (ETA)
+              type: string
+            plannedDeparture:
+              docs: Estimated time of departure (ETD)
+              type: string
+      response: map<string, unknown>
+
+types:
+  _InlinedType1352:
+    properties:
+      _id:
+        docs: The booker ID
+        type: string
+      fullName:
+        docs: The booker's full name
+        type: string
+
+  _InlinedType1353:
+    docs: Keeps info about the booker, e.g. booker ID and full name
+    extends:
+      - _InlinedType1352
+
+  _InlinedType1354:
+    properties:
+      other:
+        docs: Other notes
+        type: optional<string>
+      cleaning:
+        docs: Cleaning notes
+        type: optional<string>
+      guest:
+        docs: Guest notes
+        type: optional<string>
+
+  _InlinedType1355:
+    docs: The reservation notes
+    extends:
+      - _InlinedType1354
+
+  _InlinedType1356:
+    docs: Indicates for how long a reservation is valid after creation (in hours)
+    enum:
+      - -1
+      - 12
+      - 24
+      - 36
+      - 48
+      - 72
+
+  _InlinedType1357:
+    properties:
+      other:
+        docs: Other notes
+        type: optional<string>
+      cleaning:
+        docs: Cleaning notes
+        type: optional<string>
+      guest:
+        docs: Guest notes
+        type: optional<string>
+
+  _InlinedType1358:
+    docs: The reservation notes
+    extends:
+      - _InlinedType1357
+
+  _InlinedType1359:
+    properties:
+      _id:
+        docs: The booker ID
+        type: string
+      fullName:
+        docs: The booker's full name
+        type: string
+
+  _InlinedType1360:
+    docs: Keeps info about the booker, e.g. booker ID and full name
+    extends:
+      - _InlinedType1359
+
+  _InlinedType1361:
+    properties:
+      other:
+        docs: Other notes
+        type: optional<string>
+      cleaning:
+        docs: Cleaning notes
+        type: optional<string>
+      guest:
+        docs: Guest notes
+        type: optional<string>
+
+  _InlinedType1362:
+    docs: The reservation notes
+    extends:
+      - _InlinedType1361
+
+  _InlinedType1363:
+    properties:
+      _id:
+        docs: The booker ID
+        type: string
+      fullName:
+        docs: The booker's full name
+        type: string
+
+  _InlinedType1364:
+    docs: Keeps info about the booker, e.g. booker ID and full name
+    extends:
+      - _InlinedType1363
+
+  _InlinedType1365:
+    properties: {}
+
+  _InlinedType1366:
+    properties: {}
+
+  _InlinedType1367:
+    properties:
+      checkInDateLocalized: string
+      checkOutDateLocalized: string
+      guestsCount: double
+      unitTypeId: _InlinedType1365
+      unitId: optional<_InlinedType1366>
+      ratePlanId: string
+      eta: string
+      etd: string
+      numberOfGuests: optional<map<string, unknown>>
+
+  _InlinedType1368:
+    enum:
+      - twelveHours
+      - day
+      - thirtySixHours
+      - twoDays
+      - threeDays
+      - -1
+
+  _InlinedType1369:
+    enum:
+      - business
+      - leisure
+      - family
+      - event
+      - other
+
+  _InlinedType1370:
+    enum:
+      - confirmed
+      - reserved
+      - awaiting_payment
+      - inquiry
+      - canceled
+      - closed
+      - declined
+      - expired
+
+  _InlinedType1371:
+    properties:
+      other:
+        docs: Other notes
+        type: optional<string>
+      cleaning:
+        docs: Cleaning notes
+        type: optional<string>
+      guest:
+        docs: Guest notes
+        type: optional<string>
+
+  _InlinedType1372:
+    properties:
+      _id: map<string, unknown>
+      stay: list<_InlinedType1367>
+      bookerId: string
+      platform: string
+      quoteId: map<string, unknown>
+      accountId: map<string, unknown>
+      source: string
+      confirmedAt: optional<string>
+      reservedAt: optional<string>
+      reservedUntil: optional<_InlinedType1368>
+      canceledAt: optional<string>
+      isAssigned: boolean
+      moneyId: optional<string>
+      specialRequests: optional<string>
+      keyCode: optional<string>
+      alteredAt: string
+      conversationId: optional<string>
+      transportation: optional<map<string, unknown>>
+      agentBooking: optional<boolean>
+      reasonForVisit: optional<_InlinedType1369>
+      checkInDateLocalized: string
+      checkOutDateLocalized: string
+      ratePlanId: string
+      unitTypeId: string
+      guestsCount: double
+      numberOfGuests: optional<map<string, unknown>>
+      eta: string
+      etd: string
+      unitId: string
+      createdAt: string
+      status: _InlinedType1370
+      notes: _InlinedType1371
+      confirmationCode: string
+
+  _InlinedType1373:
+    properties:
+      invoiceItems: list<_InlinedType1374>
+      fareAccommodationAdjustment: double
+      fareAccommodationDiscount: double
+      currency: string
+      fareAccommodation: double
+      fareAccommodationAdjusted: double
+      fareCleaning: double
+      hostServiceFee: double
+      hostServiceFeeTax: double
+      hostServiceFeeIncTax: double
+      subTotalPrice: double
+      hostPayout: double
+      hostPayoutUsd: double
+      totalTaxes: double
+      payments: list<string>
+      totalRefunded: double
+      totalPaid: double
+      paymentsDue: double
+      balanceDue: double
+      isFullyPaid: boolean
+      settingsSnapshot: map<string, unknown>
+
+  _InlinedType1375:
+    docs: Keeps financial data, e.g. fares, taxes, prices, etc.
+    extends:
+      - _InlinedType1373
+
+  _InlinedType1376:
+    docs: The reservation status
+    enum:
+      - confirmed
+      - reserved
+      - awaiting_payment
+      - inquiry
+      - canceled
+      - closed
+      - declined
+      - expired
+
+  _InlinedType1377:
+    properties: {}
+
+  _InlinedType1378:
+    properties: {}
+
+  _InlinedType1379:
+    properties:
+      checkInDateLocalized: string
+      checkOutDateLocalized: string
+      guestsCount: double
+      unitTypeId: _InlinedType1377
+      unitId: optional<_InlinedType1378>
+      ratePlanId: string
+      eta: string
+      etd: string
+      numberOfGuests: optional<map<string, unknown>>
+
+  _InlinedType1380:
+    enum:
+      - twelveHours
+      - day
+      - thirtySixHours
+      - twoDays
+      - threeDays
+      - -1
+
+  _InlinedType1381:
+    enum:
+      - business
+      - leisure
+      - family
+      - event
+      - other
+
+  _InlinedType1382:
+    enum:
+      - confirmed
+      - reserved
+      - awaiting_payment
+      - inquiry
+      - canceled
+      - closed
+      - declined
+      - expired
+
+  _InlinedType1383:
+    properties:
+      other:
+        docs: Other notes
+        type: optional<string>
+      cleaning:
+        docs: Cleaning notes
+        type: optional<string>
+      guest:
+        docs: Guest notes
+        type: optional<string>
+
+  _InlinedType1384:
+    properties:
+      _id: map<string, unknown>
+      stay: list<_InlinedType1379>
+      bookerId: string
+      platform: string
+      quoteId: map<string, unknown>
+      accountId: map<string, unknown>
+      source: string
+      confirmedAt: optional<string>
+      reservedAt: optional<string>
+      reservedUntil: optional<_InlinedType1380>
+      canceledAt: optional<string>
+      isAssigned: boolean
+      moneyId: optional<string>
+      specialRequests: optional<string>
+      keyCode: optional<string>
+      alteredAt: string
+      conversationId: optional<string>
+      transportation: optional<map<string, unknown>>
+      agentBooking: optional<boolean>
+      reasonForVisit: optional<_InlinedType1381>
+      listingId: string
+      plannedArrival: string
+      plannedDeparture: string
+      checkIn: string
+      checkOut: string
+      createdAt: string
+      status: _InlinedType1382
+      notes: _InlinedType1383
+      confirmationCode: string
+      numberOfGuests: optional<map<string, unknown>>
+
+  _InlinedType1385:
+    properties:
+      train:
+        docs: Whether booker will be transported via train
+        type: boolean
+      car:
+        docs: Whether booker will be transported via car
+        type: boolean
+      flight:
+        docs: Whether booker will be transported by airplane
+        type: boolean
+      other:
+        docs: >-
+          Whether booker will be transported by non-mentioned transportation
+          method
+        type: boolean
+      publicTransport:
+        docs: Whether booker will be transported by public transport
+        type: boolean
+      flightNumber:
+        docs: Flight number
+        type: string
+
+  _InlinedType1386:
+    docs: Keeps info on transportation
+    extends:
+      - _InlinedType1385
+
+  _InlinedType1387:
+    docs: Reason for user to visit your listing
+    enum:
+      - business
+      - leisure
+      - family
+      - event
+      - other

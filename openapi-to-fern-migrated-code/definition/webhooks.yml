@@ -1,0 +1,183 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: /webhooks
+  endpoints:
+    "":
+      path: ""
+      method: GET
+      docs: List all webhooks
+      display-name: List all webhooks
+      response: list<_InlinedType895>
+
+    _unnamedOperation64:
+      path: ""
+      method: POST
+      display-name: Create a Webhook
+      request:
+        body:
+          properties:
+            url: optional<string>
+            events:
+              docs: add list of event to register for the provided url
+              type: optional<_InlinedType896>
+
+    _unnamedOperation65:
+      path: /{id}
+      method: GET
+      display-name: Retrieve a Webhook
+      path-parameters:
+        id:
+          docs: Webhook unique Id
+          type: string
+      response: _InlinedType898
+
+    _unnamedOperation66:
+      path: /{id}
+      method: PUT
+      docs: Update a webhook
+      display-name: Update webhook
+      path-parameters:
+        id:
+          docs: Webhook ID
+          type: string
+      request:
+        body:
+          properties:
+            url: optional<string>
+            events:
+              docs: add list of event to register for the provided url
+              type: optional<_InlinedType899>
+      response: list<_InlinedType904>
+
+    _unnamedOperation67:
+      path: /{id}
+      method: DELETE
+      docs: ""
+      display-name: Delete webhook
+      path-parameters:
+        id:
+          docs: Webhook ID
+          type: string
+
+types:
+  _InlinedType891:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType892:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType893:
+    properties:
+      url: optional<string>
+      events:
+        docs: add list of event to register for the provided url
+        type: optional<_InlinedType894>
+
+  _InlinedType895:
+    extends:
+      - _InlinedType891
+      - _InlinedType892
+      - _InlinedType893
+
+  _InlinedType896:
+    docs: add list of event to register for the provided url
+    enum:
+      - guest.created
+      - guest.deleted
+      - guest.updated
+      - listing.new
+      - listing.updated
+      - listing.removed
+      - listing.calendar.updated
+      - payments.failed
+      - reservation.messageReceived
+      - reservation.new
+      - reservation.updated
+      - reservation.messageSent
+      - task.created
+      - task.deleted
+      - task.updated
+      - reservation_update_shortlist
+      - payments.method.received
+
+  _InlinedType897:
+    docs: add list of event to register for the provided url
+    enum:
+      - guest.created
+      - guest.deleted
+      - guest.updated
+      - listing.new
+      - listing.updated
+      - listing.removed
+      - listing.calendar.updated
+      - payments.failed
+      - reservation.messageReceived
+      - reservation.new
+      - reservation.updated
+      - reservation.messageSent
+      - task.created
+      - task.deleted
+      - task.updated
+      - reservation_update_shortlist
+      - payments.method.received
+
+  _InlinedType898:
+    properties:
+      url: optional<string>
+      events:
+        docs: add list of event to register for the provided url
+        type: optional<_InlinedType897>
+
+  _InlinedType899:
+    docs: add list of event to register for the provided url
+    enum:
+      - guest.created
+      - guest.deleted
+      - guest.updated
+      - listing.new
+      - listing.updated
+      - listing.removed
+      - listing.calendar.updated
+      - payments.failed
+      - reservation.messageReceived
+      - reservation.new
+      - reservation.updated
+      - reservation.messageSent
+      - task.created
+      - task.deleted
+      - task.updated
+      - reservation_update_shortlist
+      - payments.method.received
+
+  _InlinedType900:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType901:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType902:
+    properties:
+      url: optional<string>
+      events:
+        docs: add list of event to register for the provided url
+        type: optional<_InlinedType903>
+
+  _InlinedType904:
+    extends:
+      - _InlinedType900
+      - _InlinedType901
+      - _InlinedType902

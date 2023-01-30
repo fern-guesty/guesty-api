@@ -1,0 +1,1082 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: /inquiries-api
+  endpoints:
+    inquiriesControllerFindByReservationIdAndFillQuotes:
+      path: /reservations/{reservationId}
+      method: GET
+      docs: Get inquiry object by reservation id and fill it with quotes objects
+      display-name: Get inquiry by reservationId
+      path-parameters:
+        reservationId: string
+      response: _InlinedType1264
+
+    inquiriesControllerFindByIdAndFillQuotes:
+      path: /{id}/quotes
+      method: GET
+      docs: Get inquiry object by id and fill it with quotes objects
+      display-name: Get inquiry by id & fill with quotes
+      path-parameters:
+        id: string
+      response: _InlinedType1272
+
+    inquiriesControllerCreateManual:
+      path: /manual
+      method: POST
+      docs: Create an Inquiry using manual flow
+      display-name: Create a Manual Inquiry
+      request:
+        body:
+          properties:
+            checkInDateLocalized:
+              docs: The booker's check-in date
+              type: string
+            checkOutDateLocalized:
+              docs: The booker's check-out date
+              type: string
+            unitId:
+              docs: The unit ID
+              type: optional<string>
+            unitTypeId:
+              docs: The unit type ID
+              type: string
+            guestsCount:
+              docs: Count of guests
+              type: optional<double>
+            bookerId:
+              docs: The booker ID
+              type: optional<string>
+            source:
+              docs: Source of the inquiry
+              type: string
+            channel:
+              docs: The channel that sent the inquiry
+              type: optional<_InlinedType1273>
+            numberOfGuests:
+              docs: Keeps information on the number of guests
+              type: optional<_InlinedType1275>
+
+    inquiriesControllerFindOneInquiry:
+      path: /{id}
+      method: GET
+      docs: Get an inquiry by inquiry id
+      display-name: Get inquiry by id
+      path-parameters:
+        id: string
+      response: _InlinedType1283
+
+    inquiriesControllerFindOneQuote:
+      path: /quotes/{id}
+      method: GET
+      docs: Get a financial quote by quote id
+      display-name: Get a quote by id
+      path-parameters:
+        id: string
+      response: _InlinedType1286
+
+    inquiriesControllerChangeCoupons:
+      path: /{inquiryId}/coupons
+      method: POST
+      docs: Add coupons to an inquiry
+      display-name: Add coupons to inquiry
+      path-parameters:
+        inquiryId: string
+      request:
+        body:
+          properties:
+            coupons:
+              docs: List of coupons
+              type: list<string>
+      response: _InlinedType1294
+
+    inquiriesControllerOverrideNightlyFare:
+      path: /{inquiryId}/override-nightly-fare
+      method: POST
+      docs: >-
+        Override the nightly fare of an inquiry to a total fixed fare for the
+        whole stay
+      display-name: Override the nightly fare of an inquiry
+      path-parameters:
+        inquiryId: string
+      request:
+        body:
+          properties:
+            accommodationFare:
+              docs: Accommodation fare
+              type: double
+            ratePlanId:
+              docs: The rate plan ID
+              type: string
+            reservationId:
+              docs: The reservation ID
+              type: optional<string>
+      response: _InlinedType1302
+
+    inquiriesControllerOverrideCleaningFare:
+      path: /{inquiryId}/override-cleaning-fare
+      method: POST
+      docs: Override the cleaning fare of an inquiry
+      display-name: Override the cleaning fare of an inquiry
+      path-parameters:
+        inquiryId: string
+      request:
+        body:
+          properties:
+            fareCleaning:
+              docs: Cleaning fare
+              type: double
+            ratePlanId:
+              docs: The rate plan ID
+              type: string
+            reservationId:
+              docs: The reservation ID
+              type: optional<string>
+      response: _InlinedType1310
+
+    inquiriesControllerOverrideTaxes:
+      path: /{inquiryId}/override-taxes
+      method: POST
+      docs: Override the taxes of an inquiry
+      display-name: Override the taxes of an inquiry
+      path-parameters:
+        inquiryId: string
+      request:
+        body:
+          properties:
+            ratePlanId:
+              docs: The rate plan ID
+              type: string
+            reservationId:
+              docs: The reservation ID
+              type: optional<string>
+            taxes:
+              docs: Keeps the tax related info
+              type: optional<_InlinedType1312>
+      response: map<string, unknown>
+
+    inquiriesControllerChangeSource:
+      path: /{inquiryId}/change-source
+      method: POST
+      docs: Change the source of the inquiry
+      display-name: Change source of inquiry
+      path-parameters:
+        inquiryId: string
+      request:
+        body:
+          properties:
+            source:
+              docs: Inquiry source
+              type: string
+      response: _InlinedType1320
+
+    inquiriesControllerCreateAlteration:
+      path: /alteration
+      method: POST
+      docs: >-
+        Create an inquiry of type alteration that would be used to alter an
+        existing reservation
+      display-name: Create an alteration inquiry
+      request:
+        body:
+          properties:
+            dates:
+              docs: Keeps check-in and check-out dates
+              type: optional<_InlinedType1322>
+            unit:
+              docs: >-
+                Keeps unit related data, e.g. unit ID, unit type ID, whether the
+                reservation should be unassigned
+              type: optional<_InlinedType1324>
+            guestsCount:
+              docs: Count of guests
+              type: optional<double>
+            ratePlanId:
+              docs: The rate plan ID
+              type: optional<string>
+            status:
+              docs: The reservation status
+              type: optional<_InlinedType1325>
+            reservationId:
+              docs: The reservation ID
+              type: string
+            numberOfGuests:
+              docs: Keeps information on the number of guests
+              type: optional<_InlinedType1327>
+
+    inquiriesControllerEnablePromotion:
+      path: /{inquiryId}/enable-promotion
+      method: POST
+      docs: Enable promotions for an inquiry
+      display-name: Enable promotions for an inquiry
+      path-parameters:
+        inquiryId: string
+      response: _InlinedType1335
+
+    inquiriesControllerDisablePromotion:
+      path: /{inquiryId}/disable-promotion
+      method: POST
+      docs: Disable promotions for an inquiry
+      display-name: Disable promotions for an inquiry
+      path-parameters:
+        inquiryId: string
+      response: _InlinedType1343
+
+    inquiriesControllerAssignRatePlans:
+      path: /saq-assign-rate-plans
+      method: PUT
+      docs: Assign selected rate plans to be showed in quote app
+      display-name: Assign rate plans to a quote
+      request:
+        body:
+          properties:
+            ratePlanIds:
+              docs: List of rate plan IDs
+              type: list<string>
+            inquiryId:
+              docs: The inquiry ID
+              type: string
+      response: _InlinedType1351
+
+types:
+  _InlinedType1257:
+    enum:
+      - valid
+
+  _InlinedType1258:
+    enum:
+      - manual_reservations
+      - booking_engine
+
+  _InlinedType1259:
+    properties:
+      checkInDateLocalized: string
+      checkOutDateLocalized: string
+
+  _InlinedType1260:
+    properties:
+      unitId: optional<string>
+      unitTypeId: string
+
+  _InlinedType1261:
+    enum:
+      - confirmed
+      - reserved
+      - awaiting_payment
+      - inquiry
+      - canceled
+      - closed
+      - declined
+      - expired
+
+  _InlinedType1262:
+    properties:
+      numberOfChildren: optional<double>
+      numberOfInfants: optional<double>
+      numberOfAdults: optional<double>
+
+  _InlinedType1263:
+    properties:
+      dates: optional<_InlinedType1259>
+      unit: optional<_InlinedType1260>
+      guestsCount: optional<double>
+      ratePlanId: optional<string>
+      reservationId: string
+      status: optional<_InlinedType1261>
+      numberOfGuests: optional<_InlinedType1262>
+
+  _InlinedType1264:
+    properties:
+      _id: map<string, unknown>
+      status: _InlinedType1257
+      guestsCount: double
+      channel: _InlinedType1258
+      source: string
+      createdAt: string
+      expiresAt: string
+      accountId: map<string, unknown>
+      reservationId: optional<map<string, unknown>>
+      unitTypeId: string
+      unitId: optional<string>
+      unassign: optional<boolean>
+      checkInDateLocalized: string
+      checkOutDateLocalized: string
+      rates: map<string, unknown>
+      bookerId: string
+      coupons: list<map<string, unknown>>
+      promotions: map<string, unknown>
+      alterationPayload: optional<_InlinedType1263>
+      numberOfGuests: optional<map<string, unknown>>
+
+  _InlinedType1265:
+    enum:
+      - valid
+
+  _InlinedType1266:
+    enum:
+      - manual_reservations
+      - booking_engine
+
+  _InlinedType1267:
+    properties:
+      checkInDateLocalized: string
+      checkOutDateLocalized: string
+
+  _InlinedType1268:
+    properties:
+      unitId: optional<string>
+      unitTypeId: string
+
+  _InlinedType1269:
+    enum:
+      - confirmed
+      - reserved
+      - awaiting_payment
+      - inquiry
+      - canceled
+      - closed
+      - declined
+      - expired
+
+  _InlinedType1270:
+    properties:
+      numberOfChildren: optional<double>
+      numberOfInfants: optional<double>
+      numberOfAdults: optional<double>
+
+  _InlinedType1271:
+    properties:
+      dates: optional<_InlinedType1267>
+      unit: optional<_InlinedType1268>
+      guestsCount: optional<double>
+      ratePlanId: optional<string>
+      reservationId: string
+      status: optional<_InlinedType1269>
+      numberOfGuests: optional<_InlinedType1270>
+
+  _InlinedType1272:
+    properties:
+      _id: map<string, unknown>
+      status: _InlinedType1265
+      guestsCount: double
+      channel: _InlinedType1266
+      source: string
+      createdAt: string
+      expiresAt: string
+      accountId: map<string, unknown>
+      reservationId: optional<map<string, unknown>>
+      unitTypeId: string
+      unitId: optional<string>
+      unassign: optional<boolean>
+      checkInDateLocalized: string
+      checkOutDateLocalized: string
+      rates: map<string, unknown>
+      bookerId: string
+      coupons: list<map<string, unknown>>
+      promotions: map<string, unknown>
+      alterationPayload: optional<_InlinedType1271>
+      numberOfGuests: optional<map<string, unknown>>
+
+  _InlinedType1273:
+    docs: The channel that sent the inquiry
+    enum:
+      - manual_reservations
+      - booking_engine
+
+  _InlinedType1274:
+    properties:
+      numberOfChildren:
+        docs: Count of the children
+        type: optional<double>
+      numberOfInfants:
+        docs: Count of infants
+        type: optional<double>
+      numberOfAdults:
+        docs: Count of adults
+        type: optional<double>
+
+  _InlinedType1275:
+    docs: Keeps information on the number of guests
+    extends:
+      - _InlinedType1274
+
+  _InlinedType1276:
+    enum:
+      - valid
+
+  _InlinedType1277:
+    enum:
+      - manual_reservations
+      - booking_engine
+
+  _InlinedType1278:
+    properties:
+      checkInDateLocalized: string
+      checkOutDateLocalized: string
+
+  _InlinedType1279:
+    properties:
+      unitId: optional<string>
+      unitTypeId: string
+
+  _InlinedType1280:
+    enum:
+      - confirmed
+      - reserved
+      - awaiting_payment
+      - inquiry
+      - canceled
+      - closed
+      - declined
+      - expired
+
+  _InlinedType1281:
+    properties:
+      numberOfChildren: optional<double>
+      numberOfInfants: optional<double>
+      numberOfAdults: optional<double>
+
+  _InlinedType1282:
+    properties:
+      dates: optional<_InlinedType1278>
+      unit: optional<_InlinedType1279>
+      guestsCount: optional<double>
+      ratePlanId: optional<string>
+      reservationId: string
+      status: optional<_InlinedType1280>
+      numberOfGuests: optional<_InlinedType1281>
+
+  _InlinedType1283:
+    properties:
+      _id: map<string, unknown>
+      status: _InlinedType1276
+      guestsCount: double
+      channel: _InlinedType1277
+      source: string
+      createdAt: string
+      expiresAt: string
+      accountId: map<string, unknown>
+      reservationId: optional<map<string, unknown>>
+      unitTypeId: string
+      unitId: optional<string>
+      unassign: optional<boolean>
+      checkInDateLocalized: string
+      checkOutDateLocalized: string
+      rates: map<string, unknown>
+      bookerId: string
+      coupons: list<map<string, unknown>>
+      promotions: map<string, unknown>
+      alterationPayload: optional<_InlinedType1282>
+      numberOfGuests: optional<map<string, unknown>>
+
+  _InlinedType1284:
+    properties:
+      _id: map<string, unknown>
+      amount: double
+      currency: string
+      isLocked: boolean
+      normalType: string
+      title: string
+      type: string
+      isTax: optional<boolean>
+      isDeducted: optional<boolean>
+      metadata: optional<boolean>
+      evaluatedPercent: optional<double>
+      baseAmount: optional<double>
+
+  _InlinedType1285:
+    properties:
+      invoiceItems: list<_InlinedType1284>
+      fareAccommodationAdjustment: double
+      fareAccommodationDiscount: double
+      currency: string
+      fareAccommodation: double
+      fareAccommodationAdjusted: double
+      fareCleaning: double
+      hostServiceFee: double
+      hostServiceFeeTax: double
+      hostServiceFeeIncTax: double
+      subTotalPrice: double
+      hostPayout: double
+      hostPayoutUsd: double
+      totalTaxes: double
+      payments: list<string>
+      totalRefunded: double
+      totalPaid: double
+      paymentsDue: double
+      balanceDue: double
+      isFullyPaid: boolean
+      settingsSnapshot: map<string, unknown>
+
+  _InlinedType1286:
+    properties:
+      _id: map<string, unknown>
+      expiresAt: string
+      rateId: string
+      money: _InlinedType1285
+
+  _InlinedType1287:
+    enum:
+      - valid
+
+  _InlinedType1288:
+    enum:
+      - manual_reservations
+      - booking_engine
+
+  _InlinedType1289:
+    properties:
+      checkInDateLocalized: string
+      checkOutDateLocalized: string
+
+  _InlinedType1290:
+    properties:
+      unitId: optional<string>
+      unitTypeId: string
+
+  _InlinedType1291:
+    enum:
+      - confirmed
+      - reserved
+      - awaiting_payment
+      - inquiry
+      - canceled
+      - closed
+      - declined
+      - expired
+
+  _InlinedType1292:
+    properties:
+      numberOfChildren: optional<double>
+      numberOfInfants: optional<double>
+      numberOfAdults: optional<double>
+
+  _InlinedType1293:
+    properties:
+      dates: optional<_InlinedType1289>
+      unit: optional<_InlinedType1290>
+      guestsCount: optional<double>
+      ratePlanId: optional<string>
+      reservationId: string
+      status: optional<_InlinedType1291>
+      numberOfGuests: optional<_InlinedType1292>
+
+  _InlinedType1294:
+    properties:
+      _id: map<string, unknown>
+      status: _InlinedType1287
+      guestsCount: double
+      channel: _InlinedType1288
+      source: string
+      createdAt: string
+      expiresAt: string
+      accountId: map<string, unknown>
+      reservationId: optional<map<string, unknown>>
+      unitTypeId: string
+      unitId: optional<string>
+      unassign: optional<boolean>
+      checkInDateLocalized: string
+      checkOutDateLocalized: string
+      rates: map<string, unknown>
+      bookerId: string
+      coupons: list<map<string, unknown>>
+      promotions: map<string, unknown>
+      alterationPayload: optional<_InlinedType1293>
+      numberOfGuests: optional<map<string, unknown>>
+
+  _InlinedType1295:
+    enum:
+      - valid
+
+  _InlinedType1296:
+    enum:
+      - manual_reservations
+      - booking_engine
+
+  _InlinedType1297:
+    properties:
+      checkInDateLocalized: string
+      checkOutDateLocalized: string
+
+  _InlinedType1298:
+    properties:
+      unitId: optional<string>
+      unitTypeId: string
+
+  _InlinedType1299:
+    enum:
+      - confirmed
+      - reserved
+      - awaiting_payment
+      - inquiry
+      - canceled
+      - closed
+      - declined
+      - expired
+
+  _InlinedType1300:
+    properties:
+      numberOfChildren: optional<double>
+      numberOfInfants: optional<double>
+      numberOfAdults: optional<double>
+
+  _InlinedType1301:
+    properties:
+      dates: optional<_InlinedType1297>
+      unit: optional<_InlinedType1298>
+      guestsCount: optional<double>
+      ratePlanId: optional<string>
+      reservationId: string
+      status: optional<_InlinedType1299>
+      numberOfGuests: optional<_InlinedType1300>
+
+  _InlinedType1302:
+    properties:
+      _id: map<string, unknown>
+      status: _InlinedType1295
+      guestsCount: double
+      channel: _InlinedType1296
+      source: string
+      createdAt: string
+      expiresAt: string
+      accountId: map<string, unknown>
+      reservationId: optional<map<string, unknown>>
+      unitTypeId: string
+      unitId: optional<string>
+      unassign: optional<boolean>
+      checkInDateLocalized: string
+      checkOutDateLocalized: string
+      rates: map<string, unknown>
+      bookerId: string
+      coupons: list<map<string, unknown>>
+      promotions: map<string, unknown>
+      alterationPayload: optional<_InlinedType1301>
+      numberOfGuests: optional<map<string, unknown>>
+
+  _InlinedType1303:
+    enum:
+      - valid
+
+  _InlinedType1304:
+    enum:
+      - manual_reservations
+      - booking_engine
+
+  _InlinedType1305:
+    properties:
+      checkInDateLocalized: string
+      checkOutDateLocalized: string
+
+  _InlinedType1306:
+    properties:
+      unitId: optional<string>
+      unitTypeId: string
+
+  _InlinedType1307:
+    enum:
+      - confirmed
+      - reserved
+      - awaiting_payment
+      - inquiry
+      - canceled
+      - closed
+      - declined
+      - expired
+
+  _InlinedType1308:
+    properties:
+      numberOfChildren: optional<double>
+      numberOfInfants: optional<double>
+      numberOfAdults: optional<double>
+
+  _InlinedType1309:
+    properties:
+      dates: optional<_InlinedType1305>
+      unit: optional<_InlinedType1306>
+      guestsCount: optional<double>
+      ratePlanId: optional<string>
+      reservationId: string
+      status: optional<_InlinedType1307>
+      numberOfGuests: optional<_InlinedType1308>
+
+  _InlinedType1310:
+    properties:
+      _id: map<string, unknown>
+      status: _InlinedType1303
+      guestsCount: double
+      channel: _InlinedType1304
+      source: string
+      createdAt: string
+      expiresAt: string
+      accountId: map<string, unknown>
+      reservationId: optional<map<string, unknown>>
+      unitTypeId: string
+      unitId: optional<string>
+      unassign: optional<boolean>
+      checkInDateLocalized: string
+      checkOutDateLocalized: string
+      rates: map<string, unknown>
+      bookerId: string
+      coupons: list<map<string, unknown>>
+      promotions: map<string, unknown>
+      alterationPayload: optional<_InlinedType1309>
+      numberOfGuests: optional<map<string, unknown>>
+
+  _InlinedType1311:
+    properties:
+      _id: map<string, unknown>
+      amount: double
+      currency: string
+      isLocked: boolean
+      normalType: string
+      title: string
+      type: string
+      isTax: optional<boolean>
+      isDeducted: optional<boolean>
+      metadata: optional<boolean>
+      evaluatedPercent: optional<double>
+      baseAmount: optional<double>
+
+  _InlinedType1312:
+    docs: Keeps the tax related info
+    extends:
+      - _InlinedType1311
+
+  _InlinedType1313:
+    enum:
+      - valid
+
+  _InlinedType1314:
+    enum:
+      - manual_reservations
+      - booking_engine
+
+  _InlinedType1315:
+    properties:
+      checkInDateLocalized: string
+      checkOutDateLocalized: string
+
+  _InlinedType1316:
+    properties:
+      unitId: optional<string>
+      unitTypeId: string
+
+  _InlinedType1317:
+    enum:
+      - confirmed
+      - reserved
+      - awaiting_payment
+      - inquiry
+      - canceled
+      - closed
+      - declined
+      - expired
+
+  _InlinedType1318:
+    properties:
+      numberOfChildren: optional<double>
+      numberOfInfants: optional<double>
+      numberOfAdults: optional<double>
+
+  _InlinedType1319:
+    properties:
+      dates: optional<_InlinedType1315>
+      unit: optional<_InlinedType1316>
+      guestsCount: optional<double>
+      ratePlanId: optional<string>
+      reservationId: string
+      status: optional<_InlinedType1317>
+      numberOfGuests: optional<_InlinedType1318>
+
+  _InlinedType1320:
+    properties:
+      _id: map<string, unknown>
+      status: _InlinedType1313
+      guestsCount: double
+      channel: _InlinedType1314
+      source: string
+      createdAt: string
+      expiresAt: string
+      accountId: map<string, unknown>
+      reservationId: optional<map<string, unknown>>
+      unitTypeId: string
+      unitId: optional<string>
+      unassign: optional<boolean>
+      checkInDateLocalized: string
+      checkOutDateLocalized: string
+      rates: map<string, unknown>
+      bookerId: string
+      coupons: list<map<string, unknown>>
+      promotions: map<string, unknown>
+      alterationPayload: optional<_InlinedType1319>
+      numberOfGuests: optional<map<string, unknown>>
+
+  _InlinedType1321:
+    properties:
+      checkInDateLocalized:
+        docs: The booker's check-in date
+        type: string
+      checkOutDateLocalized:
+        docs: The booker's check-out date
+        type: string
+
+  _InlinedType1322:
+    docs: Keeps check-in and check-out dates
+    extends:
+      - _InlinedType1321
+
+  _InlinedType1323:
+    properties:
+      unitId:
+        docs: The unit ID
+        type: optional<string>
+      unitTypeId:
+        docs: The unit type ID
+        type: string
+      unassign:
+        docs: Indicates whether the reservation should be unassigned from a unit
+        type: optional<boolean>
+
+  _InlinedType1324:
+    docs: >-
+      Keeps unit related data, e.g. unit ID, unit type ID, whether the
+      reservation should be unassigned
+    extends:
+      - _InlinedType1323
+
+  _InlinedType1325:
+    docs: The reservation status
+    enum:
+      - confirmed
+      - reserved
+      - awaiting_payment
+      - inquiry
+      - canceled
+      - closed
+      - declined
+      - expired
+
+  _InlinedType1326:
+    properties:
+      numberOfChildren:
+        docs: Count of the children
+        type: optional<double>
+      numberOfInfants:
+        docs: Count of infants
+        type: optional<double>
+      numberOfAdults:
+        docs: Count of adults
+        type: optional<double>
+
+  _InlinedType1327:
+    docs: Keeps information on the number of guests
+    extends:
+      - _InlinedType1326
+
+  _InlinedType1328:
+    enum:
+      - valid
+
+  _InlinedType1329:
+    enum:
+      - manual_reservations
+      - booking_engine
+
+  _InlinedType1330:
+    properties:
+      checkInDateLocalized: string
+      checkOutDateLocalized: string
+
+  _InlinedType1331:
+    properties:
+      unitId: optional<string>
+      unitTypeId: string
+
+  _InlinedType1332:
+    enum:
+      - confirmed
+      - reserved
+      - awaiting_payment
+      - inquiry
+      - canceled
+      - closed
+      - declined
+      - expired
+
+  _InlinedType1333:
+    properties:
+      numberOfChildren: optional<double>
+      numberOfInfants: optional<double>
+      numberOfAdults: optional<double>
+
+  _InlinedType1334:
+    properties:
+      dates: optional<_InlinedType1330>
+      unit: optional<_InlinedType1331>
+      guestsCount: optional<double>
+      ratePlanId: optional<string>
+      reservationId: string
+      status: optional<_InlinedType1332>
+      numberOfGuests: optional<_InlinedType1333>
+
+  _InlinedType1335:
+    properties:
+      _id: map<string, unknown>
+      status: _InlinedType1328
+      guestsCount: double
+      channel: _InlinedType1329
+      source: string
+      createdAt: string
+      expiresAt: string
+      accountId: map<string, unknown>
+      reservationId: optional<map<string, unknown>>
+      unitTypeId: string
+      unitId: optional<string>
+      unassign: optional<boolean>
+      checkInDateLocalized: string
+      checkOutDateLocalized: string
+      rates: map<string, unknown>
+      bookerId: string
+      coupons: list<map<string, unknown>>
+      promotions: map<string, unknown>
+      alterationPayload: optional<_InlinedType1334>
+      numberOfGuests: optional<map<string, unknown>>
+
+  _InlinedType1336:
+    enum:
+      - valid
+
+  _InlinedType1337:
+    enum:
+      - manual_reservations
+      - booking_engine
+
+  _InlinedType1338:
+    properties:
+      checkInDateLocalized: string
+      checkOutDateLocalized: string
+
+  _InlinedType1339:
+    properties:
+      unitId: optional<string>
+      unitTypeId: string
+
+  _InlinedType1340:
+    enum:
+      - confirmed
+      - reserved
+      - awaiting_payment
+      - inquiry
+      - canceled
+      - closed
+      - declined
+      - expired
+
+  _InlinedType1341:
+    properties:
+      numberOfChildren: optional<double>
+      numberOfInfants: optional<double>
+      numberOfAdults: optional<double>
+
+  _InlinedType1342:
+    properties:
+      dates: optional<_InlinedType1338>
+      unit: optional<_InlinedType1339>
+      guestsCount: optional<double>
+      ratePlanId: optional<string>
+      reservationId: string
+      status: optional<_InlinedType1340>
+      numberOfGuests: optional<_InlinedType1341>
+
+  _InlinedType1343:
+    properties:
+      _id: map<string, unknown>
+      status: _InlinedType1336
+      guestsCount: double
+      channel: _InlinedType1337
+      source: string
+      createdAt: string
+      expiresAt: string
+      accountId: map<string, unknown>
+      reservationId: optional<map<string, unknown>>
+      unitTypeId: string
+      unitId: optional<string>
+      unassign: optional<boolean>
+      checkInDateLocalized: string
+      checkOutDateLocalized: string
+      rates: map<string, unknown>
+      bookerId: string
+      coupons: list<map<string, unknown>>
+      promotions: map<string, unknown>
+      alterationPayload: optional<_InlinedType1342>
+      numberOfGuests: optional<map<string, unknown>>
+
+  _InlinedType1344:
+    enum:
+      - valid
+
+  _InlinedType1345:
+    enum:
+      - manual_reservations
+      - booking_engine
+
+  _InlinedType1346:
+    properties:
+      checkInDateLocalized: string
+      checkOutDateLocalized: string
+
+  _InlinedType1347:
+    properties:
+      unitId: optional<string>
+      unitTypeId: string
+
+  _InlinedType1348:
+    enum:
+      - confirmed
+      - reserved
+      - awaiting_payment
+      - inquiry
+      - canceled
+      - closed
+      - declined
+      - expired
+
+  _InlinedType1349:
+    properties:
+      numberOfChildren: optional<double>
+      numberOfInfants: optional<double>
+      numberOfAdults: optional<double>
+
+  _InlinedType1350:
+    properties:
+      dates: optional<_InlinedType1346>
+      unit: optional<_InlinedType1347>
+      guestsCount: optional<double>
+      ratePlanId: optional<string>
+      reservationId: string
+      status: optional<_InlinedType1348>
+      numberOfGuests: optional<_InlinedType1349>
+
+  _InlinedType1351:
+    properties:
+      _id: map<string, unknown>
+      status: _InlinedType1344
+      guestsCount: double
+      channel: _InlinedType1345
+      source: string
+      createdAt: string
+      expiresAt: string
+      accountId: map<string, unknown>
+      reservationId: optional<map<string, unknown>>
+      unitTypeId: string
+      unitId: optional<string>
+      unassign: optional<boolean>
+      checkInDateLocalized: string
+      checkOutDateLocalized: string
+      rates: map<string, unknown>
+      bookerId: string
+      coupons: list<map<string, unknown>>
+      promotions: map<string, unknown>
+      alterationPayload: optional<_InlinedType1350>
+      numberOfGuests: optional<map<string, unknown>>

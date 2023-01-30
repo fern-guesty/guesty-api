@@ -1,0 +1,981 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: /integrations
+  endpoints:
+    "":
+      path: ""
+      method: GET
+      docs: List all integrations
+      display-name: List all integrations
+      request:
+        query-parameters:
+          fields:
+            docs: Selection of fields, separated by space
+            type: optional<string>
+          limit:
+            docs: "Pagination, max: 100"
+            type: optional<double>
+          skip:
+            docs: Pagination
+            type: optional<double>
+          sort:
+            docs: Ascending alphabetical sort , use - to descending sort
+            type: optional<string>
+      response: _InlinedType145
+
+    _unnamedOperation6:
+      path: ""
+      method: POST
+      display-name: Create integration
+      request:
+        body:
+          properties:
+            platform:
+              docs: Integration name; Required
+              type: optional<string>
+      response: _InlinedType160
+
+    _unnamedOperation7:
+      path: /{id}
+      method: GET
+      display-name: Get integration
+      path-parameters:
+        id:
+          docs: Integration ID
+          type: string
+      request:
+        query-parameters:
+          fields:
+            docs: >-
+              Selection of fields, separated by space. When null retrieve the
+              main properties of the object. We recommend always specifying the
+              specific fields you'd like to receive to ensure that you get them.
+              Please see the full list above
+            type: optional<string>
+      response: _InlinedType175
+
+    _unnamedOperation8:
+      path: /{id}
+      method: PUT
+      docs: The updated integration with only the fields that were sent in body.
+      display-name: Update integration
+      path-parameters:
+        id:
+          docs: Integration ID
+          type: string
+      request:
+        body:
+          properties:
+            _id:
+              docs: Unique Id
+              type: optional<string>
+            airbnb2:
+              docs: Only if platform is airbnb
+              type: optional<_InlinedType178>
+            forwardEmails: optional<_InlinedType179>
+            active:
+              docs: Status of connection
+              type: optional<boolean>
+            platform: optional<string>
+            listings: optional<list<map<string, unknown>>>
+            complexes: optional<list<map<string, unknown>>>
+            nickname: optional<string>
+            channelId: optional<string>
+            activatedAt:
+              docs: Date
+              type: optional<string>
+            disconnectedAt:
+              docs: Date
+              type: optional<string>
+            proxyEmail: optional<string>
+            incomingEmail: optional<string>
+            externalAccountId: optional<string>
+            id:
+              docs: External ID
+              type: optional<integer>
+            companyName: optional<string>
+            fetchRequests: optional<list<_InlinedType181>>
+            status: optional<_InlinedType182>
+            migration: optional<_InlinedType186>
+            userId: optional<string>
+            accountId:
+              docs: Owner
+              type: optional<string>
+            tripAdvisor:
+              docs: TripAdvisor details
+              type: optional<map<string, unknown>>
+            homeaway2:
+              docs: Homeaway details
+              type: optional<map<string, unknown>>
+            bookingCom:
+              docs: BookingCom details
+              type: optional<_InlinedType187>
+            createdAt:
+              docs: Date
+              type: optional<string>
+            missingStep: optional<string>
+            steps: optional<list<_InlinedType189>>
+            newIntegrationBackup: optional<map<string, unknown>>
+            threadIdsMigrated: optional<boolean>
+            isDeleted: optional<boolean>
+            deletedAt:
+              docs: Date
+              type: optional<string>
+      response: _InlinedType204
+
+types:
+  _InlinedType130:
+    properties:
+      code: optional<string>
+      expiresAt: optional<integer>
+      accessToken: optional<string>
+      refreshToken: optional<string>
+      lastForceRefresh:
+        docs: date
+        type: optional<string>
+
+  _InlinedType131:
+    properties:
+      all: optional<boolean>
+      emails: optional<list<string>>
+
+  _InlinedType132:
+    docs: Only if platform is airbnb
+    properties:
+      credentials: optional<_InlinedType130>
+      forwardEmails: optional<_InlinedType131>
+      createdAt:
+        docs: date
+        type: optional<string>
+
+  _InlinedType133:
+    properties:
+      all: optional<boolean>
+      emails: optional<list<string>>
+
+  _InlinedType134:
+    enum:
+      - NOT_STARTED
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+      - TIMEOUT
+
+  _InlinedType135:
+    properties:
+      fetchAllListings: optional<boolean>
+      externalListingIds: optional<list<string>>
+      status: optional<_InlinedType134>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+      finishedTime:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType136:
+    enum:
+      - NOT_CONNECTED
+      - CONNECTING
+      - CONNECTED
+      - FAILED
+      - TIMEOUT
+      - DISCONNECTED
+      - PENDING
+
+  _InlinedType137:
+    enum:
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+
+  _InlinedType138:
+    enum:
+      - GUESTY
+      - AIRBNB
+
+  _InlinedType139:
+    properties:
+      at:
+        docs: Date
+        type: optional<string>
+      code: optional<string>
+      message: optional<string>
+      raw: optional<map<string, unknown>>
+
+  _InlinedType140:
+    properties:
+      status: optional<_InlinedType137>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+      finishedTime:
+        docs: Date
+        type: optional<string>
+      steps: optional<list<map<string, unknown>>>
+      discrepancyStepExecuted: optional<boolean>
+      discrepancyResolution: optional<_InlinedType138>
+      listingQuantityDiscrepancyStepExecuted: optional<boolean>
+      error: optional<_InlinedType139>
+      notes: optional<string>
+      isRollingBack: optional<boolean>
+
+  _InlinedType141:
+    docs: BookingCom details
+    properties:
+      legalEntityId: optional<string>
+
+  _InlinedType142:
+    enum:
+      - COMPLETED
+      - IN_PROGRESS
+
+  _InlinedType143:
+    properties:
+      type: optional<string>
+      status: optional<_InlinedType142>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType144:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      airbnb2:
+        docs: Only if platform is airbnb
+        type: optional<_InlinedType132>
+      forwardEmails: optional<_InlinedType133>
+      active:
+        docs: Status of connection
+        type: optional<boolean>
+      platform: optional<string>
+      listings: optional<list<map<string, unknown>>>
+      complexes: optional<list<map<string, unknown>>>
+      nickname: optional<string>
+      channelId: optional<string>
+      activatedAt:
+        docs: Date
+        type: optional<string>
+      disconnectedAt:
+        docs: Date
+        type: optional<string>
+      proxyEmail: optional<string>
+      incomingEmail: optional<string>
+      externalAccountId: optional<string>
+      id:
+        docs: External ID
+        type: optional<integer>
+      companyName: optional<string>
+      fetchRequests: optional<list<_InlinedType135>>
+      status: optional<_InlinedType136>
+      migration: optional<_InlinedType140>
+      userId: optional<string>
+      accountId:
+        docs: Owner
+        type: optional<string>
+      tripAdvisor:
+        docs: TripAdvisor details
+        type: optional<map<string, unknown>>
+      homeaway2:
+        docs: Homeaway details
+        type: optional<map<string, unknown>>
+      bookingCom:
+        docs: BookingCom details
+        type: optional<_InlinedType141>
+      createdAt:
+        docs: Date
+        type: optional<string>
+      missingStep: optional<string>
+      steps: optional<list<_InlinedType143>>
+      newIntegrationBackup: optional<map<string, unknown>>
+      threadIdsMigrated: optional<boolean>
+      isDeleted: optional<boolean>
+      deletedAt:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType145:
+    properties:
+      results: optional<list<_InlinedType144>>
+      count: optional<double>
+      limit: optional<double>
+      skip: optional<double>
+
+  _InlinedType146:
+    properties:
+      code: optional<string>
+      expiresAt: optional<integer>
+      accessToken: optional<string>
+      refreshToken: optional<string>
+      lastForceRefresh:
+        docs: date
+        type: optional<string>
+
+  _InlinedType147:
+    properties:
+      all: optional<boolean>
+      emails: optional<list<string>>
+
+  _InlinedType148:
+    docs: Only if platform is airbnb
+    properties:
+      credentials: optional<_InlinedType146>
+      forwardEmails: optional<_InlinedType147>
+      createdAt:
+        docs: date
+        type: optional<string>
+
+  _InlinedType149:
+    properties:
+      all: optional<boolean>
+      emails: optional<list<string>>
+
+  _InlinedType150:
+    enum:
+      - NOT_STARTED
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+      - TIMEOUT
+
+  _InlinedType151:
+    properties:
+      fetchAllListings: optional<boolean>
+      externalListingIds: optional<list<string>>
+      status: optional<_InlinedType150>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+      finishedTime:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType152:
+    enum:
+      - NOT_CONNECTED
+      - CONNECTING
+      - CONNECTED
+      - FAILED
+      - TIMEOUT
+      - DISCONNECTED
+      - PENDING
+
+  _InlinedType153:
+    enum:
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+
+  _InlinedType154:
+    enum:
+      - GUESTY
+      - AIRBNB
+
+  _InlinedType155:
+    properties:
+      at:
+        docs: Date
+        type: optional<string>
+      code: optional<string>
+      message: optional<string>
+      raw: optional<map<string, unknown>>
+
+  _InlinedType156:
+    properties:
+      status: optional<_InlinedType153>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+      finishedTime:
+        docs: Date
+        type: optional<string>
+      steps: optional<list<map<string, unknown>>>
+      discrepancyStepExecuted: optional<boolean>
+      discrepancyResolution: optional<_InlinedType154>
+      listingQuantityDiscrepancyStepExecuted: optional<boolean>
+      error: optional<_InlinedType155>
+      notes: optional<string>
+      isRollingBack: optional<boolean>
+
+  _InlinedType157:
+    docs: BookingCom details
+    properties:
+      legalEntityId: optional<string>
+
+  _InlinedType158:
+    enum:
+      - COMPLETED
+      - IN_PROGRESS
+
+  _InlinedType159:
+    properties:
+      type: optional<string>
+      status: optional<_InlinedType158>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType160:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      airbnb2:
+        docs: Only if platform is airbnb
+        type: optional<_InlinedType148>
+      forwardEmails: optional<_InlinedType149>
+      active:
+        docs: Status of connection
+        type: optional<boolean>
+      platform: optional<string>
+      listings: optional<list<map<string, unknown>>>
+      complexes: optional<list<map<string, unknown>>>
+      nickname: optional<string>
+      channelId: optional<string>
+      activatedAt:
+        docs: Date
+        type: optional<string>
+      disconnectedAt:
+        docs: Date
+        type: optional<string>
+      proxyEmail: optional<string>
+      incomingEmail: optional<string>
+      externalAccountId: optional<string>
+      id:
+        docs: External ID
+        type: optional<integer>
+      companyName: optional<string>
+      fetchRequests: optional<list<_InlinedType151>>
+      status: optional<_InlinedType152>
+      migration: optional<_InlinedType156>
+      userId: optional<string>
+      accountId:
+        docs: Owner
+        type: optional<string>
+      tripAdvisor:
+        docs: TripAdvisor details
+        type: optional<map<string, unknown>>
+      homeaway2:
+        docs: Homeaway details
+        type: optional<map<string, unknown>>
+      bookingCom:
+        docs: BookingCom details
+        type: optional<_InlinedType157>
+      createdAt:
+        docs: Date
+        type: optional<string>
+      missingStep: optional<string>
+      steps: optional<list<_InlinedType159>>
+      newIntegrationBackup: optional<map<string, unknown>>
+      threadIdsMigrated: optional<boolean>
+      isDeleted: optional<boolean>
+      deletedAt:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType161:
+    properties:
+      code: optional<string>
+      expiresAt: optional<integer>
+      accessToken: optional<string>
+      refreshToken: optional<string>
+      lastForceRefresh:
+        docs: date
+        type: optional<string>
+
+  _InlinedType162:
+    properties:
+      all: optional<boolean>
+      emails: optional<list<string>>
+
+  _InlinedType163:
+    docs: Only if platform is airbnb
+    properties:
+      credentials: optional<_InlinedType161>
+      forwardEmails: optional<_InlinedType162>
+      createdAt:
+        docs: date
+        type: optional<string>
+
+  _InlinedType164:
+    properties:
+      all: optional<boolean>
+      emails: optional<list<string>>
+
+  _InlinedType165:
+    enum:
+      - NOT_STARTED
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+      - TIMEOUT
+
+  _InlinedType166:
+    properties:
+      fetchAllListings: optional<boolean>
+      externalListingIds: optional<list<string>>
+      status: optional<_InlinedType165>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+      finishedTime:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType167:
+    enum:
+      - NOT_CONNECTED
+      - CONNECTING
+      - CONNECTED
+      - FAILED
+      - TIMEOUT
+      - DISCONNECTED
+      - PENDING
+
+  _InlinedType168:
+    enum:
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+
+  _InlinedType169:
+    enum:
+      - GUESTY
+      - AIRBNB
+
+  _InlinedType170:
+    properties:
+      at:
+        docs: Date
+        type: optional<string>
+      code: optional<string>
+      message: optional<string>
+      raw: optional<map<string, unknown>>
+
+  _InlinedType171:
+    properties:
+      status: optional<_InlinedType168>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+      finishedTime:
+        docs: Date
+        type: optional<string>
+      steps: optional<list<map<string, unknown>>>
+      discrepancyStepExecuted: optional<boolean>
+      discrepancyResolution: optional<_InlinedType169>
+      listingQuantityDiscrepancyStepExecuted: optional<boolean>
+      error: optional<_InlinedType170>
+      notes: optional<string>
+      isRollingBack: optional<boolean>
+
+  _InlinedType172:
+    docs: BookingCom details
+    properties:
+      legalEntityId: optional<string>
+
+  _InlinedType173:
+    enum:
+      - COMPLETED
+      - IN_PROGRESS
+
+  _InlinedType174:
+    properties:
+      type: optional<string>
+      status: optional<_InlinedType173>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType175:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      airbnb2:
+        docs: Only if platform is airbnb
+        type: optional<_InlinedType163>
+      forwardEmails: optional<_InlinedType164>
+      active:
+        docs: Status of connection
+        type: optional<boolean>
+      platform: optional<string>
+      listings: optional<list<map<string, unknown>>>
+      complexes: optional<list<map<string, unknown>>>
+      nickname: optional<string>
+      channelId: optional<string>
+      activatedAt:
+        docs: Date
+        type: optional<string>
+      disconnectedAt:
+        docs: Date
+        type: optional<string>
+      proxyEmail: optional<string>
+      incomingEmail: optional<string>
+      externalAccountId: optional<string>
+      id:
+        docs: External ID
+        type: optional<integer>
+      companyName: optional<string>
+      fetchRequests: optional<list<_InlinedType166>>
+      status: optional<_InlinedType167>
+      migration: optional<_InlinedType171>
+      userId: optional<string>
+      accountId:
+        docs: Owner
+        type: optional<string>
+      tripAdvisor:
+        docs: TripAdvisor details
+        type: optional<map<string, unknown>>
+      homeaway2:
+        docs: Homeaway details
+        type: optional<map<string, unknown>>
+      bookingCom:
+        docs: BookingCom details
+        type: optional<_InlinedType172>
+      createdAt:
+        docs: Date
+        type: optional<string>
+      missingStep: optional<string>
+      steps: optional<list<_InlinedType174>>
+      newIntegrationBackup: optional<map<string, unknown>>
+      threadIdsMigrated: optional<boolean>
+      isDeleted: optional<boolean>
+      deletedAt:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType176:
+    properties:
+      code: optional<string>
+      expiresAt: optional<integer>
+      accessToken: optional<string>
+      refreshToken: optional<string>
+      lastForceRefresh:
+        docs: date
+        type: optional<string>
+
+  _InlinedType177:
+    properties:
+      all: optional<boolean>
+      emails: optional<list<string>>
+
+  _InlinedType178:
+    docs: Only if platform is airbnb
+    properties:
+      credentials: optional<_InlinedType176>
+      forwardEmails: optional<_InlinedType177>
+      createdAt:
+        docs: date
+        type: optional<string>
+
+  _InlinedType179:
+    properties:
+      all: optional<boolean>
+      emails: optional<list<string>>
+
+  _InlinedType180:
+    enum:
+      - NOT_STARTED
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+      - TIMEOUT
+
+  _InlinedType181:
+    properties:
+      fetchAllListings: optional<boolean>
+      externalListingIds: optional<list<string>>
+      status: optional<_InlinedType180>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+      finishedTime:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType182:
+    enum:
+      - NOT_CONNECTED
+      - CONNECTING
+      - CONNECTED
+      - FAILED
+      - TIMEOUT
+      - DISCONNECTED
+      - PENDING
+
+  _InlinedType183:
+    enum:
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+
+  _InlinedType184:
+    enum:
+      - GUESTY
+      - AIRBNB
+
+  _InlinedType185:
+    properties:
+      at:
+        docs: Date
+        type: optional<string>
+      code: optional<string>
+      message: optional<string>
+      raw: optional<map<string, unknown>>
+
+  _InlinedType186:
+    properties:
+      status: optional<_InlinedType183>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+      finishedTime:
+        docs: Date
+        type: optional<string>
+      steps: optional<list<map<string, unknown>>>
+      discrepancyStepExecuted: optional<boolean>
+      discrepancyResolution: optional<_InlinedType184>
+      listingQuantityDiscrepancyStepExecuted: optional<boolean>
+      error: optional<_InlinedType185>
+      notes: optional<string>
+      isRollingBack: optional<boolean>
+
+  _InlinedType187:
+    docs: BookingCom details
+    properties:
+      legalEntityId: optional<string>
+
+  _InlinedType188:
+    enum:
+      - COMPLETED
+      - IN_PROGRESS
+
+  _InlinedType189:
+    properties:
+      type: optional<string>
+      status: optional<_InlinedType188>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType190:
+    properties:
+      code: optional<string>
+      expiresAt: optional<integer>
+      accessToken: optional<string>
+      refreshToken: optional<string>
+      lastForceRefresh:
+        docs: date
+        type: optional<string>
+
+  _InlinedType191:
+    properties:
+      all: optional<boolean>
+      emails: optional<list<string>>
+
+  _InlinedType192:
+    docs: Only if platform is airbnb
+    properties:
+      credentials: optional<_InlinedType190>
+      forwardEmails: optional<_InlinedType191>
+      createdAt:
+        docs: date
+        type: optional<string>
+
+  _InlinedType193:
+    properties:
+      all: optional<boolean>
+      emails: optional<list<string>>
+
+  _InlinedType194:
+    enum:
+      - NOT_STARTED
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+      - TIMEOUT
+
+  _InlinedType195:
+    properties:
+      fetchAllListings: optional<boolean>
+      externalListingIds: optional<list<string>>
+      status: optional<_InlinedType194>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+      finishedTime:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType196:
+    enum:
+      - NOT_CONNECTED
+      - CONNECTING
+      - CONNECTED
+      - FAILED
+      - TIMEOUT
+      - DISCONNECTED
+      - PENDING
+
+  _InlinedType197:
+    enum:
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+
+  _InlinedType198:
+    enum:
+      - GUESTY
+      - AIRBNB
+
+  _InlinedType199:
+    properties:
+      at:
+        docs: Date
+        type: optional<string>
+      code: optional<string>
+      message: optional<string>
+      raw: optional<map<string, unknown>>
+
+  _InlinedType200:
+    properties:
+      status: optional<_InlinedType197>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+      finishedTime:
+        docs: Date
+        type: optional<string>
+      steps: optional<list<map<string, unknown>>>
+      discrepancyStepExecuted: optional<boolean>
+      discrepancyResolution: optional<_InlinedType198>
+      listingQuantityDiscrepancyStepExecuted: optional<boolean>
+      error: optional<_InlinedType199>
+      notes: optional<string>
+      isRollingBack: optional<boolean>
+
+  _InlinedType201:
+    docs: BookingCom details
+    properties:
+      legalEntityId: optional<string>
+
+  _InlinedType202:
+    enum:
+      - COMPLETED
+      - IN_PROGRESS
+
+  _InlinedType203:
+    properties:
+      type: optional<string>
+      status: optional<_InlinedType202>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType204:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      airbnb2:
+        docs: Only if platform is airbnb
+        type: optional<_InlinedType192>
+      forwardEmails: optional<_InlinedType193>
+      active:
+        docs: Status of connection
+        type: optional<boolean>
+      platform: optional<string>
+      listings: optional<list<map<string, unknown>>>
+      complexes: optional<list<map<string, unknown>>>
+      nickname: optional<string>
+      channelId: optional<string>
+      activatedAt:
+        docs: Date
+        type: optional<string>
+      disconnectedAt:
+        docs: Date
+        type: optional<string>
+      proxyEmail: optional<string>
+      incomingEmail: optional<string>
+      externalAccountId: optional<string>
+      id:
+        docs: External ID
+        type: optional<integer>
+      companyName: optional<string>
+      fetchRequests: optional<list<_InlinedType195>>
+      status: optional<_InlinedType196>
+      migration: optional<_InlinedType200>
+      userId: optional<string>
+      accountId:
+        docs: Owner
+        type: optional<string>
+      tripAdvisor:
+        docs: TripAdvisor details
+        type: optional<map<string, unknown>>
+      homeaway2:
+        docs: Homeaway details
+        type: optional<map<string, unknown>>
+      bookingCom:
+        docs: BookingCom details
+        type: optional<_InlinedType201>
+      createdAt:
+        docs: Date
+        type: optional<string>
+      missingStep: optional<string>
+      steps: optional<list<_InlinedType203>>
+      newIntegrationBackup: optional<map<string, unknown>>
+      threadIdsMigrated: optional<boolean>
+      isDeleted: optional<boolean>
+      deletedAt:
+        docs: Date
+        type: optional<string>

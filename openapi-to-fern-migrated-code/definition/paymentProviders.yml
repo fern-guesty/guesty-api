@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: /payment-providers
+  endpoints:
+    getSummary:
+      path: /summary
+      method: GET
+      display-name: "Get summary "
+
+    getDefaultProvider:
+      path: /default
+      method: GET
+      display-name: Get default payment provider
+
+    getStats:
+      path: /stats
+      method: GET
+      display-name: Get provider stats
+
+    getSmartviewsConfig:
+      path: /smartviews/config
+      method: GET
+      display-name: Receive smartview config
+
+    isPaymentsActive:
+      path: /is-payments-active
+      method: GET
+      display-name: Check if payments active
+
+    getPaymentProvider:
+      path: /{providerId}
+      method: GET
+      display-name: Get payment provider by id
+      path-parameters:
+        providerId: string

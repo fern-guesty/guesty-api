@@ -1,0 +1,434 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: /saved-replies
+  endpoints:
+    "":
+      path: ""
+      method: GET
+      display-name: Get saved replies
+      request:
+        query-parameters:
+          limit:
+            docs: "Pagination limit, max: 100"
+            type: optional<integer>
+          skip:
+            docs: How many results should be skipped to get to the current page
+            type: optional<integer>
+          listingId:
+            docs: Limit results to a specific listing
+            type: optional<string>
+          accountId:
+            docs: Limit results to a specific account
+            type: optional<string>
+          returnDefault:
+            docs: To get Guesty defaults SRs
+            type: optional<boolean>
+          fields:
+            docs: >-
+              Selection of fields, separated by space. See response schema to
+              get list of fields
+            type: optional<string>
+          sort:
+            docs: Field to sort by. Prepend - for DESC.
+            type: optional<string>
+          q:
+            docs: >-
+              Search query string. Searches in question and folder. Search is
+              case-insensitive.
+            type: optional<string>
+      response: _InlinedType818
+
+    _unnamedOperation48:
+      path: ""
+      method: POST
+      display-name: Post saved reply
+      request:
+        body:
+          properties:
+            question: string
+            answer: string
+            applyWhenHasBooking: optional<boolean>
+            applyWhenNoBooking: optional<boolean>
+            isAbstract: optional<boolean>
+            type: optional<_InlinedType819>
+            language:
+              docs: Language of the saved reply.
+              type: optional<_InlinedType820>
+            excludeListingIds:
+              docs: Exclude saved reply from the specific listings
+              type: optional<list<string>>
+            listingsIds:
+              docs: Apply saved reply for the specific listings
+              type: optional<list<string>>
+            folder: optional<string>
+            tags: optional<list<string>>
+            filters:
+              docs: Apply saved reply to listings which match the filters
+              type: optional<_InlinedType821>
+      response: _InlinedType827
+
+    _unnamedOperation49:
+      path: /{replyId}
+      method: GET
+      display-name: Get saved reply by id
+      path-parameters:
+        replyId:
+          docs: Saved reply Id
+          type: string
+      request:
+        query-parameters:
+          fields:
+            docs: >-
+              Selection of fields, separated by space. See response schema to
+              get the list of fields.
+            type: optional<string>
+      response: _InlinedType833
+
+    _unnamedOperation50:
+      path: /{replyId}
+      method: PUT
+      display-name: Update saved reply by id
+      path-parameters:
+        replyId:
+          docs: Saved Reply Id
+          type: string
+      request:
+        body:
+          properties:
+            question: optional<string>
+            answer: optional<string>
+            applyWhenHasBooking: optional<boolean>
+            applyWhenNoBooking: optional<boolean>
+            isAbstract: optional<boolean>
+            type: optional<_InlinedType834>
+            language:
+              docs: Language of the saved reply.
+              type: optional<_InlinedType835>
+            excludeListingIds:
+              docs: Exclude saved reply from the specific listings
+              type: optional<list<string>>
+            listingsIds:
+              docs: Apply saved reply for the specific listings
+              type: optional<list<string>>
+            folder: optional<string>
+            tags: optional<list<string>>
+            filters:
+              docs: Apply saved reply to listings which match the filters
+              type: optional<_InlinedType836>
+      response: _InlinedType842
+
+    _unnamedOperation51:
+      path: /{replyId}
+      method: DELETE
+      display-name: Delete saved reply by id
+      path-parameters:
+        replyId:
+          docs: Saved Reply Id
+          type: string
+
+    _unnamedOperation52:
+      path: /listing/{listingId}
+      method: GET
+      docs: >-
+        Returns saved replies filtered by the listing id. By default only ids
+        are returned.
+      display-name: Get saved replies by listing id
+      path-parameters:
+        listingId:
+          docs: Limit results to a specific listing
+          type: string
+      request:
+        query-parameters:
+          limit:
+            docs: "Pagination limit, max: 100"
+            type: optional<integer>
+          skip:
+            docs: How many results should be skipped to get to the current page
+            type: optional<integer>
+          accountId:
+            docs: Limit results to a specific account
+            type: optional<string>
+          returnDefault:
+            docs: To get Guesty defaults SRs
+            type: optional<boolean>
+          fields:
+            docs: >-
+              Selection of fields, separated by space. See response schema to
+              get list of fields
+            type: optional<string>
+          sort:
+            docs: Field to sort by. Prepend - for DESC.
+            type: optional<string>
+          q:
+            docs: >-
+              Search query string. Searches in question and folder. Search is
+              case-insensitive.
+            type: optional<string>
+      response: _InlinedType848
+
+types:
+  _InlinedType812:
+    properties:
+      question: optional<string>
+      answer: optional<string>
+      applyWhenHasBooking: optional<boolean>
+      applyWhenNoBooking: optional<boolean>
+      isAbstract: optional<boolean>
+      type: optional<_InlinedType813>
+      language:
+        docs: Language of the saved reply.
+        type: optional<_InlinedType814>
+      excludeListingIds:
+        docs: Exclude saved reply from the specific listings
+        type: optional<list<string>>
+      listingsIds:
+        docs: Apply saved reply for the specific listings
+        type: optional<list<string>>
+      folder: optional<string>
+      tags: optional<list<string>>
+      filters:
+        docs: Apply saved reply to listings which match the filters
+        type: optional<_InlinedType815>
+
+  _InlinedType816:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType817:
+    extends:
+      - _InlinedType812
+      - _InlinedType816
+
+  _InlinedType818:
+    properties:
+      count: optional<double>
+      limit: optional<double>
+      skip: optional<double>
+      results: optional<list<_InlinedType817>>
+
+  _InlinedType819:
+    enum:
+      - user
+      - guest
+      - contact
+      - review
+
+  _InlinedType820:
+    docs: Language of the saved reply.
+    enum:
+      - en
+      - fr
+      - es
+      - it
+      - ru
+      - ja
+      - zh
+
+  _InlinedType821:
+    docs: Apply saved reply to listings which match the filters
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      field:
+        docs: Subject of the filter, e.g. listing.address.city
+        type: optional<string>
+      operator:
+        docs: >-
+          Enhanced MongoDB comparison operator: $eq, $not, $contains,
+          $notcontains, $gt, $lt, $between
+        type: optional<string>
+      values:
+        docs: Values to filter by.
+        type: optional<list<string>>
+
+  _InlinedType822:
+    properties:
+      question: optional<string>
+      answer: optional<string>
+      applyWhenHasBooking: optional<boolean>
+      applyWhenNoBooking: optional<boolean>
+      isAbstract: optional<boolean>
+      type: optional<_InlinedType823>
+      language:
+        docs: Language of the saved reply.
+        type: optional<_InlinedType824>
+      excludeListingIds:
+        docs: Exclude saved reply from the specific listings
+        type: optional<list<string>>
+      listingsIds:
+        docs: Apply saved reply for the specific listings
+        type: optional<list<string>>
+      folder: optional<string>
+      tags: optional<list<string>>
+      filters:
+        docs: Apply saved reply to listings which match the filters
+        type: optional<_InlinedType825>
+
+  _InlinedType826:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType827:
+    extends:
+      - _InlinedType822
+      - _InlinedType826
+
+  _InlinedType828:
+    properties:
+      question: optional<string>
+      answer: optional<string>
+      applyWhenHasBooking: optional<boolean>
+      applyWhenNoBooking: optional<boolean>
+      isAbstract: optional<boolean>
+      type: optional<_InlinedType829>
+      language:
+        docs: Language of the saved reply.
+        type: optional<_InlinedType830>
+      excludeListingIds:
+        docs: Exclude saved reply from the specific listings
+        type: optional<list<string>>
+      listingsIds:
+        docs: Apply saved reply for the specific listings
+        type: optional<list<string>>
+      folder: optional<string>
+      tags: optional<list<string>>
+      filters:
+        docs: Apply saved reply to listings which match the filters
+        type: optional<_InlinedType831>
+
+  _InlinedType832:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType833:
+    extends:
+      - _InlinedType828
+      - _InlinedType832
+
+  _InlinedType834:
+    enum:
+      - user
+      - guest
+      - contact
+      - review
+
+  _InlinedType835:
+    docs: Language of the saved reply.
+    enum:
+      - en
+      - fr
+      - es
+      - it
+      - ru
+      - ja
+      - zh
+
+  _InlinedType836:
+    docs: Apply saved reply to listings which match the filters
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      field:
+        docs: Subject of the filter, e.g. listing.address.city
+        type: optional<string>
+      operator:
+        docs: >-
+          Enhanced MongoDB comparison operator: $eq, $not, $contains,
+          $notcontains, $gt, $lt, $between
+        type: optional<string>
+      values:
+        docs: Values to filter by.
+        type: optional<list<string>>
+
+  _InlinedType837:
+    properties:
+      question: optional<string>
+      answer: optional<string>
+      applyWhenHasBooking: optional<boolean>
+      applyWhenNoBooking: optional<boolean>
+      isAbstract: optional<boolean>
+      type: optional<_InlinedType838>
+      language:
+        docs: Language of the saved reply.
+        type: optional<_InlinedType839>
+      excludeListingIds:
+        docs: Exclude saved reply from the specific listings
+        type: optional<list<string>>
+      listingsIds:
+        docs: Apply saved reply for the specific listings
+        type: optional<list<string>>
+      folder: optional<string>
+      tags: optional<list<string>>
+      filters:
+        docs: Apply saved reply to listings which match the filters
+        type: optional<_InlinedType840>
+
+  _InlinedType841:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType842:
+    extends:
+      - _InlinedType837
+      - _InlinedType841
+
+  _InlinedType843:
+    properties:
+      question: optional<string>
+      answer: optional<string>
+      applyWhenHasBooking: optional<boolean>
+      applyWhenNoBooking: optional<boolean>
+      isAbstract: optional<boolean>
+      type: optional<_InlinedType844>
+      language:
+        docs: Language of the saved reply.
+        type: optional<_InlinedType845>
+      excludeListingIds:
+        docs: Exclude saved reply from the specific listings
+        type: optional<list<string>>
+      listingsIds:
+        docs: Apply saved reply for the specific listings
+        type: optional<list<string>>
+      folder: optional<string>
+      tags: optional<list<string>>
+      filters:
+        docs: Apply saved reply to listings which match the filters
+        type: optional<_InlinedType846>
+
+  _InlinedType847:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType848:
+    extends:
+      - _InlinedType843
+      - _InlinedType847

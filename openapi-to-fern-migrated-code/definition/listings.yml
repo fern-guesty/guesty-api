@@ -1,0 +1,3596 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: ""
+  endpoints:
+    "":
+      path: /listings
+      method: GET
+      display-name: Retrieve all listings
+      request:
+        query-parameters:
+          ids:
+            docs: Limit results to these ids, comma separated
+            type: optional<string>
+          nids:
+            docs: Limit results to not include these ids, comma seperated
+            type: optional<string>
+          viewId:
+            docs: >-
+              Pull a specific view (view is a saved settings of accountId,
+              filters, fields,sort)
+            type: optional<string>
+          q:
+            docs: Search query string. Searches in title, internalNote, address.full
+            type: optional<string>
+          city:
+            docs: Limit results to city
+            type: optional<string>
+          active:
+            docs: >-
+              Limit results to active state. Boolean, true for only active,
+              false for only inactive, don't include for all.
+            type: optional<boolean>
+          pmsActive:
+            docs: >-
+              Limit results to listings with the feature pms active. Boolean,
+              true for only active, false for only inactive, don't include for
+              all.
+            type: optional<boolean>
+          integrationId:
+            docs: Limit results to specific integration
+            type: optional<string>
+          listed:
+            docs: >-
+              Limit results to listed state. Boolean, true for only listed,
+              false for only unlisted, don't include for all.
+            type: optional<boolean>
+          ignoreFlexibleBlocks:
+            docs: Shows available listings and listings with flexible blocks.
+            type: optional<boolean>
+          tags:
+            docs: >-
+              Limit results to listings with specific tag, can be used multiple
+              times for and function
+            type: optional<string>
+          fields:
+            docs: Selection of fields, separated by space
+            type: optional<string>
+          sort:
+            docs: ascending alphabetical sort , use - to descending sort
+            type: optional<string>
+          limit:
+            docs: "Pagination, max: 100"
+            type: optional<double>
+          skip:
+            docs: Pagination skip
+            type: optional<double>
+      response: list<_InlinedType243>
+
+    _unnamedOperation9:
+      path: /listings
+      method: POST
+      display-name: Create a listing
+      request:
+        body:
+          properties:
+            address: _InlinedType244
+            title: string
+            origin:
+              docs: Marks the origin platform that the listing was migrated from
+              type: optional<string>
+            originId:
+              docs: Marks the origin platform listing ID
+              type: optional<string>
+            accommodates: optional<double>
+            bedrooms: optional<double>
+            beds: optional<double>
+            bathrooms: optional<double>
+            minimumAge: optional<double>
+            prices: _InlinedType245
+            terms: _InlinedType246
+            timezone: optional<string>
+            pictures: list<_InlinedType247>
+            propertyType:
+              docs: property type
+              type: optional<_InlinedType248>
+            roomType:
+              docs: room type
+              type: optional<_InlinedType249>
+            defaultCheckInTime: optional<string>
+            defaultCheckOutTime: optional<string>
+            type:
+              docs: Listing type
+              type: _InlinedType250
+            tags: optional<list<string>>
+            pms: optional<_InlinedType261>
+            owners: optional<list<string>>
+            nickname:
+              docs: Listing nickname
+              type: string
+            amenities: optional<list<string>>
+            mtl:
+              docs: >-
+                In case if you are going to create a listing with the child
+                unit, please fill in 'mtl' object
+              type: optional<_InlinedType262>
+            manageSubunitPictures: optional<boolean>
+            isListed: optional<boolean>
+            numberOfChildrenToCreate: optional<double>
+      response: _InlinedType301
+
+    _unnamedOperation10:
+      path: /listings/{id}
+      method: GET
+      display-name: Retrieve a listing
+      path-parameters:
+        id:
+          docs: Listing ID
+          type: string
+      request:
+        query-parameters:
+          fields:
+            docs: Listings fields to retrieve, separated by space
+            type: optional<string>
+      response: _InlinedType340
+
+    _unnamedOperation11:
+      path: /listings/{id}
+      method: PUT
+      display-name: Update a listing
+      path-parameters:
+        id:
+          docs: Listing ID
+          type: string
+      request:
+        body:
+          properties:
+            accommodates: optional<double>
+            bedrooms: optional<double>
+            beds: optional<double>
+            bathrooms: optional<double>
+            minimumAge: optional<double>
+            defaultCheckInTime: optional<string>
+            defaultCheckOutTime: optional<string>
+            timezone: optional<string>
+            listingType:
+              docs: listing type
+              type: optional<_InlinedType341>
+            propertyType:
+              docs: property type
+              type: optional<_InlinedType342>
+            roomType:
+              docs: room type
+              type: optional<_InlinedType343>
+            childrenToConnect:
+              docs: Array with children ids that are supposed to be connected
+              type: optional<list<string>>
+            childrenToDisconnect:
+              docs: Array with children ids that are supposed to be disconnected
+              type: optional<list<string>>
+            numberOfChildrenToCreate:
+              docs: Number of children to create automatically
+              type: optional<double>
+            address: optional<_InlinedType344>
+            pms: optional<_InlinedType355>
+            tags: optional<list<string>>
+            nickname: optional<string>
+            publicDescription: optional<_InlinedType356>
+      response: _InlinedType395
+
+    _unnamedOperation12:
+      path: /listings/{id}
+      method: DELETE
+      display-name: Delete a listing
+      path-parameters:
+        id:
+          docs: Listing ID
+          type: string
+
+    _unnamedOperation13:
+      path: /listings/{id}/availability-settings
+      method: PUT
+      display-name: Update listings availability settings
+      path-parameters:
+        id:
+          docs: Listing ID
+          type: string
+      request:
+        body:
+          properties:
+            calendarRules: _InlinedType405
+      response: _InlinedType444
+
+    _unnamedOperation14:
+      path: /listings/cities
+      method: GET
+      display-name: List all cities
+
+    _unnamedOperation15:
+      path: /listings/tags
+      method: GET
+      display-name: List all tags
+
+    _unnamedOperation16:
+      path: /listings/{id}?fields=paymentProviderId
+      method: GET
+      docs: " providerAccountId is important! - this is how you identify with Stripe once the clearing payment"
+      display-name: Retrieve a listing's paymentProviderId
+      path-parameters:
+        id:
+          docs: Listing ID
+          type: string
+      request:
+        query-parameters:
+          fields:
+            docs: Listings fields to retrieve
+            type: optional<string>
+      response: _InlinedType446
+
+    _unnamedOperation17:
+      path: /listings.csv
+      method: POST
+      docs: >-
+        Same as GET /listings but results are returned as a downloadable csv
+        file
+      display-name: Export as CSV
+
+    _unnamedOperation18:
+      path: /listings.email
+      method: POST
+      docs: Same as /listings but results are sent as an email
+      display-name: Send results in email
+      request:
+        body:
+          properties: {}
+
+    _unnamedOperation19:
+      path: /listings/{id}/custom-fields
+      method: GET
+      docs: Get custom fields such as wifi password etc.
+      display-name: Get all listing's custom fields
+      path-parameters:
+        id: string
+
+    _unnamedOperation20:
+      path: /listings/{id}/custom-fields
+      method: PUT
+      display-name: Update listing's Custom Fields
+      path-parameters:
+        id: string
+      request:
+        body:
+          properties:
+            customFields: optional<list<_InlinedType447>>
+
+    _unnamedOperation21:
+      path: /listings/{id}/custom-fields/{field_id}
+      method: GET
+      display-name: Get custom field-Listings
+      path-parameters:
+        id: string
+        field_id: string
+
+    _unnamedOperation22:
+      path: /listings/{listing_id}/custom-fields/{field_id}
+      method: DELETE
+      display-name: Delete listing's custom fields
+      path-parameters:
+        listing_id: string
+        field_id: string
+
+    _unnamedOperation23:
+      path: /financials/listing/{id}
+      method: GET
+      display-name: Retrieve listing Financials
+      path-parameters:
+        id: string
+      response: _InlinedType476
+
+    _unnamedOperation24:
+      path: /financials/listing/{id}
+      method: PUT
+      docs: Only accessible to Admin or User tokens.
+      display-name: Update listing Financials
+      path-parameters:
+        id: string
+      request:
+        body:
+          docs: >-
+            Select financials fields with updated values. Non-updated fields are
+            not required in the body
+          properties:
+            guestsIncludedInRegularFee:
+              docs: >-
+                The higest number of guests that will not reauires to add
+                extraPersonFee
+              type: optional<double>
+            extraPersonFee:
+              docs: >-
+                The amount of fee which is added for each extra person, above
+                guestsIncludedInRegularFee, in the reservation
+              type: optional<double>
+            basePrice:
+              docs: The cost per night for the listing
+              type: optional<double>
+            basePriceUSD:
+              docs: The cost per night in USD for the listing
+              type: optional<double>
+            monthlyPriceFactor:
+              docs: >-
+                A factor for the nightly cost for reservations that are longer
+                then a month
+              type: optional<double>
+            weeklyPriceFactor:
+              docs: >-
+                A factor for the nightly cost for reservations that are longer
+                then a week
+              type: optional<double>
+            weekendBasePrice:
+              docs: The base price for weekend
+              type: optional<double>
+            securityDepositFee: optional<double>
+            currency:
+              docs: The currency that is in use for the listing prices
+              type: optional<string>
+            cleaningFee:
+              docs: Object to define cleaningFee settings
+              type: optional<_InlinedType504>
+      response: _InlinedType533
+
+types:
+  _InlinedType205:
+    properties:
+      code: optional<string>
+      expiresAt: optional<integer>
+      accessToken: optional<string>
+      refreshToken: optional<string>
+      lastForceRefresh:
+        docs: date
+        type: optional<string>
+
+  _InlinedType206:
+    properties:
+      all: optional<boolean>
+      emails: optional<list<string>>
+
+  _InlinedType207:
+    docs: Only if platform is airbnb
+    properties:
+      credentials: optional<_InlinedType205>
+      forwardEmails: optional<_InlinedType206>
+      createdAt:
+        docs: date
+        type: optional<string>
+
+  _InlinedType208:
+    properties:
+      all: optional<boolean>
+      emails: optional<list<string>>
+
+  _InlinedType209:
+    enum:
+      - NOT_STARTED
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+      - TIMEOUT
+
+  _InlinedType210:
+    properties:
+      fetchAllListings: optional<boolean>
+      externalListingIds: optional<list<string>>
+      status: optional<_InlinedType209>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+      finishedTime:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType211:
+    enum:
+      - NOT_CONNECTED
+      - CONNECTING
+      - CONNECTED
+      - FAILED
+      - TIMEOUT
+      - DISCONNECTED
+      - PENDING
+
+  _InlinedType212:
+    enum:
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+
+  _InlinedType213:
+    enum:
+      - GUESTY
+      - AIRBNB
+
+  _InlinedType214:
+    properties:
+      at:
+        docs: Date
+        type: optional<string>
+      code: optional<string>
+      message: optional<string>
+      raw: optional<map<string, unknown>>
+
+  _InlinedType215:
+    properties:
+      status: optional<_InlinedType212>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+      finishedTime:
+        docs: Date
+        type: optional<string>
+      steps: optional<list<map<string, unknown>>>
+      discrepancyStepExecuted: optional<boolean>
+      discrepancyResolution: optional<_InlinedType213>
+      listingQuantityDiscrepancyStepExecuted: optional<boolean>
+      error: optional<_InlinedType214>
+      notes: optional<string>
+      isRollingBack: optional<boolean>
+
+  _InlinedType216:
+    docs: BookingCom details
+    properties:
+      legalEntityId: optional<string>
+
+  _InlinedType217:
+    enum:
+      - COMPLETED
+      - IN_PROGRESS
+
+  _InlinedType218:
+    properties:
+      type: optional<string>
+      status: optional<_InlinedType217>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType219:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      airbnb2:
+        docs: Only if platform is airbnb
+        type: optional<_InlinedType207>
+      forwardEmails: optional<_InlinedType208>
+      active:
+        docs: Status of connection
+        type: optional<boolean>
+      platform: optional<string>
+      listings: optional<list<map<string, unknown>>>
+      complexes: optional<list<map<string, unknown>>>
+      nickname: optional<string>
+      channelId: optional<string>
+      activatedAt:
+        docs: Date
+        type: optional<string>
+      disconnectedAt:
+        docs: Date
+        type: optional<string>
+      proxyEmail: optional<string>
+      incomingEmail: optional<string>
+      externalAccountId: optional<string>
+      id:
+        docs: External ID
+        type: optional<integer>
+      companyName: optional<string>
+      fetchRequests: optional<list<_InlinedType210>>
+      status: optional<_InlinedType211>
+      migration: optional<_InlinedType215>
+      userId: optional<string>
+      accountId:
+        docs: Owner
+        type: optional<string>
+      tripAdvisor:
+        docs: TripAdvisor details
+        type: optional<map<string, unknown>>
+      homeaway2:
+        docs: Homeaway details
+        type: optional<map<string, unknown>>
+      bookingCom:
+        docs: BookingCom details
+        type: optional<_InlinedType216>
+      createdAt:
+        docs: Date
+        type: optional<string>
+      missingStep: optional<string>
+      steps: optional<list<_InlinedType218>>
+      newIntegrationBackup: optional<map<string, unknown>>
+      threadIdsMigrated: optional<boolean>
+      isDeleted: optional<boolean>
+      deletedAt:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType220:
+    properties:
+      full:
+        docs: full address
+        type: optional<string>
+      lng: optional<double>
+      lat: optional<double>
+      street: optional<string>
+      city: optional<string>
+      country: optional<string>
+
+  _InlinedType221:
+    properties:
+      full:
+        docs: full address
+        type: optional<string>
+      lng: optional<double>
+      lat: optional<double>
+      street: optional<string>
+      city: optional<string>
+      country: optional<string>
+
+  _InlinedType222:
+    properties:
+      defaultCleaningTime: optional<string>
+      instructions: optional<string>
+
+  _InlinedType223:
+    enum:
+      - clean
+      - waitingForInspection
+      - dirty
+      - unknown
+
+  _InlinedType224:
+    properties:
+      value: optional<_InlinedType223>
+      updatedAt: optional<string>
+
+  _InlinedType225:
+    properties:
+      regular: optional<string>
+      thumbnail: optional<string>
+      large: optional<string>
+      caption: optional<string>
+      height: optional<double>
+      original: optional<string>
+      size: optional<double>
+      width: optional<double>
+
+  _InlinedType226:
+    properties:
+      regular: optional<string>
+      thumbnail: optional<string>
+      large: optional<string>
+      caption: optional<string>
+      height: optional<double>
+      original: optional<string>
+      size: optional<double>
+      width: optional<double>
+
+  _InlinedType227:
+    properties:
+      minNights: optional<double>
+      maxNights: optional<double>
+      cancellation: optional<string>
+
+  _InlinedType228:
+    properties:
+      guestsIncludedInRegularFee: optional<double>
+      extraPersonFee: optional<double>
+      basePrice: optional<double>
+      basePriceUSD: optional<double>
+      monthlyPriceFactor: optional<double>
+      weeklyPriceFactor: optional<double>
+      weeendBasePrice: optional<double>
+      securityDepositFee: optional<double>
+      currency: optional<string>
+      cleaningFee: optional<double>
+
+  _InlinedType229:
+    properties:
+      active: optional<boolean>
+      config: optional<list<string>>
+
+  _InlinedType230:
+    properties:
+      autoList: optional<_InlinedType229>
+
+  _InlinedType231:
+    properties:
+      customSignature: optional<string>
+
+  _InlinedType232:
+    enum:
+      - clean
+      - waitingForInspection
+      - dirty
+      - unknown
+
+  _InlinedType233:
+    properties:
+      value: optional<_InlinedType232>
+      updatedAt: optional<string>
+
+  _InlinedType234:
+    properties:
+      id: optional<string>
+      livemode: optional<boolean>
+      token_type: optional<string>
+      stripe_publishable_key: optional<string>
+      stripe_user_id: optional<string>
+      scope: optional<string>
+
+  _InlinedType235:
+    properties:
+      active: optional<boolean>
+      status: optional<string>
+      accountName: optional<string>
+      defaultCurrency: optional<string>
+      syncedAt: optional<string>
+      payload: optional<_InlinedType234>
+
+  _InlinedType236:
+    properties:
+      stripe: optional<_InlinedType235>
+
+  _InlinedType237:
+    properties:
+      active: optional<boolean>
+      paymentProviders: optional<_InlinedType236>
+
+  _InlinedType238:
+    properties:
+      policy: optional<list<unknown>>
+
+  _InlinedType239:
+    properties:
+      active: optional<boolean>
+      automation: optional<_InlinedType230>
+      inbox: optional<_InlinedType231>
+      cleaningStatus: optional<_InlinedType233>
+      paymentProcessing: optional<_InlinedType237>
+      autoPayments: optional<_InlinedType238>
+
+  _InlinedType240:
+    properties:
+      ittt: optional<list<unknown>>
+
+  _InlinedType241:
+    properties:
+      checklist: optional<list<unknown>>
+
+  _InlinedType242:
+    properties:
+      receptionDesk: optional<_InlinedType240>
+      screening: optional<_InlinedType241>
+      contactPersonUserId: optional<string>
+
+  _InlinedType243:
+    properties:
+      _id:
+        docs: String (ObjectId)
+        type: optional<string>
+      accountId:
+        docs: String (ObjectId)
+        type: optional<string>
+      createdAt: optional<string>
+      integrations: optional<list<_InlinedType219>>
+      isVirtual: optional<boolean>
+      nickname: optional<string>
+      tags: optional<list<string>>
+      isListed: optional<boolean>
+      title: optional<string>
+      propertyType: optional<string>
+      roomType: optional<string>
+      bedType: optional<string>
+      accommodates: optional<double>
+      bedrooms: optional<double>
+      areaSquareFeet: optional<double>
+      address: optional<_InlinedType220>
+      publishedAddress: optional<_InlinedType221>
+      timezone: optional<string>
+      defaultCheckInTime: optional<string>
+      defaultCheckOutTime: optional<string>
+      cleaning: optional<_InlinedType222>
+      cleaningStatus: optional<_InlinedType224>
+      picture: optional<_InlinedType225>
+      pictures: optional<list<_InlinedType226>>
+      amenities: optional<list<string>>
+      amenitiesNotIncluded: optional<list<string>>
+      terms: optional<_InlinedType227>
+      prices: optional<_InlinedType228>
+      netIncomeFormula: optional<string>
+      commissionFormula: optional<string>
+      commissionTaxPrecentage: optional<string>
+      pms: optional<_InlinedType239>
+      receptionistsService: optional<_InlinedType242>
+      active: optional<boolean>
+      customFields: optional<map<string, unknown>>
+      calendarRules: optional<map<string, unknown>>
+      publicDescription: optional<map<string, unknown>>
+      privateDescription: optional<map<string, unknown>>
+      markups: optional<map<string, unknown>>
+
+  _InlinedType244:
+    properties:
+      full:
+        docs: full address
+        type: optional<string>
+      lng: optional<double>
+      lat: optional<double>
+      street: optional<string>
+      city: optional<string>
+      country: optional<string>
+
+  _InlinedType245:
+    properties:
+      guestsIncludedInRegularFee: optional<double>
+      extraPersonFee: optional<double>
+      basePrice: optional<double>
+      basePriceUSD: optional<double>
+      monthlyPriceFactor: optional<double>
+      weeklyPriceFactor: optional<double>
+      weeendBasePrice: optional<double>
+      securityDepositFee: optional<double>
+      currency: optional<string>
+      cleaningFee: optional<double>
+
+  _InlinedType246:
+    properties:
+      minNights: optional<double>
+      maxNights: optional<double>
+      cancellation: optional<string>
+
+  _InlinedType247:
+    properties:
+      regular: optional<string>
+      thumbnail: optional<string>
+      large: optional<string>
+      caption: optional<string>
+      height: optional<double>
+      original: optional<string>
+      size: optional<double>
+      width: optional<double>
+
+  _InlinedType248:
+    docs: property type
+    enum:
+      - Apartment
+      - House
+      - Loft
+      - Boat
+      - Camper/RV
+      - Condominium
+      - Chalet
+      - Bed & Breakfast
+      - Villa
+      - Tent
+      - Other
+      - Cabin
+      - Townhouse
+      - Bungalow
+      - Hut
+
+  _InlinedType249:
+    docs: room type
+    enum:
+      - Entire home/apt
+      - Apartment
+      - Quadruple
+      - Suite
+      - Triple
+      - Studio
+      - Family
+      - Dormitory room
+      - Bungalow
+      - Chalet
+      - Holiday Home
+      - Villa
+      - Mobile home
+      - Tent
+
+  _InlinedType250:
+    docs: Listing type
+    enum:
+      - SINGLE
+      - MTL
+
+  _InlinedType251:
+    properties:
+      active: optional<boolean>
+      config: optional<list<string>>
+
+  _InlinedType252:
+    properties:
+      autoList: optional<_InlinedType251>
+
+  _InlinedType253:
+    properties:
+      customSignature: optional<string>
+
+  _InlinedType254:
+    enum:
+      - clean
+      - waitingForInspection
+      - dirty
+      - unknown
+
+  _InlinedType255:
+    properties:
+      value: optional<_InlinedType254>
+      updatedAt: optional<string>
+
+  _InlinedType256:
+    properties:
+      id: optional<string>
+      livemode: optional<boolean>
+      token_type: optional<string>
+      stripe_publishable_key: optional<string>
+      stripe_user_id: optional<string>
+      scope: optional<string>
+
+  _InlinedType257:
+    properties:
+      active: optional<boolean>
+      status: optional<string>
+      accountName: optional<string>
+      defaultCurrency: optional<string>
+      syncedAt: optional<string>
+      payload: optional<_InlinedType256>
+
+  _InlinedType258:
+    properties:
+      stripe: optional<_InlinedType257>
+
+  _InlinedType259:
+    properties:
+      active: optional<boolean>
+      paymentProviders: optional<_InlinedType258>
+
+  _InlinedType260:
+    properties:
+      policy: optional<list<unknown>>
+
+  _InlinedType261:
+    properties:
+      active: optional<boolean>
+      automation: optional<_InlinedType252>
+      inbox: optional<_InlinedType253>
+      cleaningStatus: optional<_InlinedType255>
+      paymentProcessing: optional<_InlinedType259>
+      autoPayments: optional<_InlinedType260>
+
+  _InlinedType262:
+    docs: >-
+      In case if you are going to create a listing with the child unit, please
+      fill in 'mtl' object
+    properties:
+      aas:
+        docs: >-
+          Can be one of the following: 'oc'(on create), 'm'(manual), 'bc'(before
+          check-in)
+        type: optional<string>
+      bc:
+        docs: Number of days before check-in
+        type: optional<double>
+      c:
+        docs: Array with children ids
+        type: optional<list<string>>
+      p:
+        docs: Parent id
+        type: optional<string>
+      hdb4:
+        docs: Highlighting days before
+        type: optional<double>
+      lmcn:
+        docs: >-
+          True if the availability should be calculated according to max
+          consecutive nights. Otherwise it will be calculated according to the
+          number of vacant sub-unit
+        type: optional<boolean>
+
+  _InlinedType263:
+    properties:
+      code: optional<string>
+      expiresAt: optional<integer>
+      accessToken: optional<string>
+      refreshToken: optional<string>
+      lastForceRefresh:
+        docs: date
+        type: optional<string>
+
+  _InlinedType264:
+    properties:
+      all: optional<boolean>
+      emails: optional<list<string>>
+
+  _InlinedType265:
+    docs: Only if platform is airbnb
+    properties:
+      credentials: optional<_InlinedType263>
+      forwardEmails: optional<_InlinedType264>
+      createdAt:
+        docs: date
+        type: optional<string>
+
+  _InlinedType266:
+    properties:
+      all: optional<boolean>
+      emails: optional<list<string>>
+
+  _InlinedType267:
+    enum:
+      - NOT_STARTED
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+      - TIMEOUT
+
+  _InlinedType268:
+    properties:
+      fetchAllListings: optional<boolean>
+      externalListingIds: optional<list<string>>
+      status: optional<_InlinedType267>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+      finishedTime:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType269:
+    enum:
+      - NOT_CONNECTED
+      - CONNECTING
+      - CONNECTED
+      - FAILED
+      - TIMEOUT
+      - DISCONNECTED
+      - PENDING
+
+  _InlinedType270:
+    enum:
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+
+  _InlinedType271:
+    enum:
+      - GUESTY
+      - AIRBNB
+
+  _InlinedType272:
+    properties:
+      at:
+        docs: Date
+        type: optional<string>
+      code: optional<string>
+      message: optional<string>
+      raw: optional<map<string, unknown>>
+
+  _InlinedType273:
+    properties:
+      status: optional<_InlinedType270>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+      finishedTime:
+        docs: Date
+        type: optional<string>
+      steps: optional<list<map<string, unknown>>>
+      discrepancyStepExecuted: optional<boolean>
+      discrepancyResolution: optional<_InlinedType271>
+      listingQuantityDiscrepancyStepExecuted: optional<boolean>
+      error: optional<_InlinedType272>
+      notes: optional<string>
+      isRollingBack: optional<boolean>
+
+  _InlinedType274:
+    docs: BookingCom details
+    properties:
+      legalEntityId: optional<string>
+
+  _InlinedType275:
+    enum:
+      - COMPLETED
+      - IN_PROGRESS
+
+  _InlinedType276:
+    properties:
+      type: optional<string>
+      status: optional<_InlinedType275>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType277:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      airbnb2:
+        docs: Only if platform is airbnb
+        type: optional<_InlinedType265>
+      forwardEmails: optional<_InlinedType266>
+      active:
+        docs: Status of connection
+        type: optional<boolean>
+      platform: optional<string>
+      listings: optional<list<map<string, unknown>>>
+      complexes: optional<list<map<string, unknown>>>
+      nickname: optional<string>
+      channelId: optional<string>
+      activatedAt:
+        docs: Date
+        type: optional<string>
+      disconnectedAt:
+        docs: Date
+        type: optional<string>
+      proxyEmail: optional<string>
+      incomingEmail: optional<string>
+      externalAccountId: optional<string>
+      id:
+        docs: External ID
+        type: optional<integer>
+      companyName: optional<string>
+      fetchRequests: optional<list<_InlinedType268>>
+      status: optional<_InlinedType269>
+      migration: optional<_InlinedType273>
+      userId: optional<string>
+      accountId:
+        docs: Owner
+        type: optional<string>
+      tripAdvisor:
+        docs: TripAdvisor details
+        type: optional<map<string, unknown>>
+      homeaway2:
+        docs: Homeaway details
+        type: optional<map<string, unknown>>
+      bookingCom:
+        docs: BookingCom details
+        type: optional<_InlinedType274>
+      createdAt:
+        docs: Date
+        type: optional<string>
+      missingStep: optional<string>
+      steps: optional<list<_InlinedType276>>
+      newIntegrationBackup: optional<map<string, unknown>>
+      threadIdsMigrated: optional<boolean>
+      isDeleted: optional<boolean>
+      deletedAt:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType278:
+    properties:
+      full:
+        docs: full address
+        type: optional<string>
+      lng: optional<double>
+      lat: optional<double>
+      street: optional<string>
+      city: optional<string>
+      country: optional<string>
+
+  _InlinedType279:
+    properties:
+      full:
+        docs: full address
+        type: optional<string>
+      lng: optional<double>
+      lat: optional<double>
+      street: optional<string>
+      city: optional<string>
+      country: optional<string>
+
+  _InlinedType280:
+    properties:
+      defaultCleaningTime: optional<string>
+      instructions: optional<string>
+
+  _InlinedType281:
+    enum:
+      - clean
+      - waitingForInspection
+      - dirty
+      - unknown
+
+  _InlinedType282:
+    properties:
+      value: optional<_InlinedType281>
+      updatedAt: optional<string>
+
+  _InlinedType283:
+    properties:
+      regular: optional<string>
+      thumbnail: optional<string>
+      large: optional<string>
+      caption: optional<string>
+      height: optional<double>
+      original: optional<string>
+      size: optional<double>
+      width: optional<double>
+
+  _InlinedType284:
+    properties:
+      regular: optional<string>
+      thumbnail: optional<string>
+      large: optional<string>
+      caption: optional<string>
+      height: optional<double>
+      original: optional<string>
+      size: optional<double>
+      width: optional<double>
+
+  _InlinedType285:
+    properties:
+      minNights: optional<double>
+      maxNights: optional<double>
+      cancellation: optional<string>
+
+  _InlinedType286:
+    properties:
+      guestsIncludedInRegularFee: optional<double>
+      extraPersonFee: optional<double>
+      basePrice: optional<double>
+      basePriceUSD: optional<double>
+      monthlyPriceFactor: optional<double>
+      weeklyPriceFactor: optional<double>
+      weeendBasePrice: optional<double>
+      securityDepositFee: optional<double>
+      currency: optional<string>
+      cleaningFee: optional<double>
+
+  _InlinedType287:
+    properties:
+      active: optional<boolean>
+      config: optional<list<string>>
+
+  _InlinedType288:
+    properties:
+      autoList: optional<_InlinedType287>
+
+  _InlinedType289:
+    properties:
+      customSignature: optional<string>
+
+  _InlinedType290:
+    enum:
+      - clean
+      - waitingForInspection
+      - dirty
+      - unknown
+
+  _InlinedType291:
+    properties:
+      value: optional<_InlinedType290>
+      updatedAt: optional<string>
+
+  _InlinedType292:
+    properties:
+      id: optional<string>
+      livemode: optional<boolean>
+      token_type: optional<string>
+      stripe_publishable_key: optional<string>
+      stripe_user_id: optional<string>
+      scope: optional<string>
+
+  _InlinedType293:
+    properties:
+      active: optional<boolean>
+      status: optional<string>
+      accountName: optional<string>
+      defaultCurrency: optional<string>
+      syncedAt: optional<string>
+      payload: optional<_InlinedType292>
+
+  _InlinedType294:
+    properties:
+      stripe: optional<_InlinedType293>
+
+  _InlinedType295:
+    properties:
+      active: optional<boolean>
+      paymentProviders: optional<_InlinedType294>
+
+  _InlinedType296:
+    properties:
+      policy: optional<list<unknown>>
+
+  _InlinedType297:
+    properties:
+      active: optional<boolean>
+      automation: optional<_InlinedType288>
+      inbox: optional<_InlinedType289>
+      cleaningStatus: optional<_InlinedType291>
+      paymentProcessing: optional<_InlinedType295>
+      autoPayments: optional<_InlinedType296>
+
+  _InlinedType298:
+    properties:
+      ittt: optional<list<unknown>>
+
+  _InlinedType299:
+    properties:
+      checklist: optional<list<unknown>>
+
+  _InlinedType300:
+    properties:
+      receptionDesk: optional<_InlinedType298>
+      screening: optional<_InlinedType299>
+      contactPersonUserId: optional<string>
+
+  _InlinedType301:
+    properties:
+      _id:
+        docs: String (ObjectId)
+        type: optional<string>
+      accountId:
+        docs: String (ObjectId)
+        type: optional<string>
+      createdAt: optional<string>
+      integrations: optional<list<_InlinedType277>>
+      isVirtual: optional<boolean>
+      nickname: optional<string>
+      tags: optional<list<string>>
+      isListed: optional<boolean>
+      title: optional<string>
+      propertyType: optional<string>
+      roomType: optional<string>
+      bedType: optional<string>
+      accommodates: optional<double>
+      bedrooms: optional<double>
+      areaSquareFeet: optional<double>
+      address: optional<_InlinedType278>
+      publishedAddress: optional<_InlinedType279>
+      timezone: optional<string>
+      defaultCheckInTime: optional<string>
+      defaultCheckOutTime: optional<string>
+      cleaning: optional<_InlinedType280>
+      cleaningStatus: optional<_InlinedType282>
+      picture: optional<_InlinedType283>
+      pictures: optional<list<_InlinedType284>>
+      amenities: optional<list<string>>
+      amenitiesNotIncluded: optional<list<string>>
+      terms: optional<_InlinedType285>
+      prices: optional<_InlinedType286>
+      netIncomeFormula: optional<string>
+      commissionFormula: optional<string>
+      commissionTaxPrecentage: optional<string>
+      pms: optional<_InlinedType297>
+      receptionistsService: optional<_InlinedType300>
+      active: optional<boolean>
+      customFields: optional<map<string, unknown>>
+      calendarRules: optional<map<string, unknown>>
+      publicDescription: optional<map<string, unknown>>
+      privateDescription: optional<map<string, unknown>>
+      markups: optional<map<string, unknown>>
+
+  _InlinedType302:
+    properties:
+      code: optional<string>
+      expiresAt: optional<integer>
+      accessToken: optional<string>
+      refreshToken: optional<string>
+      lastForceRefresh:
+        docs: date
+        type: optional<string>
+
+  _InlinedType303:
+    properties:
+      all: optional<boolean>
+      emails: optional<list<string>>
+
+  _InlinedType304:
+    docs: Only if platform is airbnb
+    properties:
+      credentials: optional<_InlinedType302>
+      forwardEmails: optional<_InlinedType303>
+      createdAt:
+        docs: date
+        type: optional<string>
+
+  _InlinedType305:
+    properties:
+      all: optional<boolean>
+      emails: optional<list<string>>
+
+  _InlinedType306:
+    enum:
+      - NOT_STARTED
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+      - TIMEOUT
+
+  _InlinedType307:
+    properties:
+      fetchAllListings: optional<boolean>
+      externalListingIds: optional<list<string>>
+      status: optional<_InlinedType306>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+      finishedTime:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType308:
+    enum:
+      - NOT_CONNECTED
+      - CONNECTING
+      - CONNECTED
+      - FAILED
+      - TIMEOUT
+      - DISCONNECTED
+      - PENDING
+
+  _InlinedType309:
+    enum:
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+
+  _InlinedType310:
+    enum:
+      - GUESTY
+      - AIRBNB
+
+  _InlinedType311:
+    properties:
+      at:
+        docs: Date
+        type: optional<string>
+      code: optional<string>
+      message: optional<string>
+      raw: optional<map<string, unknown>>
+
+  _InlinedType312:
+    properties:
+      status: optional<_InlinedType309>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+      finishedTime:
+        docs: Date
+        type: optional<string>
+      steps: optional<list<map<string, unknown>>>
+      discrepancyStepExecuted: optional<boolean>
+      discrepancyResolution: optional<_InlinedType310>
+      listingQuantityDiscrepancyStepExecuted: optional<boolean>
+      error: optional<_InlinedType311>
+      notes: optional<string>
+      isRollingBack: optional<boolean>
+
+  _InlinedType313:
+    docs: BookingCom details
+    properties:
+      legalEntityId: optional<string>
+
+  _InlinedType314:
+    enum:
+      - COMPLETED
+      - IN_PROGRESS
+
+  _InlinedType315:
+    properties:
+      type: optional<string>
+      status: optional<_InlinedType314>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType316:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      airbnb2:
+        docs: Only if platform is airbnb
+        type: optional<_InlinedType304>
+      forwardEmails: optional<_InlinedType305>
+      active:
+        docs: Status of connection
+        type: optional<boolean>
+      platform: optional<string>
+      listings: optional<list<map<string, unknown>>>
+      complexes: optional<list<map<string, unknown>>>
+      nickname: optional<string>
+      channelId: optional<string>
+      activatedAt:
+        docs: Date
+        type: optional<string>
+      disconnectedAt:
+        docs: Date
+        type: optional<string>
+      proxyEmail: optional<string>
+      incomingEmail: optional<string>
+      externalAccountId: optional<string>
+      id:
+        docs: External ID
+        type: optional<integer>
+      companyName: optional<string>
+      fetchRequests: optional<list<_InlinedType307>>
+      status: optional<_InlinedType308>
+      migration: optional<_InlinedType312>
+      userId: optional<string>
+      accountId:
+        docs: Owner
+        type: optional<string>
+      tripAdvisor:
+        docs: TripAdvisor details
+        type: optional<map<string, unknown>>
+      homeaway2:
+        docs: Homeaway details
+        type: optional<map<string, unknown>>
+      bookingCom:
+        docs: BookingCom details
+        type: optional<_InlinedType313>
+      createdAt:
+        docs: Date
+        type: optional<string>
+      missingStep: optional<string>
+      steps: optional<list<_InlinedType315>>
+      newIntegrationBackup: optional<map<string, unknown>>
+      threadIdsMigrated: optional<boolean>
+      isDeleted: optional<boolean>
+      deletedAt:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType317:
+    properties:
+      full:
+        docs: full address
+        type: optional<string>
+      lng: optional<double>
+      lat: optional<double>
+      street: optional<string>
+      city: optional<string>
+      country: optional<string>
+
+  _InlinedType318:
+    properties:
+      full:
+        docs: full address
+        type: optional<string>
+      lng: optional<double>
+      lat: optional<double>
+      street: optional<string>
+      city: optional<string>
+      country: optional<string>
+
+  _InlinedType319:
+    properties:
+      defaultCleaningTime: optional<string>
+      instructions: optional<string>
+
+  _InlinedType320:
+    enum:
+      - clean
+      - waitingForInspection
+      - dirty
+      - unknown
+
+  _InlinedType321:
+    properties:
+      value: optional<_InlinedType320>
+      updatedAt: optional<string>
+
+  _InlinedType322:
+    properties:
+      regular: optional<string>
+      thumbnail: optional<string>
+      large: optional<string>
+      caption: optional<string>
+      height: optional<double>
+      original: optional<string>
+      size: optional<double>
+      width: optional<double>
+
+  _InlinedType323:
+    properties:
+      regular: optional<string>
+      thumbnail: optional<string>
+      large: optional<string>
+      caption: optional<string>
+      height: optional<double>
+      original: optional<string>
+      size: optional<double>
+      width: optional<double>
+
+  _InlinedType324:
+    properties:
+      minNights: optional<double>
+      maxNights: optional<double>
+      cancellation: optional<string>
+
+  _InlinedType325:
+    properties:
+      guestsIncludedInRegularFee: optional<double>
+      extraPersonFee: optional<double>
+      basePrice: optional<double>
+      basePriceUSD: optional<double>
+      monthlyPriceFactor: optional<double>
+      weeklyPriceFactor: optional<double>
+      weeendBasePrice: optional<double>
+      securityDepositFee: optional<double>
+      currency: optional<string>
+      cleaningFee: optional<double>
+
+  _InlinedType326:
+    properties:
+      active: optional<boolean>
+      config: optional<list<string>>
+
+  _InlinedType327:
+    properties:
+      autoList: optional<_InlinedType326>
+
+  _InlinedType328:
+    properties:
+      customSignature: optional<string>
+
+  _InlinedType329:
+    enum:
+      - clean
+      - waitingForInspection
+      - dirty
+      - unknown
+
+  _InlinedType330:
+    properties:
+      value: optional<_InlinedType329>
+      updatedAt: optional<string>
+
+  _InlinedType331:
+    properties:
+      id: optional<string>
+      livemode: optional<boolean>
+      token_type: optional<string>
+      stripe_publishable_key: optional<string>
+      stripe_user_id: optional<string>
+      scope: optional<string>
+
+  _InlinedType332:
+    properties:
+      active: optional<boolean>
+      status: optional<string>
+      accountName: optional<string>
+      defaultCurrency: optional<string>
+      syncedAt: optional<string>
+      payload: optional<_InlinedType331>
+
+  _InlinedType333:
+    properties:
+      stripe: optional<_InlinedType332>
+
+  _InlinedType334:
+    properties:
+      active: optional<boolean>
+      paymentProviders: optional<_InlinedType333>
+
+  _InlinedType335:
+    properties:
+      policy: optional<list<unknown>>
+
+  _InlinedType336:
+    properties:
+      active: optional<boolean>
+      automation: optional<_InlinedType327>
+      inbox: optional<_InlinedType328>
+      cleaningStatus: optional<_InlinedType330>
+      paymentProcessing: optional<_InlinedType334>
+      autoPayments: optional<_InlinedType335>
+
+  _InlinedType337:
+    properties:
+      ittt: optional<list<unknown>>
+
+  _InlinedType338:
+    properties:
+      checklist: optional<list<unknown>>
+
+  _InlinedType339:
+    properties:
+      receptionDesk: optional<_InlinedType337>
+      screening: optional<_InlinedType338>
+      contactPersonUserId: optional<string>
+
+  _InlinedType340:
+    properties:
+      _id:
+        docs: String (ObjectId)
+        type: optional<string>
+      accountId:
+        docs: String (ObjectId)
+        type: optional<string>
+      createdAt: optional<string>
+      integrations: optional<list<_InlinedType316>>
+      isVirtual: optional<boolean>
+      nickname: optional<string>
+      tags: optional<list<string>>
+      isListed: optional<boolean>
+      title: optional<string>
+      propertyType: optional<string>
+      roomType: optional<string>
+      bedType: optional<string>
+      accommodates: optional<double>
+      bedrooms: optional<double>
+      areaSquareFeet: optional<double>
+      address: optional<_InlinedType317>
+      publishedAddress: optional<_InlinedType318>
+      timezone: optional<string>
+      defaultCheckInTime: optional<string>
+      defaultCheckOutTime: optional<string>
+      cleaning: optional<_InlinedType319>
+      cleaningStatus: optional<_InlinedType321>
+      picture: optional<_InlinedType322>
+      pictures: optional<list<_InlinedType323>>
+      amenities: optional<list<string>>
+      amenitiesNotIncluded: optional<list<string>>
+      terms: optional<_InlinedType324>
+      prices: optional<_InlinedType325>
+      netIncomeFormula: optional<string>
+      commissionFormula: optional<string>
+      commissionTaxPrecentage: optional<string>
+      pms: optional<_InlinedType336>
+      receptionistsService: optional<_InlinedType339>
+      active: optional<boolean>
+      customFields: optional<map<string, unknown>>
+      calendarRules: optional<map<string, unknown>>
+      publicDescription: optional<map<string, unknown>>
+      privateDescription: optional<map<string, unknown>>
+      markups: optional<map<string, unknown>>
+
+  _InlinedType341:
+    docs: listing type
+    enum:
+      - Private Room
+      - Entire home/apt
+      - Shared room
+
+  _InlinedType342:
+    docs: property type
+    enum:
+      - Apartment
+      - House
+      - Loft
+      - Boat
+      - Camper/RV
+      - Condominium
+      - Chalet
+      - Bed & Breakfast
+      - Villa
+      - Tent
+      - Other
+      - Cabin
+      - Townhouse
+      - Bungalow
+      - Hut
+
+  _InlinedType343:
+    docs: room type
+    enum:
+      - Apartment
+      - Quadruple
+      - Suite
+      - Triple
+      - Studio
+      - Family
+      - Dormitory room
+      - Bungalow
+      - Chalet
+      - Holiday Home
+      - Villa
+      - Mobile home
+      - Tent
+
+  _InlinedType344:
+    properties:
+      full:
+        docs: full address
+        type: optional<string>
+      lng: optional<double>
+      lat: optional<double>
+      street: optional<string>
+      city: optional<string>
+      country: optional<string>
+
+  _InlinedType345:
+    properties:
+      active: optional<boolean>
+      config: optional<list<string>>
+
+  _InlinedType346:
+    properties:
+      autoList: optional<_InlinedType345>
+
+  _InlinedType347:
+    properties:
+      customSignature: optional<string>
+
+  _InlinedType348:
+    enum:
+      - clean
+      - waitingForInspection
+      - dirty
+      - unknown
+
+  _InlinedType349:
+    properties:
+      value: optional<_InlinedType348>
+      updatedAt: optional<string>
+
+  _InlinedType350:
+    properties:
+      id: optional<string>
+      livemode: optional<boolean>
+      token_type: optional<string>
+      stripe_publishable_key: optional<string>
+      stripe_user_id: optional<string>
+      scope: optional<string>
+
+  _InlinedType351:
+    properties:
+      active: optional<boolean>
+      status: optional<string>
+      accountName: optional<string>
+      defaultCurrency: optional<string>
+      syncedAt: optional<string>
+      payload: optional<_InlinedType350>
+
+  _InlinedType352:
+    properties:
+      stripe: optional<_InlinedType351>
+
+  _InlinedType353:
+    properties:
+      active: optional<boolean>
+      paymentProviders: optional<_InlinedType352>
+
+  _InlinedType354:
+    properties:
+      policy: optional<list<unknown>>
+
+  _InlinedType355:
+    properties:
+      active: optional<boolean>
+      automation: optional<_InlinedType346>
+      inbox: optional<_InlinedType347>
+      cleaningStatus: optional<_InlinedType349>
+      paymentProcessing: optional<_InlinedType353>
+      autoPayments: optional<_InlinedType354>
+
+  _InlinedType356:
+    properties:
+      summary: optional<string>
+      space: optional<string>
+      access: optional<string>
+      interactionWithGuests: optional<string>
+      neighborhood: optional<string>
+      transit: optional<string>
+      notes: optional<string>
+      houseRules: optional<string>
+
+  _InlinedType357:
+    properties:
+      code: optional<string>
+      expiresAt: optional<integer>
+      accessToken: optional<string>
+      refreshToken: optional<string>
+      lastForceRefresh:
+        docs: date
+        type: optional<string>
+
+  _InlinedType358:
+    properties:
+      all: optional<boolean>
+      emails: optional<list<string>>
+
+  _InlinedType359:
+    docs: Only if platform is airbnb
+    properties:
+      credentials: optional<_InlinedType357>
+      forwardEmails: optional<_InlinedType358>
+      createdAt:
+        docs: date
+        type: optional<string>
+
+  _InlinedType360:
+    properties:
+      all: optional<boolean>
+      emails: optional<list<string>>
+
+  _InlinedType361:
+    enum:
+      - NOT_STARTED
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+      - TIMEOUT
+
+  _InlinedType362:
+    properties:
+      fetchAllListings: optional<boolean>
+      externalListingIds: optional<list<string>>
+      status: optional<_InlinedType361>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+      finishedTime:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType363:
+    enum:
+      - NOT_CONNECTED
+      - CONNECTING
+      - CONNECTED
+      - FAILED
+      - TIMEOUT
+      - DISCONNECTED
+      - PENDING
+
+  _InlinedType364:
+    enum:
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+
+  _InlinedType365:
+    enum:
+      - GUESTY
+      - AIRBNB
+
+  _InlinedType366:
+    properties:
+      at:
+        docs: Date
+        type: optional<string>
+      code: optional<string>
+      message: optional<string>
+      raw: optional<map<string, unknown>>
+
+  _InlinedType367:
+    properties:
+      status: optional<_InlinedType364>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+      finishedTime:
+        docs: Date
+        type: optional<string>
+      steps: optional<list<map<string, unknown>>>
+      discrepancyStepExecuted: optional<boolean>
+      discrepancyResolution: optional<_InlinedType365>
+      listingQuantityDiscrepancyStepExecuted: optional<boolean>
+      error: optional<_InlinedType366>
+      notes: optional<string>
+      isRollingBack: optional<boolean>
+
+  _InlinedType368:
+    docs: BookingCom details
+    properties:
+      legalEntityId: optional<string>
+
+  _InlinedType369:
+    enum:
+      - COMPLETED
+      - IN_PROGRESS
+
+  _InlinedType370:
+    properties:
+      type: optional<string>
+      status: optional<_InlinedType369>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType371:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      airbnb2:
+        docs: Only if platform is airbnb
+        type: optional<_InlinedType359>
+      forwardEmails: optional<_InlinedType360>
+      active:
+        docs: Status of connection
+        type: optional<boolean>
+      platform: optional<string>
+      listings: optional<list<map<string, unknown>>>
+      complexes: optional<list<map<string, unknown>>>
+      nickname: optional<string>
+      channelId: optional<string>
+      activatedAt:
+        docs: Date
+        type: optional<string>
+      disconnectedAt:
+        docs: Date
+        type: optional<string>
+      proxyEmail: optional<string>
+      incomingEmail: optional<string>
+      externalAccountId: optional<string>
+      id:
+        docs: External ID
+        type: optional<integer>
+      companyName: optional<string>
+      fetchRequests: optional<list<_InlinedType362>>
+      status: optional<_InlinedType363>
+      migration: optional<_InlinedType367>
+      userId: optional<string>
+      accountId:
+        docs: Owner
+        type: optional<string>
+      tripAdvisor:
+        docs: TripAdvisor details
+        type: optional<map<string, unknown>>
+      homeaway2:
+        docs: Homeaway details
+        type: optional<map<string, unknown>>
+      bookingCom:
+        docs: BookingCom details
+        type: optional<_InlinedType368>
+      createdAt:
+        docs: Date
+        type: optional<string>
+      missingStep: optional<string>
+      steps: optional<list<_InlinedType370>>
+      newIntegrationBackup: optional<map<string, unknown>>
+      threadIdsMigrated: optional<boolean>
+      isDeleted: optional<boolean>
+      deletedAt:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType372:
+    properties:
+      full:
+        docs: full address
+        type: optional<string>
+      lng: optional<double>
+      lat: optional<double>
+      street: optional<string>
+      city: optional<string>
+      country: optional<string>
+
+  _InlinedType373:
+    properties:
+      full:
+        docs: full address
+        type: optional<string>
+      lng: optional<double>
+      lat: optional<double>
+      street: optional<string>
+      city: optional<string>
+      country: optional<string>
+
+  _InlinedType374:
+    properties:
+      defaultCleaningTime: optional<string>
+      instructions: optional<string>
+
+  _InlinedType375:
+    enum:
+      - clean
+      - waitingForInspection
+      - dirty
+      - unknown
+
+  _InlinedType376:
+    properties:
+      value: optional<_InlinedType375>
+      updatedAt: optional<string>
+
+  _InlinedType377:
+    properties:
+      regular: optional<string>
+      thumbnail: optional<string>
+      large: optional<string>
+      caption: optional<string>
+      height: optional<double>
+      original: optional<string>
+      size: optional<double>
+      width: optional<double>
+
+  _InlinedType378:
+    properties:
+      regular: optional<string>
+      thumbnail: optional<string>
+      large: optional<string>
+      caption: optional<string>
+      height: optional<double>
+      original: optional<string>
+      size: optional<double>
+      width: optional<double>
+
+  _InlinedType379:
+    properties:
+      minNights: optional<double>
+      maxNights: optional<double>
+      cancellation: optional<string>
+
+  _InlinedType380:
+    properties:
+      guestsIncludedInRegularFee: optional<double>
+      extraPersonFee: optional<double>
+      basePrice: optional<double>
+      basePriceUSD: optional<double>
+      monthlyPriceFactor: optional<double>
+      weeklyPriceFactor: optional<double>
+      weeendBasePrice: optional<double>
+      securityDepositFee: optional<double>
+      currency: optional<string>
+      cleaningFee: optional<double>
+
+  _InlinedType381:
+    properties:
+      active: optional<boolean>
+      config: optional<list<string>>
+
+  _InlinedType382:
+    properties:
+      autoList: optional<_InlinedType381>
+
+  _InlinedType383:
+    properties:
+      customSignature: optional<string>
+
+  _InlinedType384:
+    enum:
+      - clean
+      - waitingForInspection
+      - dirty
+      - unknown
+
+  _InlinedType385:
+    properties:
+      value: optional<_InlinedType384>
+      updatedAt: optional<string>
+
+  _InlinedType386:
+    properties:
+      id: optional<string>
+      livemode: optional<boolean>
+      token_type: optional<string>
+      stripe_publishable_key: optional<string>
+      stripe_user_id: optional<string>
+      scope: optional<string>
+
+  _InlinedType387:
+    properties:
+      active: optional<boolean>
+      status: optional<string>
+      accountName: optional<string>
+      defaultCurrency: optional<string>
+      syncedAt: optional<string>
+      payload: optional<_InlinedType386>
+
+  _InlinedType388:
+    properties:
+      stripe: optional<_InlinedType387>
+
+  _InlinedType389:
+    properties:
+      active: optional<boolean>
+      paymentProviders: optional<_InlinedType388>
+
+  _InlinedType390:
+    properties:
+      policy: optional<list<unknown>>
+
+  _InlinedType391:
+    properties:
+      active: optional<boolean>
+      automation: optional<_InlinedType382>
+      inbox: optional<_InlinedType383>
+      cleaningStatus: optional<_InlinedType385>
+      paymentProcessing: optional<_InlinedType389>
+      autoPayments: optional<_InlinedType390>
+
+  _InlinedType392:
+    properties:
+      ittt: optional<list<unknown>>
+
+  _InlinedType393:
+    properties:
+      checklist: optional<list<unknown>>
+
+  _InlinedType394:
+    properties:
+      receptionDesk: optional<_InlinedType392>
+      screening: optional<_InlinedType393>
+      contactPersonUserId: optional<string>
+
+  _InlinedType395:
+    properties:
+      _id:
+        docs: String (ObjectId)
+        type: optional<string>
+      accountId:
+        docs: String (ObjectId)
+        type: optional<string>
+      createdAt: optional<string>
+      integrations: optional<list<_InlinedType371>>
+      isVirtual: optional<boolean>
+      nickname: optional<string>
+      tags: optional<list<string>>
+      isListed: optional<boolean>
+      title: optional<string>
+      propertyType: optional<string>
+      roomType: optional<string>
+      bedType: optional<string>
+      accommodates: optional<double>
+      bedrooms: optional<double>
+      areaSquareFeet: optional<double>
+      address: optional<_InlinedType372>
+      publishedAddress: optional<_InlinedType373>
+      timezone: optional<string>
+      defaultCheckInTime: optional<string>
+      defaultCheckOutTime: optional<string>
+      cleaning: optional<_InlinedType374>
+      cleaningStatus: optional<_InlinedType376>
+      picture: optional<_InlinedType377>
+      pictures: optional<list<_InlinedType378>>
+      amenities: optional<list<string>>
+      amenitiesNotIncluded: optional<list<string>>
+      terms: optional<_InlinedType379>
+      prices: optional<_InlinedType380>
+      netIncomeFormula: optional<string>
+      commissionFormula: optional<string>
+      commissionTaxPrecentage: optional<string>
+      pms: optional<_InlinedType391>
+      receptionistsService: optional<_InlinedType394>
+      active: optional<boolean>
+      customFields: optional<map<string, unknown>>
+      calendarRules: optional<map<string, unknown>>
+      publicDescription: optional<map<string, unknown>>
+      privateDescription: optional<map<string, unknown>>
+      markups: optional<map<string, unknown>>
+
+  _InlinedType396:
+    enum:
+      - AVAILABLE
+      - BLOCKED
+
+  _InlinedType397:
+    properties:
+      from:
+        docs: date of the format YYYY-MM-DD
+        type: optional<string>
+      to:
+        docs: date of the format YYYY-MM-DD
+        type: optional<string>
+
+  _InlinedType398:
+    properties:
+      days: optional<double>
+      when: optional<string>
+
+  _InlinedType399:
+    properties:
+      defaultSettings: optional<_InlinedType398>
+
+  _InlinedType400:
+    properties:
+      from:
+        docs: date of the format YYYY-MM-DD
+        type: optional<string>
+      to:
+        docs: date of the format YYYY-MM-DD
+        type: optional<string>
+
+  _InlinedType401:
+    properties:
+      hours: optional<double>
+      allowRequestToBook: optional<boolean>
+
+  _InlinedType402:
+    properties:
+      defaultSettings: optional<_InlinedType401>
+
+  _InlinedType403:
+    properties:
+      days: optional<double>
+
+  _InlinedType404:
+    properties:
+      defaultSettings: optional<_InlinedType403>
+
+  _InlinedType405:
+    properties:
+      defaultAvailability: optional<_InlinedType396>
+      seasonalMinNights: optional<list<_InlinedType397>>
+      preperationTime: optional<_InlinedType399>
+      rentalPeriods: optional<list<_InlinedType400>>
+      advanceNotice: optional<_InlinedType402>
+      bookingWindow: optional<_InlinedType404>
+
+  _InlinedType406:
+    properties:
+      code: optional<string>
+      expiresAt: optional<integer>
+      accessToken: optional<string>
+      refreshToken: optional<string>
+      lastForceRefresh:
+        docs: date
+        type: optional<string>
+
+  _InlinedType407:
+    properties:
+      all: optional<boolean>
+      emails: optional<list<string>>
+
+  _InlinedType408:
+    docs: Only if platform is airbnb
+    properties:
+      credentials: optional<_InlinedType406>
+      forwardEmails: optional<_InlinedType407>
+      createdAt:
+        docs: date
+        type: optional<string>
+
+  _InlinedType409:
+    properties:
+      all: optional<boolean>
+      emails: optional<list<string>>
+
+  _InlinedType410:
+    enum:
+      - NOT_STARTED
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+      - TIMEOUT
+
+  _InlinedType411:
+    properties:
+      fetchAllListings: optional<boolean>
+      externalListingIds: optional<list<string>>
+      status: optional<_InlinedType410>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+      finishedTime:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType412:
+    enum:
+      - NOT_CONNECTED
+      - CONNECTING
+      - CONNECTED
+      - FAILED
+      - TIMEOUT
+      - DISCONNECTED
+      - PENDING
+
+  _InlinedType413:
+    enum:
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+
+  _InlinedType414:
+    enum:
+      - GUESTY
+      - AIRBNB
+
+  _InlinedType415:
+    properties:
+      at:
+        docs: Date
+        type: optional<string>
+      code: optional<string>
+      message: optional<string>
+      raw: optional<map<string, unknown>>
+
+  _InlinedType416:
+    properties:
+      status: optional<_InlinedType413>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+      finishedTime:
+        docs: Date
+        type: optional<string>
+      steps: optional<list<map<string, unknown>>>
+      discrepancyStepExecuted: optional<boolean>
+      discrepancyResolution: optional<_InlinedType414>
+      listingQuantityDiscrepancyStepExecuted: optional<boolean>
+      error: optional<_InlinedType415>
+      notes: optional<string>
+      isRollingBack: optional<boolean>
+
+  _InlinedType417:
+    docs: BookingCom details
+    properties:
+      legalEntityId: optional<string>
+
+  _InlinedType418:
+    enum:
+      - COMPLETED
+      - IN_PROGRESS
+
+  _InlinedType419:
+    properties:
+      type: optional<string>
+      status: optional<_InlinedType418>
+      createTime:
+        docs: Date
+        type: optional<string>
+      updateTime:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType420:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      airbnb2:
+        docs: Only if platform is airbnb
+        type: optional<_InlinedType408>
+      forwardEmails: optional<_InlinedType409>
+      active:
+        docs: Status of connection
+        type: optional<boolean>
+      platform: optional<string>
+      listings: optional<list<map<string, unknown>>>
+      complexes: optional<list<map<string, unknown>>>
+      nickname: optional<string>
+      channelId: optional<string>
+      activatedAt:
+        docs: Date
+        type: optional<string>
+      disconnectedAt:
+        docs: Date
+        type: optional<string>
+      proxyEmail: optional<string>
+      incomingEmail: optional<string>
+      externalAccountId: optional<string>
+      id:
+        docs: External ID
+        type: optional<integer>
+      companyName: optional<string>
+      fetchRequests: optional<list<_InlinedType411>>
+      status: optional<_InlinedType412>
+      migration: optional<_InlinedType416>
+      userId: optional<string>
+      accountId:
+        docs: Owner
+        type: optional<string>
+      tripAdvisor:
+        docs: TripAdvisor details
+        type: optional<map<string, unknown>>
+      homeaway2:
+        docs: Homeaway details
+        type: optional<map<string, unknown>>
+      bookingCom:
+        docs: BookingCom details
+        type: optional<_InlinedType417>
+      createdAt:
+        docs: Date
+        type: optional<string>
+      missingStep: optional<string>
+      steps: optional<list<_InlinedType419>>
+      newIntegrationBackup: optional<map<string, unknown>>
+      threadIdsMigrated: optional<boolean>
+      isDeleted: optional<boolean>
+      deletedAt:
+        docs: Date
+        type: optional<string>
+
+  _InlinedType421:
+    properties:
+      full:
+        docs: full address
+        type: optional<string>
+      lng: optional<double>
+      lat: optional<double>
+      street: optional<string>
+      city: optional<string>
+      country: optional<string>
+
+  _InlinedType422:
+    properties:
+      full:
+        docs: full address
+        type: optional<string>
+      lng: optional<double>
+      lat: optional<double>
+      street: optional<string>
+      city: optional<string>
+      country: optional<string>
+
+  _InlinedType423:
+    properties:
+      defaultCleaningTime: optional<string>
+      instructions: optional<string>
+
+  _InlinedType424:
+    enum:
+      - clean
+      - waitingForInspection
+      - dirty
+      - unknown
+
+  _InlinedType425:
+    properties:
+      value: optional<_InlinedType424>
+      updatedAt: optional<string>
+
+  _InlinedType426:
+    properties:
+      regular: optional<string>
+      thumbnail: optional<string>
+      large: optional<string>
+      caption: optional<string>
+      height: optional<double>
+      original: optional<string>
+      size: optional<double>
+      width: optional<double>
+
+  _InlinedType427:
+    properties:
+      regular: optional<string>
+      thumbnail: optional<string>
+      large: optional<string>
+      caption: optional<string>
+      height: optional<double>
+      original: optional<string>
+      size: optional<double>
+      width: optional<double>
+
+  _InlinedType428:
+    properties:
+      minNights: optional<double>
+      maxNights: optional<double>
+      cancellation: optional<string>
+
+  _InlinedType429:
+    properties:
+      guestsIncludedInRegularFee: optional<double>
+      extraPersonFee: optional<double>
+      basePrice: optional<double>
+      basePriceUSD: optional<double>
+      monthlyPriceFactor: optional<double>
+      weeklyPriceFactor: optional<double>
+      weeendBasePrice: optional<double>
+      securityDepositFee: optional<double>
+      currency: optional<string>
+      cleaningFee: optional<double>
+
+  _InlinedType430:
+    properties:
+      active: optional<boolean>
+      config: optional<list<string>>
+
+  _InlinedType431:
+    properties:
+      autoList: optional<_InlinedType430>
+
+  _InlinedType432:
+    properties:
+      customSignature: optional<string>
+
+  _InlinedType433:
+    enum:
+      - clean
+      - waitingForInspection
+      - dirty
+      - unknown
+
+  _InlinedType434:
+    properties:
+      value: optional<_InlinedType433>
+      updatedAt: optional<string>
+
+  _InlinedType435:
+    properties:
+      id: optional<string>
+      livemode: optional<boolean>
+      token_type: optional<string>
+      stripe_publishable_key: optional<string>
+      stripe_user_id: optional<string>
+      scope: optional<string>
+
+  _InlinedType436:
+    properties:
+      active: optional<boolean>
+      status: optional<string>
+      accountName: optional<string>
+      defaultCurrency: optional<string>
+      syncedAt: optional<string>
+      payload: optional<_InlinedType435>
+
+  _InlinedType437:
+    properties:
+      stripe: optional<_InlinedType436>
+
+  _InlinedType438:
+    properties:
+      active: optional<boolean>
+      paymentProviders: optional<_InlinedType437>
+
+  _InlinedType439:
+    properties:
+      policy: optional<list<unknown>>
+
+  _InlinedType440:
+    properties:
+      active: optional<boolean>
+      automation: optional<_InlinedType431>
+      inbox: optional<_InlinedType432>
+      cleaningStatus: optional<_InlinedType434>
+      paymentProcessing: optional<_InlinedType438>
+      autoPayments: optional<_InlinedType439>
+
+  _InlinedType441:
+    properties:
+      ittt: optional<list<unknown>>
+
+  _InlinedType442:
+    properties:
+      checklist: optional<list<unknown>>
+
+  _InlinedType443:
+    properties:
+      receptionDesk: optional<_InlinedType441>
+      screening: optional<_InlinedType442>
+      contactPersonUserId: optional<string>
+
+  _InlinedType444:
+    properties:
+      _id:
+        docs: String (ObjectId)
+        type: optional<string>
+      accountId:
+        docs: String (ObjectId)
+        type: optional<string>
+      createdAt: optional<string>
+      integrations: optional<list<_InlinedType420>>
+      isVirtual: optional<boolean>
+      nickname: optional<string>
+      tags: optional<list<string>>
+      isListed: optional<boolean>
+      title: optional<string>
+      propertyType: optional<string>
+      roomType: optional<string>
+      bedType: optional<string>
+      accommodates: optional<double>
+      bedrooms: optional<double>
+      areaSquareFeet: optional<double>
+      address: optional<_InlinedType421>
+      publishedAddress: optional<_InlinedType422>
+      timezone: optional<string>
+      defaultCheckInTime: optional<string>
+      defaultCheckOutTime: optional<string>
+      cleaning: optional<_InlinedType423>
+      cleaningStatus: optional<_InlinedType425>
+      picture: optional<_InlinedType426>
+      pictures: optional<list<_InlinedType427>>
+      amenities: optional<list<string>>
+      amenitiesNotIncluded: optional<list<string>>
+      terms: optional<_InlinedType428>
+      prices: optional<_InlinedType429>
+      netIncomeFormula: optional<string>
+      commissionFormula: optional<string>
+      commissionTaxPrecentage: optional<string>
+      pms: optional<_InlinedType440>
+      receptionistsService: optional<_InlinedType443>
+      active: optional<boolean>
+      customFields: optional<map<string, unknown>>
+      calendarRules: optional<map<string, unknown>>
+      publicDescription: optional<map<string, unknown>>
+      privateDescription: optional<map<string, unknown>>
+      markups: optional<map<string, unknown>>
+
+  _InlinedType445:
+    properties:
+      id: optional<string>
+      status: optional<string>
+      syncedAt: optional<string>
+      lastPendingPaymentDate: optional<string>
+      pendingPaymentsCount: optional<double>
+      paymentMethodsCount: optional<double>
+      providerAccountId: optional<string>
+      isDefault: optional<boolean>
+      providerType: optional<string>
+      connectedBy: optional<string>
+      accountName: optional<string>
+      defaultCurrency: optional<string>
+      statsLastUpdated: optional<string>
+
+  _InlinedType446:
+    properties:
+      paymentProviderId: optional<string>
+      paymentProvider: optional<_InlinedType445>
+
+  _InlinedType447:
+    properties:
+      fieldId: optional<string>
+      value: optional<string>
+
+  _InlinedType448:
+    docs: Defines rather value is a fixed number or percentage
+    enum:
+      - FIXED
+      - PERCENTAGE
+
+  _InlinedType449:
+    docs: Sets the factor by which cleaning fee value will be multiplied
+    enum:
+      - PER_STAY
+      - PER_GUEST
+      - PER_NIGHT
+      - PER_GUEST_PER_NIGHT
+
+  _InlinedType450:
+    docs: Default settings for cleaning fee
+    properties:
+      valueType:
+        docs: Defines rather value is a fixed number or percentage
+        type: optional<_InlinedType448>
+      multiplier:
+        docs: Sets the factor by which cleaning fee value will be multiplied
+        type: optional<_InlinedType449>
+      formula:
+        docs: >-
+          Defines the cleaningFee value, as fixed or as a percentage accordinf
+          to 'valueType'
+        type: optional<double>
+
+  _InlinedType451:
+    docs: Defines rather value is a fixed number or percentage
+    enum:
+      - FIXED
+      - PERCENTAGE
+
+  _InlinedType452:
+    docs: Sets the factor by which cleaning fee value will be multiplied
+    enum:
+      - PER_STAY
+      - PER_GUEST
+      - PER_NIGHT
+      - PER_GUEST_PER_NIGHT
+
+  _InlinedType453:
+    properties:
+      valueType:
+        docs: Defines rather value is a fixed number or percentage
+        type: optional<_InlinedType451>
+      multiplier:
+        docs: Sets the factor by which cleaning fee value will be multiplied
+        type: optional<_InlinedType452>
+      formula:
+        docs: >-
+          Defines the cleaningFee value, as fixed or as a percentage accordinf
+          to 'valueType'
+        type: optional<double>
+      _id: optional<string>
+
+  _InlinedType454:
+    docs: >-
+      For channel specific cleaningFee settings, the 'value' field will be saved
+      under the channel name
+    properties:
+      value: optional<_InlinedType453>
+
+  _InlinedType455:
+    docs: Defines rather value is a fixed number or percentage
+    enum:
+      - FIXED
+      - PERCENTAGE
+
+  _InlinedType456:
+    docs: Sets the factor by which cleaning fee value will be multiplied
+    enum:
+      - PER_STAY
+      - PER_GUEST
+      - PER_NIGHT
+      - PER_GUEST_PER_NIGHT
+
+  _InlinedType457:
+    properties:
+      valueType:
+        docs: Defines rather value is a fixed number or percentage
+        type: optional<_InlinedType455>
+      multiplier:
+        docs: Sets the factor by which cleaning fee value will be multiplied
+        type: optional<_InlinedType456>
+      formula:
+        docs: >-
+          Defines the cleaningFee value, as fixed or as a percentage accordinf
+          to 'valueType'
+        type: optional<double>
+      _id: optional<string>
+
+  _InlinedType458:
+    docs: >-
+      For channel specific cleaningFee settings, the 'value' field will be saved
+      under the channel name
+    properties:
+      value: optional<_InlinedType457>
+
+  _InlinedType459:
+    docs: Defines rather value is a fixed number or percentage
+    enum:
+      - FIXED
+      - PERCENTAGE
+
+  _InlinedType460:
+    docs: Sets the factor by which cleaning fee value will be multiplied
+    enum:
+      - PER_STAY
+      - PER_GUEST
+      - PER_NIGHT
+      - PER_GUEST_PER_NIGHT
+
+  _InlinedType461:
+    properties:
+      valueType:
+        docs: Defines rather value is a fixed number or percentage
+        type: optional<_InlinedType459>
+      multiplier:
+        docs: Sets the factor by which cleaning fee value will be multiplied
+        type: optional<_InlinedType460>
+      formula:
+        docs: >-
+          Defines the cleaningFee value, as fixed or as a percentage accordinf
+          to 'valueType'
+        type: optional<double>
+      _id: optional<string>
+
+  _InlinedType462:
+    docs: >-
+      For channel specific cleaningFee settings, the 'value' field will be saved
+      under the channel name
+    properties:
+      value: optional<_InlinedType461>
+
+  _InlinedType463:
+    docs: Defines rather value is a fixed number or percentage
+    enum:
+      - FIXED
+      - PERCENTAGE
+
+  _InlinedType464:
+    docs: Sets the factor by which cleaning fee value will be multiplied
+    enum:
+      - PER_STAY
+      - PER_GUEST
+      - PER_NIGHT
+      - PER_GUEST_PER_NIGHT
+
+  _InlinedType465:
+    properties:
+      valueType:
+        docs: Defines rather value is a fixed number or percentage
+        type: optional<_InlinedType463>
+      multiplier:
+        docs: Sets the factor by which cleaning fee value will be multiplied
+        type: optional<_InlinedType464>
+      formula:
+        docs: >-
+          Defines the cleaningFee value, as fixed or as a percentage accordinf
+          to 'valueType'
+        type: optional<double>
+      _id: optional<string>
+
+  _InlinedType466:
+    docs: >-
+      For channel specific cleaningFee settings, the 'value' field will be saved
+      under the channel name
+    properties:
+      value: optional<_InlinedType465>
+
+  _InlinedType467:
+    docs: Defines rather value is a fixed number or percentage
+    enum:
+      - FIXED
+      - PERCENTAGE
+
+  _InlinedType468:
+    docs: Sets the factor by which cleaning fee value will be multiplied
+    enum:
+      - PER_STAY
+      - PER_GUEST
+      - PER_NIGHT
+      - PER_GUEST_PER_NIGHT
+
+  _InlinedType469:
+    properties:
+      valueType:
+        docs: Defines rather value is a fixed number or percentage
+        type: optional<_InlinedType467>
+      multiplier:
+        docs: Sets the factor by which cleaning fee value will be multiplied
+        type: optional<_InlinedType468>
+      formula:
+        docs: >-
+          Defines the cleaningFee value, as fixed or as a percentage accordinf
+          to 'valueType'
+        type: optional<double>
+      _id: optional<string>
+
+  _InlinedType470:
+    docs: >-
+      For channel specific cleaningFee settings, the 'value' field will be saved
+      under the channel name
+    properties:
+      value: optional<_InlinedType469>
+
+  _InlinedType471:
+    docs: Defines rather value is a fixed number or percentage
+    enum:
+      - FIXED
+      - PERCENTAGE
+
+  _InlinedType472:
+    docs: Sets the factor by which cleaning fee value will be multiplied
+    enum:
+      - PER_STAY
+      - PER_GUEST
+      - PER_NIGHT
+      - PER_GUEST_PER_NIGHT
+
+  _InlinedType473:
+    properties:
+      valueType:
+        docs: Defines rather value is a fixed number or percentage
+        type: optional<_InlinedType471>
+      multiplier:
+        docs: Sets the factor by which cleaning fee value will be multiplied
+        type: optional<_InlinedType472>
+      formula:
+        docs: >-
+          Defines the cleaningFee value, as fixed or as a percentage accordinf
+          to 'valueType'
+        type: optional<double>
+      _id: optional<string>
+
+  _InlinedType474:
+    docs: >-
+      For channel specific cleaningFee settings, the 'value' field will be saved
+      under the channel name
+    properties:
+      value: optional<_InlinedType473>
+
+  _InlinedType475:
+    docs: Object to define cleaningFee settings
+    properties:
+      value:
+        docs: Default settings for cleaning fee
+        type: optional<_InlinedType450>
+      lastUpdatedAt:
+        docs: Last update date
+        type: optional<string>
+      airbnb:
+        docs: >-
+          For channel specific cleaningFee settings, the 'value' field will be
+          saved under the channel name
+        type: optional<_InlinedType454>
+      rentalsUnited:
+        docs: >-
+          For channel specific cleaningFee settings, the 'value' field will be
+          saved under the channel name
+        type: optional<_InlinedType458>
+      homeAway:
+        docs: >-
+          For channel specific cleaningFee settings, the 'value' field will be
+          saved under the channel name
+        type: optional<_InlinedType462>
+      expedia:
+        docs: >-
+          For channel specific cleaningFee settings, the 'value' field will be
+          saved under the channel name
+        type: optional<_InlinedType466>
+      despegar:
+        docs: >-
+          For channel specific cleaningFee settings, the 'value' field will be
+          saved under the channel name
+        type: optional<_InlinedType470>
+      bookingCom:
+        docs: >-
+          For channel specific cleaningFee settings, the 'value' field will be
+          saved under the channel name
+        type: optional<_InlinedType474>
+
+  _InlinedType476:
+    properties:
+      guestsIncludedInRegularFee:
+        docs: >-
+          The higest number of guests that will not reauires to add
+          extraPersonFee
+        type: optional<double>
+      extraPersonFee:
+        docs: >-
+          The amount of fee which is added for each extra person, above
+          guestsIncludedInRegularFee, in the reservation
+        type: optional<double>
+      basePrice:
+        docs: The cost per night for the listing
+        type: optional<double>
+      basePriceUSD:
+        docs: The cost per night in USD for the listing
+        type: optional<double>
+      monthlyPriceFactor:
+        docs: >-
+          A factor for the nightly cost for reservations that are longer then a
+          month
+        type: optional<double>
+      weeklyPriceFactor:
+        docs: >-
+          A factor for the nightly cost for reservations that are longer then a
+          week
+        type: optional<double>
+      weekendBasePrice:
+        docs: The base price for weekend
+        type: optional<double>
+      securityDepositFee: optional<double>
+      currency:
+        docs: The currency that is in use for the listing prices
+        type: optional<string>
+      cleaningFee:
+        docs: Object to define cleaningFee settings
+        type: optional<_InlinedType475>
+
+  _InlinedType477:
+    docs: Defines rather value is a fixed number or percentage
+    enum:
+      - FIXED
+      - PERCENTAGE
+
+  _InlinedType478:
+    docs: Sets the factor by which cleaning fee value will be multiplied
+    enum:
+      - PER_STAY
+      - PER_GUEST
+      - PER_NIGHT
+      - PER_GUEST_PER_NIGHT
+
+  _InlinedType479:
+    docs: Default settings for cleaning fee
+    properties:
+      valueType:
+        docs: Defines rather value is a fixed number or percentage
+        type: optional<_InlinedType477>
+      multiplier:
+        docs: Sets the factor by which cleaning fee value will be multiplied
+        type: optional<_InlinedType478>
+      formula:
+        docs: >-
+          Defines the cleaningFee value, as fixed or as a percentage accordinf
+          to 'valueType'
+        type: optional<double>
+
+  _InlinedType480:
+    docs: Defines rather value is a fixed number or percentage
+    enum:
+      - FIXED
+      - PERCENTAGE
+
+  _InlinedType481:
+    docs: Sets the factor by which cleaning fee value will be multiplied
+    enum:
+      - PER_STAY
+      - PER_GUEST
+      - PER_NIGHT
+      - PER_GUEST_PER_NIGHT
+
+  _InlinedType482:
+    properties:
+      valueType:
+        docs: Defines rather value is a fixed number or percentage
+        type: optional<_InlinedType480>
+      multiplier:
+        docs: Sets the factor by which cleaning fee value will be multiplied
+        type: optional<_InlinedType481>
+      formula:
+        docs: >-
+          Defines the cleaningFee value, as fixed or as a percentage accordinf
+          to 'valueType'
+        type: optional<double>
+      _id: optional<string>
+
+  _InlinedType483:
+    docs: >-
+      For channel specific cleaningFee settings, the 'value' field will be saved
+      under the channel name
+    properties:
+      value: optional<_InlinedType482>
+
+  _InlinedType484:
+    docs: Defines rather value is a fixed number or percentage
+    enum:
+      - FIXED
+      - PERCENTAGE
+
+  _InlinedType485:
+    docs: Sets the factor by which cleaning fee value will be multiplied
+    enum:
+      - PER_STAY
+      - PER_GUEST
+      - PER_NIGHT
+      - PER_GUEST_PER_NIGHT
+
+  _InlinedType486:
+    properties:
+      valueType:
+        docs: Defines rather value is a fixed number or percentage
+        type: optional<_InlinedType484>
+      multiplier:
+        docs: Sets the factor by which cleaning fee value will be multiplied
+        type: optional<_InlinedType485>
+      formula:
+        docs: >-
+          Defines the cleaningFee value, as fixed or as a percentage accordinf
+          to 'valueType'
+        type: optional<double>
+      _id: optional<string>
+
+  _InlinedType487:
+    docs: >-
+      For channel specific cleaningFee settings, the 'value' field will be saved
+      under the channel name
+    properties:
+      value: optional<_InlinedType486>
+
+  _InlinedType488:
+    docs: Defines rather value is a fixed number or percentage
+    enum:
+      - FIXED
+      - PERCENTAGE
+
+  _InlinedType489:
+    docs: Sets the factor by which cleaning fee value will be multiplied
+    enum:
+      - PER_STAY
+      - PER_GUEST
+      - PER_NIGHT
+      - PER_GUEST_PER_NIGHT
+
+  _InlinedType490:
+    properties:
+      valueType:
+        docs: Defines rather value is a fixed number or percentage
+        type: optional<_InlinedType488>
+      multiplier:
+        docs: Sets the factor by which cleaning fee value will be multiplied
+        type: optional<_InlinedType489>
+      formula:
+        docs: >-
+          Defines the cleaningFee value, as fixed or as a percentage accordinf
+          to 'valueType'
+        type: optional<double>
+      _id: optional<string>
+
+  _InlinedType491:
+    docs: >-
+      For channel specific cleaningFee settings, the 'value' field will be saved
+      under the channel name
+    properties:
+      value: optional<_InlinedType490>
+
+  _InlinedType492:
+    docs: Defines rather value is a fixed number or percentage
+    enum:
+      - FIXED
+      - PERCENTAGE
+
+  _InlinedType493:
+    docs: Sets the factor by which cleaning fee value will be multiplied
+    enum:
+      - PER_STAY
+      - PER_GUEST
+      - PER_NIGHT
+      - PER_GUEST_PER_NIGHT
+
+  _InlinedType494:
+    properties:
+      valueType:
+        docs: Defines rather value is a fixed number or percentage
+        type: optional<_InlinedType492>
+      multiplier:
+        docs: Sets the factor by which cleaning fee value will be multiplied
+        type: optional<_InlinedType493>
+      formula:
+        docs: >-
+          Defines the cleaningFee value, as fixed or as a percentage accordinf
+          to 'valueType'
+        type: optional<double>
+      _id: optional<string>
+
+  _InlinedType495:
+    docs: >-
+      For channel specific cleaningFee settings, the 'value' field will be saved
+      under the channel name
+    properties:
+      value: optional<_InlinedType494>
+
+  _InlinedType496:
+    docs: Defines rather value is a fixed number or percentage
+    enum:
+      - FIXED
+      - PERCENTAGE
+
+  _InlinedType497:
+    docs: Sets the factor by which cleaning fee value will be multiplied
+    enum:
+      - PER_STAY
+      - PER_GUEST
+      - PER_NIGHT
+      - PER_GUEST_PER_NIGHT
+
+  _InlinedType498:
+    properties:
+      valueType:
+        docs: Defines rather value is a fixed number or percentage
+        type: optional<_InlinedType496>
+      multiplier:
+        docs: Sets the factor by which cleaning fee value will be multiplied
+        type: optional<_InlinedType497>
+      formula:
+        docs: >-
+          Defines the cleaningFee value, as fixed or as a percentage accordinf
+          to 'valueType'
+        type: optional<double>
+      _id: optional<string>
+
+  _InlinedType499:
+    docs: >-
+      For channel specific cleaningFee settings, the 'value' field will be saved
+      under the channel name
+    properties:
+      value: optional<_InlinedType498>
+
+  _InlinedType500:
+    docs: Defines rather value is a fixed number or percentage
+    enum:
+      - FIXED
+      - PERCENTAGE
+
+  _InlinedType501:
+    docs: Sets the factor by which cleaning fee value will be multiplied
+    enum:
+      - PER_STAY
+      - PER_GUEST
+      - PER_NIGHT
+      - PER_GUEST_PER_NIGHT
+
+  _InlinedType502:
+    properties:
+      valueType:
+        docs: Defines rather value is a fixed number or percentage
+        type: optional<_InlinedType500>
+      multiplier:
+        docs: Sets the factor by which cleaning fee value will be multiplied
+        type: optional<_InlinedType501>
+      formula:
+        docs: >-
+          Defines the cleaningFee value, as fixed or as a percentage accordinf
+          to 'valueType'
+        type: optional<double>
+      _id: optional<string>
+
+  _InlinedType503:
+    docs: >-
+      For channel specific cleaningFee settings, the 'value' field will be saved
+      under the channel name
+    properties:
+      value: optional<_InlinedType502>
+
+  _InlinedType504:
+    docs: Object to define cleaningFee settings
+    properties:
+      value:
+        docs: Default settings for cleaning fee
+        type: optional<_InlinedType479>
+      lastUpdatedAt:
+        docs: Last update date
+        type: optional<string>
+      airbnb:
+        docs: >-
+          For channel specific cleaningFee settings, the 'value' field will be
+          saved under the channel name
+        type: optional<_InlinedType483>
+      rentalsUnited:
+        docs: >-
+          For channel specific cleaningFee settings, the 'value' field will be
+          saved under the channel name
+        type: optional<_InlinedType487>
+      homeAway:
+        docs: >-
+          For channel specific cleaningFee settings, the 'value' field will be
+          saved under the channel name
+        type: optional<_InlinedType491>
+      expedia:
+        docs: >-
+          For channel specific cleaningFee settings, the 'value' field will be
+          saved under the channel name
+        type: optional<_InlinedType495>
+      despegar:
+        docs: >-
+          For channel specific cleaningFee settings, the 'value' field will be
+          saved under the channel name
+        type: optional<_InlinedType499>
+      bookingCom:
+        docs: >-
+          For channel specific cleaningFee settings, the 'value' field will be
+          saved under the channel name
+        type: optional<_InlinedType503>
+
+  _InlinedType505:
+    docs: Defines rather value is a fixed number or percentage
+    enum:
+      - FIXED
+      - PERCENTAGE
+
+  _InlinedType506:
+    docs: Sets the factor by which cleaning fee value will be multiplied
+    enum:
+      - PER_STAY
+      - PER_GUEST
+      - PER_NIGHT
+      - PER_GUEST_PER_NIGHT
+
+  _InlinedType507:
+    docs: Default settings for cleaning fee
+    properties:
+      valueType:
+        docs: Defines rather value is a fixed number or percentage
+        type: optional<_InlinedType505>
+      multiplier:
+        docs: Sets the factor by which cleaning fee value will be multiplied
+        type: optional<_InlinedType506>
+      formula:
+        docs: >-
+          Defines the cleaningFee value, as fixed or as a percentage accordinf
+          to 'valueType'
+        type: optional<double>
+
+  _InlinedType508:
+    docs: Defines rather value is a fixed number or percentage
+    enum:
+      - FIXED
+      - PERCENTAGE
+
+  _InlinedType509:
+    docs: Sets the factor by which cleaning fee value will be multiplied
+    enum:
+      - PER_STAY
+      - PER_GUEST
+      - PER_NIGHT
+      - PER_GUEST_PER_NIGHT
+
+  _InlinedType510:
+    properties:
+      valueType:
+        docs: Defines rather value is a fixed number or percentage
+        type: optional<_InlinedType508>
+      multiplier:
+        docs: Sets the factor by which cleaning fee value will be multiplied
+        type: optional<_InlinedType509>
+      formula:
+        docs: >-
+          Defines the cleaningFee value, as fixed or as a percentage accordinf
+          to 'valueType'
+        type: optional<double>
+      _id: optional<string>
+
+  _InlinedType511:
+    docs: >-
+      For channel specific cleaningFee settings, the 'value' field will be saved
+      under the channel name
+    properties:
+      value: optional<_InlinedType510>
+
+  _InlinedType512:
+    docs: Defines rather value is a fixed number or percentage
+    enum:
+      - FIXED
+      - PERCENTAGE
+
+  _InlinedType513:
+    docs: Sets the factor by which cleaning fee value will be multiplied
+    enum:
+      - PER_STAY
+      - PER_GUEST
+      - PER_NIGHT
+      - PER_GUEST_PER_NIGHT
+
+  _InlinedType514:
+    properties:
+      valueType:
+        docs: Defines rather value is a fixed number or percentage
+        type: optional<_InlinedType512>
+      multiplier:
+        docs: Sets the factor by which cleaning fee value will be multiplied
+        type: optional<_InlinedType513>
+      formula:
+        docs: >-
+          Defines the cleaningFee value, as fixed or as a percentage accordinf
+          to 'valueType'
+        type: optional<double>
+      _id: optional<string>
+
+  _InlinedType515:
+    docs: >-
+      For channel specific cleaningFee settings, the 'value' field will be saved
+      under the channel name
+    properties:
+      value: optional<_InlinedType514>
+
+  _InlinedType516:
+    docs: Defines rather value is a fixed number or percentage
+    enum:
+      - FIXED
+      - PERCENTAGE
+
+  _InlinedType517:
+    docs: Sets the factor by which cleaning fee value will be multiplied
+    enum:
+      - PER_STAY
+      - PER_GUEST
+      - PER_NIGHT
+      - PER_GUEST_PER_NIGHT
+
+  _InlinedType518:
+    properties:
+      valueType:
+        docs: Defines rather value is a fixed number or percentage
+        type: optional<_InlinedType516>
+      multiplier:
+        docs: Sets the factor by which cleaning fee value will be multiplied
+        type: optional<_InlinedType517>
+      formula:
+        docs: >-
+          Defines the cleaningFee value, as fixed or as a percentage accordinf
+          to 'valueType'
+        type: optional<double>
+      _id: optional<string>
+
+  _InlinedType519:
+    docs: >-
+      For channel specific cleaningFee settings, the 'value' field will be saved
+      under the channel name
+    properties:
+      value: optional<_InlinedType518>
+
+  _InlinedType520:
+    docs: Defines rather value is a fixed number or percentage
+    enum:
+      - FIXED
+      - PERCENTAGE
+
+  _InlinedType521:
+    docs: Sets the factor by which cleaning fee value will be multiplied
+    enum:
+      - PER_STAY
+      - PER_GUEST
+      - PER_NIGHT
+      - PER_GUEST_PER_NIGHT
+
+  _InlinedType522:
+    properties:
+      valueType:
+        docs: Defines rather value is a fixed number or percentage
+        type: optional<_InlinedType520>
+      multiplier:
+        docs: Sets the factor by which cleaning fee value will be multiplied
+        type: optional<_InlinedType521>
+      formula:
+        docs: >-
+          Defines the cleaningFee value, as fixed or as a percentage accordinf
+          to 'valueType'
+        type: optional<double>
+      _id: optional<string>
+
+  _InlinedType523:
+    docs: >-
+      For channel specific cleaningFee settings, the 'value' field will be saved
+      under the channel name
+    properties:
+      value: optional<_InlinedType522>
+
+  _InlinedType524:
+    docs: Defines rather value is a fixed number or percentage
+    enum:
+      - FIXED
+      - PERCENTAGE
+
+  _InlinedType525:
+    docs: Sets the factor by which cleaning fee value will be multiplied
+    enum:
+      - PER_STAY
+      - PER_GUEST
+      - PER_NIGHT
+      - PER_GUEST_PER_NIGHT
+
+  _InlinedType526:
+    properties:
+      valueType:
+        docs: Defines rather value is a fixed number or percentage
+        type: optional<_InlinedType524>
+      multiplier:
+        docs: Sets the factor by which cleaning fee value will be multiplied
+        type: optional<_InlinedType525>
+      formula:
+        docs: >-
+          Defines the cleaningFee value, as fixed or as a percentage accordinf
+          to 'valueType'
+        type: optional<double>
+      _id: optional<string>
+
+  _InlinedType527:
+    docs: >-
+      For channel specific cleaningFee settings, the 'value' field will be saved
+      under the channel name
+    properties:
+      value: optional<_InlinedType526>
+
+  _InlinedType528:
+    docs: Defines rather value is a fixed number or percentage
+    enum:
+      - FIXED
+      - PERCENTAGE
+
+  _InlinedType529:
+    docs: Sets the factor by which cleaning fee value will be multiplied
+    enum:
+      - PER_STAY
+      - PER_GUEST
+      - PER_NIGHT
+      - PER_GUEST_PER_NIGHT
+
+  _InlinedType530:
+    properties:
+      valueType:
+        docs: Defines rather value is a fixed number or percentage
+        type: optional<_InlinedType528>
+      multiplier:
+        docs: Sets the factor by which cleaning fee value will be multiplied
+        type: optional<_InlinedType529>
+      formula:
+        docs: >-
+          Defines the cleaningFee value, as fixed or as a percentage accordinf
+          to 'valueType'
+        type: optional<double>
+      _id: optional<string>
+
+  _InlinedType531:
+    docs: >-
+      For channel specific cleaningFee settings, the 'value' field will be saved
+      under the channel name
+    properties:
+      value: optional<_InlinedType530>
+
+  _InlinedType532:
+    docs: Object to define cleaningFee settings
+    properties:
+      value:
+        docs: Default settings for cleaning fee
+        type: optional<_InlinedType507>
+      lastUpdatedAt:
+        docs: Last update date
+        type: optional<string>
+      airbnb:
+        docs: >-
+          For channel specific cleaningFee settings, the 'value' field will be
+          saved under the channel name
+        type: optional<_InlinedType511>
+      rentalsUnited:
+        docs: >-
+          For channel specific cleaningFee settings, the 'value' field will be
+          saved under the channel name
+        type: optional<_InlinedType515>
+      homeAway:
+        docs: >-
+          For channel specific cleaningFee settings, the 'value' field will be
+          saved under the channel name
+        type: optional<_InlinedType519>
+      expedia:
+        docs: >-
+          For channel specific cleaningFee settings, the 'value' field will be
+          saved under the channel name
+        type: optional<_InlinedType523>
+      despegar:
+        docs: >-
+          For channel specific cleaningFee settings, the 'value' field will be
+          saved under the channel name
+        type: optional<_InlinedType527>
+      bookingCom:
+        docs: >-
+          For channel specific cleaningFee settings, the 'value' field will be
+          saved under the channel name
+        type: optional<_InlinedType531>
+
+  _InlinedType533:
+    properties:
+      guestsIncludedInRegularFee:
+        docs: >-
+          The higest number of guests that will not reauires to add
+          extraPersonFee
+        type: optional<double>
+      extraPersonFee:
+        docs: >-
+          The amount of fee which is added for each extra person, above
+          guestsIncludedInRegularFee, in the reservation
+        type: optional<double>
+      basePrice:
+        docs: The cost per night for the listing
+        type: optional<double>
+      basePriceUSD:
+        docs: The cost per night in USD for the listing
+        type: optional<double>
+      monthlyPriceFactor:
+        docs: >-
+          A factor for the nightly cost for reservations that are longer then a
+          month
+        type: optional<double>
+      weeklyPriceFactor:
+        docs: >-
+          A factor for the nightly cost for reservations that are longer then a
+          week
+        type: optional<double>
+      weekendBasePrice:
+        docs: The base price for weekend
+        type: optional<double>
+      securityDepositFee: optional<double>
+      currency:
+        docs: The currency that is in use for the listing prices
+        type: optional<string>
+      cleaningFee:
+        docs: Object to define cleaningFee settings
+        type: optional<_InlinedType532>

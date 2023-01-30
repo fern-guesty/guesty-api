@@ -1,0 +1,411 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: /communication/conversations
+  endpoints:
+    "":
+      path: ""
+      method: GET
+      docs: Get conversations
+      display-name: Get conversations
+      request:
+        query-parameters:
+          filters:
+            docs: |-
+              Array of filters to query by. 
+               **field**: Subject of the filter: `status`, `type`, `guest._id`, `owner._id`, `reservation._id`, `reservation.status`, `read`, `assignee._id`, `listing._id` 
+               **operator**: Enhanced MongoDB comparison operator: `$eq`, `$exists`, `$not`, `$contains`, `$notcontains`, `$gt`, `$lt`, `$between`, `$in`, `$nin` 
+               **value**: Value to filter by
+            type: optional<string>
+          fields:
+            docs: Selection of fields, separated by space
+            type: optional<string>
+          sort:
+            docs: "Sorting, default: `-createdAt`"
+            type: optional<string>
+          limit:
+            docs: "Pagination, max: 100, default is: `25`"
+            type: optional<integer>
+          cursorAfter:
+            docs: |-
+              Pagination cursor, default:`''`,
+               `cursorAfter` and `cursorBefore` are not allowed to be used at the same time in one request.
+               First request will require only limit parameter and in response you will get cursor object. 
+               Use `cursor.after` to send in query params `cursorAfter` parameter in order to move forward. 
+               Use `cursor.before` to send in query params `cursorBefore` parameter in order to move backwards. 
+               An empty string in after or before cursor in response will indicate that there is no more documents in this direction. 
+               If you sort buy something different than `createdAt`, please make sure include this parameter in fields, or you will get empty cursor. 
+               `cursorAfter` and `cursorBefore` are not allowed to be used at the same time in one request.
+            type: optional<string>
+          cursorBefore:
+            docs: Pagination cursor, default:`null`
+            type: optional<string>
+          conversation types:
+            docs: >-
+              The conversations API currently supports requests for guest
+              conversations and owners conversations.
+              The filter field `type`(guest/ owner, guest by default) is
+              required in order to determine the type of the returned
+              conversations. (in contrast to the guest conversation, owner's
+              contains owner's info)
+              Owners conversations do not support `airbnb2` module type,
+              messages that sent with `platform` module type will be sent
+              through Email.
+            type: optional<string>
+      response: _InlinedType1121
+
+    _unnamedOperation78:
+      path: /{conversationId}
+      method: GET
+      display-name: Get conversation by id
+      path-parameters:
+        conversationId:
+          docs: Saved Conversation Id
+          type: string
+      request:
+        query-parameters:
+          fields:
+            docs: >-
+              Selection of fields, separated by space. 
+               When `null` retrieve the main properties of the object. 
+              We recommend always specifying the specific fields you'd like to
+              receive to ensure that you get them. Please see the full list
+              above.
+            type: optional<string>
+      response: _InlinedType1131
+
+    _unnamedOperation79:
+      path: /{conversationId}/posts
+      method: GET
+      display-name: Get posts (by conversation id)
+      path-parameters:
+        conversationId:
+          docs: Saved Conversation Id
+          type: string
+      request:
+        query-parameters:
+          sort:
+            docs: "Sorting, default: `-createdAt` "
+            type: optional<string>
+          cursorAfter:
+            docs: |-
+              Pagination cursor, default:`''`.
+               First request will require only limit parameter and in response you will get cursor object. 
+               Use `cursor.after` to send in query params `cursorAfter` parameter in order to move forward. 
+               Use `cursor.before` to send in query params `cursorBefore` parameter in order to move backwards. 
+               An empty string in after or before cursor in response will indicate that there is no more documents in this direction. 
+               If you sort buy something different than `createdAt`, please make sure include this parameter in fields, or you will get empty cursor. 
+               `cursorAfter` and `cursorBefore` are not allowed to be used at the same time in one request.
+            type: optional<string>
+          cursorBefore:
+            docs: Pagination cursor, default:`null`.
+            type: optional<string>
+      response: _InlinedType1137
+
+    _unnamedOperation80:
+      path: /{conversationId}/posts
+      method: POST
+      display-name: Post msg to conversation without sending it
+      path-parameters:
+        conversationId:
+          docs: Saved Conversation Id
+          type: string
+      request:
+        body:
+          properties:
+            module: _InlinedType1138
+            body:
+              docs: The message itself
+              type: string
+            sentBy:
+              docs: "`host`, `guest`, default: `host`"
+              type: optional<string>
+      response: _InlinedType1142
+
+    _unnamedOperation81:
+      path: /{conversationId}/send-message
+      method: POST
+      docs: >-
+        Owners conversations do not support airbnb2 module type, messages that
+        sent with platform module type will be sent through Email.
+      display-name: Post msg(Send new msg)
+      path-parameters:
+        conversationId:
+          docs: Saved Conversation Id
+          type: string
+      request:
+        body:
+          properties:
+            module: _InlinedType1143
+            body:
+              docs: The message itself
+              type: string
+      response: _InlinedType1147
+
+types:
+  _InlinedType1110:
+    properties:
+      after: optional<string>
+      before: optional<string>
+
+  _InlinedType1111:
+    properties:
+      _id: optional<string>
+
+  _InlinedType1112:
+    properties:
+      _id: optional<string>
+      thumbnail: optional<string>
+
+  _InlinedType1113:
+    properties:
+      full: optional<string>
+      city: optional<string>
+      country: optional<string>
+      state: optional<string>
+
+  _InlinedType1114:
+    properties:
+      tags: optional<list<string>>
+      active: optional<boolean>
+      _id: optional<string>
+      picture: optional<_InlinedType1112>
+      address: optional<_InlinedType1113>
+      nickname: optional<string>
+      title: optional<string>
+      customFields: optional<list<unknown>>
+
+  _InlinedType1115:
+    properties:
+      _id: optional<string>
+      status: optional<string>
+      checkIn: optional<string>
+      checkOut: optional<string>
+      customFields: optional<list<unknown>>
+      listing: optional<_InlinedType1114>
+
+  _InlinedType1116:
+    properties:
+      _id: optional<string>
+      email: optional<string>
+      isReturning: optional<boolean>
+
+  _InlinedType1117:
+    properties:
+      reservations: optional<list<_InlinedType1115>>
+      guest: optional<_InlinedType1116>
+
+  _InlinedType1118:
+    properties:
+      read: optional<boolean>
+      status: optional<string>
+
+  _InlinedType1119:
+    properties:
+      _id: optional<string>
+      assignee: optional<_InlinedType1111>
+      priority: optional<double>
+      meta: optional<_InlinedType1117>
+      accountId: optional<string>
+      createdAt: optional<string>
+      state: optional<_InlinedType1118>
+
+  _InlinedType1120:
+    properties:
+      count: optional<double>
+      countUnread: optional<double>
+      fields: optional<string>
+      limit: optional<double>
+      cursor: optional<_InlinedType1110>
+      conversations: optional<list<_InlinedType1119>>
+
+  _InlinedType1121:
+    properties:
+      status: optional<double>
+      data: optional<_InlinedType1120>
+
+  _InlinedType1122:
+    properties:
+      _id: optional<string>
+
+  _InlinedType1123:
+    properties:
+      _id: optional<string>
+      thumbnail: optional<string>
+
+  _InlinedType1124:
+    properties:
+      full: optional<string>
+      city: optional<string>
+      country: optional<string>
+      state: optional<string>
+
+  _InlinedType1125:
+    properties:
+      tags: optional<list<string>>
+      active: optional<boolean>
+      _id: optional<string>
+      picture: optional<_InlinedType1123>
+      address: optional<_InlinedType1124>
+      nickname: optional<string>
+      title: optional<string>
+      customFields: optional<list<unknown>>
+
+  _InlinedType1126:
+    properties:
+      _id: optional<string>
+      status: optional<string>
+      checkIn: optional<string>
+      checkOut: optional<string>
+      customFields: optional<list<unknown>>
+      listing: optional<_InlinedType1125>
+
+  _InlinedType1127:
+    properties:
+      _id: optional<string>
+      email: optional<string>
+      isReturning: optional<boolean>
+
+  _InlinedType1128:
+    properties:
+      reservations: optional<list<_InlinedType1126>>
+      guest: optional<_InlinedType1127>
+
+  _InlinedType1129:
+    properties:
+      read: optional<boolean>
+      status: optional<string>
+
+  _InlinedType1130:
+    properties:
+      _id: optional<string>
+      assignee: optional<_InlinedType1122>
+      priority: optional<double>
+      meta: optional<_InlinedType1128>
+      accountId: optional<string>
+      createdAt: optional<string>
+      state: optional<_InlinedType1129>
+
+  _InlinedType1131:
+    properties:
+      status: optional<double>
+      data: optional<_InlinedType1130>
+
+  _InlinedType1132:
+    properties:
+      after: optional<string>
+      before: optional<string>
+
+  _InlinedType1133:
+    properties:
+      to: optional<list<unknown>>
+      cc: optional<list<unknown>>
+      bcc: optional<list<unknown>>
+      templateValues: optional<list<unknown>>
+      type: optional<string>
+
+  _InlinedType1134:
+    properties:
+      type: optional<string>
+      fullName: optional<string>
+
+  _InlinedType1135:
+    properties:
+      module: optional<_InlinedType1133>
+      from: optional<_InlinedType1134>
+      isFromMigration: optional<boolean>
+      _id: optional<string>
+      body: optional<string>
+      attachments: optional<list<unknown>>
+      conversationId: optional<string>
+      createdAt: optional<string>
+      __v: optional<double>
+
+  _InlinedType1136:
+    properties:
+      count: optional<double>
+      limit: optional<double>
+      sort: optional<string>
+      cursor: optional<_InlinedType1132>
+      posts: optional<list<_InlinedType1135>>
+
+  _InlinedType1137:
+    properties:
+      status: optional<double>
+      data: optional<_InlinedType1136>
+
+  _InlinedType1138:
+    properties:
+      type:
+        docs: "`sms`, `email`, `note`, `log`, `whatsapp`, `airbnb2`"
+        type: string
+
+  _InlinedType1139:
+    properties:
+      to: optional<list<unknown>>
+      cc: optional<list<unknown>>
+      bcc: optional<list<unknown>>
+      templateValues: optional<list<unknown>>
+      type: optional<string>
+
+  _InlinedType1140:
+    properties:
+      type: optional<string>
+      fullName: optional<string>
+
+  _InlinedType1141:
+    properties:
+      module: optional<_InlinedType1139>
+      from: optional<_InlinedType1140>
+      isFromMigration: optional<boolean>
+      _id: optional<string>
+      body: optional<string>
+      attachments: optional<list<unknown>>
+      conversationId: optional<string>
+      createdAt: optional<string>
+      __v: optional<double>
+
+  _InlinedType1142:
+    properties:
+      status: optional<double>
+      data: optional<list<_InlinedType1141>>
+
+  _InlinedType1143:
+    properties:
+      type:
+        docs: "`sms`, `email`, `note`, `log`, `whatsapp`, `airbnb2`"
+        type: string
+      to: optional<list<unknown>>
+      cc: optional<list<unknown>>
+      bcc: optional<list<unknown>>
+
+  _InlinedType1144:
+    properties:
+      to: optional<list<unknown>>
+      cc: optional<list<unknown>>
+      bcc: optional<list<unknown>>
+      templateValues: optional<list<unknown>>
+      type: optional<string>
+
+  _InlinedType1145:
+    properties:
+      type: optional<string>
+      fullName: optional<string>
+
+  _InlinedType1146:
+    properties:
+      module: optional<_InlinedType1144>
+      from: optional<_InlinedType1145>
+      isFromMigration: optional<boolean>
+      _id: optional<string>
+      body: optional<string>
+      attachments: optional<list<unknown>>
+      conversationId: optional<string>
+      createdAt: optional<string>
+      __v: optional<double>
+
+  _InlinedType1147:
+    properties:
+      status: optional<double>
+      data: optional<_InlinedType1146>

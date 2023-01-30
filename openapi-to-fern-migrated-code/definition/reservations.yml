@@ -1,0 +1,2675 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: true
+  base-path: ""
+  endpoints:
+    "":
+      path: /reservations
+      method: GET
+      display-name: Search reservations
+      request:
+        query-parameters:
+          viewId: optional<string>
+          fields:
+            docs: Selection of fields, separated by space
+            type: optional<string>
+          sort:
+            docs: Sorting
+            type: optional<string>
+          limit:
+            docs: "Pagination, max: 100"
+            type: optional<integer>
+          skip: optional<integer>
+      response: _InlinedType575
+
+    _unnamedOperation25:
+      path: /reservations
+      method: POST
+      display-name: Create a reservation
+      request:
+        body:
+          properties:
+            listingId:
+              docs: Unique Id
+              type: string
+            checkInDateLocalized: string
+            checkOutDateLocalized: string
+            status: string
+            money: _InlinedType577
+            guest: optional<_InlinedType578>
+            guestId:
+              docs: Unique Id
+              type: optional<string>
+      response: _InlinedType619
+
+    _unnamedOperation26:
+      path: /reservations/{id}
+      method: GET
+      docs: >-
+        NOTE: Please use listing.defaultCheckInTime and plannedArrival in order
+        to get the check in time of a reservation and
+        listing.defaultCheckOutTime and plannedDeparture in order to get the
+        check out time of a reservation.
+         If plannedArrival or plannedDeparture were set, they will override the default check-in and check-out times set on a listing level.
+         Please use checkInDateLocalized and checkOutDateLocalized in order to get the date of a reservation
+      display-name: Retrieve a reservation
+      path-parameters:
+        id:
+          docs: Reservation ID
+          type: string
+      request:
+        query-parameters:
+          fields:
+            docs: Reservation fields to retrieve, separated by space
+            type: optional<string>
+      response: _InlinedType660
+
+    _unnamedOperation27:
+      path: /reservations/{id}
+      method: PUT
+      docs: |-
+        NOTE: Check in and check out can not be amended. 
+         In order to amend check in, please use checkInDateLocalized and plannedArrival. In order to amend check out please use checkOutDateLocalized and plannedDeparture. 
+         IMPORTANT: Please note that by using ignoreCalendar you may create an over booking!
+      display-name: Update a reservation
+      path-parameters:
+        id:
+          docs: Reservation ID
+          type: string
+      request:
+        body: _InlinedType661
+      response: _InlinedType702
+
+    _unnamedOperation28:
+      path: /reservations/{id}/payments
+      method: POST
+      docs: Create a new payment for particular reservation
+      display-name: Add a payment to reservation
+      path-parameters:
+        id:
+          docs: Reservation ID
+          type: string
+      request:
+        body:
+          properties:
+            paymentMethod: _InlinedType704
+            amount: optional<double>
+            shouldBePaidAt: optional<string>
+            paidAt: optional<string>
+            note: optional<string>
+            creditCard: string
+            isAuthorizationHold: optional<boolean>
+
+    _unnamedOperation29:
+      path: /reservations/{id}/invoiceItems
+      method: POST
+      docs: Add a new Invoice item to the reservation
+      display-name: Create new Invoice item
+      path-parameters:
+        id:
+          docs: Reservation ID
+          type: string
+      request:
+        body:
+          properties:
+            title: string
+            amount: double
+            normalType: string
+            description: optional<string>
+            secondIdentifier: string
+      response: _InlinedType745
+
+    _unnamedOperation30:
+      path: /reservations/{id}/payments/{paymentId}
+      method: PUT
+      docs: >-
+        Update an existing payment of particular reservation. Set the status of
+        the payment to 'CANCELLED' to cancel the payment
+      display-name: Update or cancel a payment for reservation
+      path-parameters:
+        id:
+          docs: Reservation ID
+          type: string
+        paymentId:
+          docs: Payment ID
+          type: string
+      request:
+        body:
+          properties:
+            status: optional<_InlinedType746>
+            paymentMethod: _InlinedType748
+            amount: optional<double>
+            shouldBePaidAt: optional<string>
+            paidAt: optional<string>
+            note: optional<string>
+            stripePaymentMethodToken: optional<string>
+
+    _unnamedOperation31:
+      path: /reservations/{id}/payments/{paymentId}/refund
+      method: POST
+      display-name: Refund an existing payment
+      path-parameters:
+        id:
+          docs: Reservation ID
+          type: string
+        paymentId:
+          docs: Payment ID
+          type: string
+      request:
+        body:
+          properties:
+            amount: double
+            note: optional<string>
+
+    _unnamedOperation32:
+      path: /reservations.csv
+      method: POST
+      docs: >-
+        Same as GET /reservations but results are returned as a downloadable csv
+        file
+      display-name: Export as CSV
+
+    _unnamedOperation33:
+      path: /reservations.email
+      method: POST
+      docs: Same as /reservations but results are sent as an email
+      display-name: Send results in email
+      request:
+        body:
+          properties: {}
+
+    _unnamedOperation34:
+      path: /reservations/{id}/approve
+      method: POST
+      display-name: Approve a pending booking request
+      path-parameters:
+        id: string
+
+    _unnamedOperation35:
+      path: /reservations/{id}/decline
+      method: POST
+      display-name: Decline a pending booking request
+      path-parameters:
+        id: string
+
+    _unnamedOperation36:
+      path: /reservations/{id}/custom-fields
+      method: GET
+      docs: Get custom fields
+      display-name: Get all reservations's custom fields
+      path-parameters:
+        id: string
+
+    _unnamedOperation37:
+      path: /reservations/{id}/custom-fields
+      method: PUT
+      display-name: Update reservations's Custom Fields
+      path-parameters:
+        id: string
+      request:
+        body:
+          properties:
+            customFields: optional<list<_InlinedType749>>
+
+    _unnamedOperation38:
+      path: /reservations/{id}/custom-fields/{field_id}
+      method: GET
+      display-name: Get custom field - Reservations
+      path-parameters:
+        id: string
+        field_id: string
+
+    _unnamedOperation39:
+      path: /reservations/{reservation_id}/custom-fields/{field_id}
+      method: DELETE
+      display-name: Delete reservations's custom fields
+      path-parameters:
+        reservation_id: string
+        field_id: string
+
+types:
+  _InlinedType535:
+    properties:
+      availableStatuses: optional<list<unknown>>
+
+  _InlinedType536:
+    properties:
+      invalidCreditCards: optional<list<unknown>>
+      reports: optional<list<unknown>>
+
+  _InlinedType537:
+    properties:
+      limitations: optional<_InlinedType535>
+      bookingCom: optional<_InlinedType536>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      platform: optional<string>
+
+  _InlinedType538:
+    properties:
+      commission: optional<double>
+      feeMinimum: optional<double>
+      fee: optional<double>
+      feeUsd: optional<double>
+      isMinimumFee: optional<boolean>
+      isMaximumFee: optional<boolean>
+      planItems: optional<list<unknown>>
+
+  _InlinedType539:
+    properties:
+      shouldReview: optional<boolean>
+
+  _InlinedType540:
+    properties:
+      useAccountSettings: optional<boolean>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      manual: optional<list<unknown>>
+
+  _InlinedType541:
+    properties:
+      appliedOnFees: optional<string>
+      appliedByDefaultOnChannels: optional<list<unknown>>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      name: optional<string>
+      units: optional<string>
+      quantifier: optional<string>
+      amount: optional<double>
+      appliedToAllFees: optional<boolean>
+      type: optional<string>
+
+  _InlinedType542:
+    properties:
+      snapshotCreated: optional<boolean>
+      channelCommission: optional<_InlinedType540>
+      taxes: optional<list<_InlinedType541>>
+      monthlyPriceFactor: optional<double>
+      weeklyPriceFactor: optional<double>
+      useAccountRevenueShare: optional<boolean>
+
+  _InlinedType543:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      title: optional<string>
+      amount: optional<double>
+      currency: optional<string>
+      type: optional<string>
+      isLocked: optional<boolean>
+      isTax: optional<boolean>
+      normalType: optional<string>
+      isAutoAdditionalFee: optional<boolean>
+      secondIdentifier: optional<string>
+
+  _InlinedType544:
+    properties:
+      lastAuthMsgSentDate: optional<string>
+      authenticationUrl: optional<string>
+
+  _InlinedType545:
+    properties:
+      city: optional<string>
+      country: optional<string>
+      line1: optional<string>
+      line2: optional<string>
+      postal_code: optional<string>
+      state: optional<string>
+
+  _InlinedType546:
+    properties:
+      address: optional<_InlinedType545>
+      email: optional<string>
+      name: optional<string>
+      phone: optional<string>
+
+  _InlinedType547:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      confirmationCode: optional<string>
+      reservationId:
+        docs: Unique Id
+        type: optional<string>
+      OTA: optional<string>
+      listingId:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType548:
+    properties:
+      network_status: optional<string>
+      reason: optional<string>
+      risk_level: optional<string>
+      risk_score: optional<double>
+      seller_message: optional<string>
+      type: optional<string>
+
+  _InlinedType549:
+    properties:
+      cvc_check: optional<string>
+
+  _InlinedType550:
+    properties:
+      brand: optional<string>
+      checks: optional<_InlinedType549>
+      country: optional<string>
+      exp_month: optional<double>
+      exp_year: optional<double>
+      fingerprint: optional<string>
+      funding: optional<string>
+      last4: optional<string>
+      network: optional<string>
+
+  _InlinedType551:
+    properties:
+      card: optional<_InlinedType550>
+      type: optional<string>
+
+  _InlinedType552:
+    properties:
+      object: optional<string>
+      data: optional<list<unknown>>
+      has_more: optional<boolean>
+      total_count: optional<double>
+      url: optional<string>
+
+  _InlinedType553:
+    properties:
+      id: optional<string>
+      object: optional<string>
+      amount: optional<double>
+      amount_captured: optional<double>
+      amount_refunded: optional<double>
+      application: optional<string>
+      billing_details: optional<_InlinedType546>
+      calculated_statement_descriptor: optional<string>
+      captured: optional<boolean>
+      created: optional<double>
+      currency: optional<string>
+      customer: optional<string>
+      description: optional<string>
+      disputed: optional<boolean>
+      failure_code: optional<string>
+      failure_message: optional<string>
+      livemode: optional<boolean>
+      metadata: optional<_InlinedType547>
+      outcome: optional<_InlinedType548>
+      paid: optional<boolean>
+      payment_intent: optional<string>
+      payment_method: optional<string>
+      payment_method_details: optional<_InlinedType551>
+      refunded: optional<boolean>
+      refunds: optional<_InlinedType552>
+      statement_descriptor: optional<string>
+      status: optional<string>
+
+  _InlinedType554:
+    properties:
+      object: optional<string>
+      data: optional<list<_InlinedType553>>
+      has_more: optional<boolean>
+      total_count: optional<double>
+      url: optional<string>
+
+  _InlinedType555:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      confirmationCode: optional<string>
+      reservationId:
+        docs: Unique Id
+        type: optional<string>
+      OTA: optional<string>
+      listingId:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType556:
+    properties:
+      directory_server_id: optional<string>
+      algorithm: optional<string>
+      certificate: optional<string>
+      root_certificate_authorities: optional<list<unknown>>
+
+  _InlinedType557:
+    properties:
+      type: optional<string>
+      merchant: optional<string>
+      three_d_secure_2_source: optional<string>
+      directory_server_name: optional<string>
+      server_transaction_id: optional<string>
+      three_ds_method_url: optional<string>
+      three_ds_optimizations: optional<string>
+      directory_server_encryption: optional<_InlinedType556>
+
+  _InlinedType558:
+    properties:
+      type: optional<string>
+      use_stripe_sdk: optional<_InlinedType557>
+
+  _InlinedType559:
+    properties:
+      request_three_d_secure: optional<string>
+
+  _InlinedType560:
+    properties:
+      card: optional<_InlinedType559>
+
+  _InlinedType561:
+    properties:
+      id:
+        docs: Unique Id
+        type: optional<string>
+      object: optional<string>
+      amount: optional<double>
+      amount_capturable: optional<double>
+      amount_received: optional<double>
+      application: optional<string>
+      capture_method: optional<string>
+      charges: optional<_InlinedType554>
+      client_secret: optional<string>
+      confirmation_method: optional<string>
+      created: optional<double>
+      currency: optional<string>
+      customer: optional<string>
+      description: optional<string>
+      livemode: optional<boolean>
+      metadata: optional<_InlinedType555>
+      next_action: optional<_InlinedType558>
+      payment_method: optional<string>
+      payment_method_options: optional<_InlinedType560>
+      payment_method_types: optional<list<unknown>>
+      statement_descriptor: optional<string>
+      status: optional<string>
+
+  _InlinedType562:
+    properties:
+      city: optional<string>
+      country: optional<string>
+      line1: optional<string>
+      line2: optional<string>
+      postal_code: optional<string>
+      state: optional<string>
+
+  _InlinedType563:
+    properties:
+      address: optional<_InlinedType562>
+      email: optional<string>
+      name: optional<string>
+      phone: optional<string>
+
+  _InlinedType564:
+    properties:
+      cvc_check: optional<string>
+
+  _InlinedType565:
+    properties:
+      available: optional<list<unknown>>
+
+  _InlinedType566:
+    properties:
+      supported: optional<boolean>
+
+  _InlinedType567:
+    properties:
+      brand: optional<string>
+      checks: optional<_InlinedType564>
+      country: optional<string>
+      exp_month: optional<double>
+      exp_year: optional<double>
+      fingerprint: optional<string>
+      funding: optional<string>
+      last4: optional<string>
+      networks: optional<_InlinedType565>
+      three_d_secure_usage: optional<_InlinedType566>
+
+  _InlinedType568:
+    properties:
+      id: optional<string>
+      object: optional<string>
+      billing_details: optional<_InlinedType563>
+      card: optional<_InlinedType567>
+      created: optional<double>
+      customer: optional<string>
+      livemode: optional<boolean>
+      type: optional<string>
+
+  _InlinedType569:
+    properties:
+      charge: optional<string>
+      code: optional<string>
+      decline_code: optional<string>
+      doc_url: optional<string>
+      message: optional<string>
+      payment_intent: optional<_InlinedType561>
+      payment_method: optional<_InlinedType568>
+      type: optional<string>
+      statusCode: optional<double>
+      requestId: optional<string>
+
+  _InlinedType570:
+    properties:
+      createdAt: optional<string>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      status: optional<string>
+      error: optional<string>
+      payload: optional<_InlinedType569>
+
+  _InlinedType571:
+    properties:
+      authenticationRequiredData: optional<_InlinedType544>
+      paymentMethodStatus: optional<string>
+      isAuthorizationHold: optional<boolean>
+      status: optional<string>
+      refunds: optional<list<unknown>>
+      authorizationHoldCaptures: optional<list<unknown>>
+      createdAt: optional<string>
+      attempts: optional<list<_InlinedType570>>
+      receiptTargets: optional<list<unknown>>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      amount: optional<double>
+      shouldBePaidAt: optional<string>
+      paymentMethodId:
+        docs: Unique Id
+        type: optional<string>
+      guestId:
+        docs: Unique Id
+        type: optional<string>
+      currency: optional<string>
+
+  _InlinedType572:
+    properties:
+      altered: optional<boolean>
+      invoiceItems: optional<list<_InlinedType543>>
+      payments: optional<list<_InlinedType571>>
+      autoPaymentsPolicy: optional<list<unknown>>
+      currency: optional<string>
+      paymentProviderIds: optional<list<unknown>>
+      fareAccommodationAdjustment: optional<double>
+      fareAccommodationDiscount: optional<double>
+      fareAccommodation: optional<double>
+      fareAccommodationAdjusted: optional<double>
+      fareCleaning: optional<double>
+      hostServiceFee: optional<double>
+      hostServiceFeeTax: optional<double>
+      hostServiceFeeIncTax: optional<double>
+      subTotalPrice: optional<double>
+      hostPayout: optional<double>
+      hostPayoutUsd: optional<double>
+      totalTaxes: optional<double>
+      totalRefunded: optional<double>
+      totalPaid: optional<double>
+      paymentsDue: optional<double>
+      balanceDue: optional<double>
+      isFullyPaid: optional<boolean>
+      useAccountRevenueShare: optional<boolean>
+      netIncomeFormula: optional<string>
+      netIncome: optional<double>
+      commissionFormula: optional<string>
+      commission: optional<double>
+      commissionTaxPercentage: optional<double>
+      commissionTax: optional<double>
+      commissionIncTax: optional<double>
+      ownerRevenueFormula: optional<string>
+      ownerRevenue: optional<double>
+      currencyConversionRateToAccount: optional<double>
+      isTouchedPayments: optional<boolean>
+
+  _InlinedType573:
+    properties:
+      assigned: optional<boolean>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType574:
+    properties:
+      automationSources: optional<list<unknown>>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      isPercentage: optional<boolean>
+      isAutomated: optional<boolean>
+      name: optional<string>
+      type: optional<string>
+      value: optional<double>
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      multiplier: optional<string>
+      targetFee: optional<string>
+
+  _InlinedType575:
+    properties:
+      integration: optional<_InlinedType537>
+      guestyFeeDetails: optional<_InlinedType538>
+      review: optional<_InlinedType539>
+      atTimeOfConfirmation: optional<_InlinedType542>
+      flag: optional<boolean>
+      accountingEnabled: optional<boolean>
+      isBMApplied: optional<boolean>
+      confirmedPreBookings: optional<list<unknown>>
+      pulledByDailySync: optional<boolean>
+      manuallyCreated: optional<boolean>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      status: optional<string>
+      checkIn: optional<string>
+      checkOut: optional<string>
+      nightsCount: optional<double>
+      guestsCount: optional<double>
+      money: optional<_InlinedType572>
+      listingId:
+        docs: Unique Id
+        type: optional<string>
+      checkInDateLocalized: optional<string>
+      checkOutDateLocalized: optional<string>
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      guestId:
+        docs: Unique Id
+        type: optional<string>
+      source: optional<string>
+      confirmationCode: optional<string>
+      mtl: optional<_InlinedType573>
+      isReturningGuest: optional<boolean>
+      confirmedAt: optional<string>
+      importedAt: optional<string>
+      additionalFeesAtCreation: optional<list<_InlinedType574>>
+      createdAt: optional<string>
+      pendingTasks: optional<list<unknown>>
+      customFields: optional<list<unknown>>
+      lastUpdatedAt: optional<string>
+      __v: optional<double>
+      conversationId:
+        docs: Unique Id
+        type: optional<string>
+      id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType576:
+    properties:
+      type: optional<string>
+
+  _InlinedType577:
+    properties:
+      fareAccommodation: double
+      fareCleaning: optional<double>
+      invoiceItems: optional<list<_InlinedType576>>
+      currency: string
+
+  _InlinedType578:
+    properties:
+      firstName:
+        docs: Guest's first name
+        type: optional<string>
+      lastName:
+        docs: Guest's last name
+        type: optional<string>
+      phone: optional<string>
+      email: optional<string>
+
+  _InlinedType579:
+    properties:
+      availableStatuses: optional<list<unknown>>
+
+  _InlinedType580:
+    properties:
+      invalidCreditCards: optional<list<unknown>>
+      reports: optional<list<unknown>>
+
+  _InlinedType581:
+    properties:
+      limitations: optional<_InlinedType579>
+      bookingCom: optional<_InlinedType580>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      platform: optional<string>
+
+  _InlinedType582:
+    properties:
+      commission: optional<double>
+      feeMinimum: optional<double>
+      fee: optional<double>
+      feeUsd: optional<double>
+      isMinimumFee: optional<boolean>
+      isMaximumFee: optional<boolean>
+      planItems: optional<list<unknown>>
+
+  _InlinedType583:
+    properties:
+      shouldReview: optional<boolean>
+
+  _InlinedType584:
+    properties:
+      useAccountSettings: optional<boolean>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      manual: optional<list<unknown>>
+
+  _InlinedType585:
+    properties:
+      appliedOnFees: optional<string>
+      appliedByDefaultOnChannels: optional<list<unknown>>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      name: optional<string>
+      units: optional<string>
+      quantifier: optional<string>
+      amount: optional<double>
+      appliedToAllFees: optional<boolean>
+      type: optional<string>
+
+  _InlinedType586:
+    properties:
+      snapshotCreated: optional<boolean>
+      channelCommission: optional<_InlinedType584>
+      taxes: optional<list<_InlinedType585>>
+      monthlyPriceFactor: optional<double>
+      weeklyPriceFactor: optional<double>
+      useAccountRevenueShare: optional<boolean>
+
+  _InlinedType587:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      title: optional<string>
+      amount: optional<double>
+      currency: optional<string>
+      type: optional<string>
+      isLocked: optional<boolean>
+      isTax: optional<boolean>
+      normalType: optional<string>
+      isAutoAdditionalFee: optional<boolean>
+      secondIdentifier: optional<string>
+
+  _InlinedType588:
+    properties:
+      lastAuthMsgSentDate: optional<string>
+      authenticationUrl: optional<string>
+
+  _InlinedType589:
+    properties:
+      city: optional<string>
+      country: optional<string>
+      line1: optional<string>
+      line2: optional<string>
+      postal_code: optional<string>
+      state: optional<string>
+
+  _InlinedType590:
+    properties:
+      address: optional<_InlinedType589>
+      email: optional<string>
+      name: optional<string>
+      phone: optional<string>
+
+  _InlinedType591:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      confirmationCode: optional<string>
+      reservationId:
+        docs: Unique Id
+        type: optional<string>
+      OTA: optional<string>
+      listingId:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType592:
+    properties:
+      network_status: optional<string>
+      reason: optional<string>
+      risk_level: optional<string>
+      risk_score: optional<double>
+      seller_message: optional<string>
+      type: optional<string>
+
+  _InlinedType593:
+    properties:
+      cvc_check: optional<string>
+
+  _InlinedType594:
+    properties:
+      brand: optional<string>
+      checks: optional<_InlinedType593>
+      country: optional<string>
+      exp_month: optional<double>
+      exp_year: optional<double>
+      fingerprint: optional<string>
+      funding: optional<string>
+      last4: optional<string>
+      network: optional<string>
+
+  _InlinedType595:
+    properties:
+      card: optional<_InlinedType594>
+      type: optional<string>
+
+  _InlinedType596:
+    properties:
+      object: optional<string>
+      data: optional<list<unknown>>
+      has_more: optional<boolean>
+      total_count: optional<double>
+      url: optional<string>
+
+  _InlinedType597:
+    properties:
+      id: optional<string>
+      object: optional<string>
+      amount: optional<double>
+      amount_captured: optional<double>
+      amount_refunded: optional<double>
+      application: optional<string>
+      billing_details: optional<_InlinedType590>
+      calculated_statement_descriptor: optional<string>
+      captured: optional<boolean>
+      created: optional<double>
+      currency: optional<string>
+      customer: optional<string>
+      description: optional<string>
+      disputed: optional<boolean>
+      failure_code: optional<string>
+      failure_message: optional<string>
+      livemode: optional<boolean>
+      metadata: optional<_InlinedType591>
+      outcome: optional<_InlinedType592>
+      paid: optional<boolean>
+      payment_intent: optional<string>
+      payment_method: optional<string>
+      payment_method_details: optional<_InlinedType595>
+      refunded: optional<boolean>
+      refunds: optional<_InlinedType596>
+      statement_descriptor: optional<string>
+      status: optional<string>
+
+  _InlinedType598:
+    properties:
+      object: optional<string>
+      data: optional<list<_InlinedType597>>
+      has_more: optional<boolean>
+      total_count: optional<double>
+      url: optional<string>
+
+  _InlinedType599:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      confirmationCode: optional<string>
+      reservationId:
+        docs: Unique Id
+        type: optional<string>
+      OTA: optional<string>
+      listingId:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType600:
+    properties:
+      directory_server_id: optional<string>
+      algorithm: optional<string>
+      certificate: optional<string>
+      root_certificate_authorities: optional<list<unknown>>
+
+  _InlinedType601:
+    properties:
+      type: optional<string>
+      merchant: optional<string>
+      three_d_secure_2_source: optional<string>
+      directory_server_name: optional<string>
+      server_transaction_id: optional<string>
+      three_ds_method_url: optional<string>
+      three_ds_optimizations: optional<string>
+      directory_server_encryption: optional<_InlinedType600>
+
+  _InlinedType602:
+    properties:
+      type: optional<string>
+      use_stripe_sdk: optional<_InlinedType601>
+
+  _InlinedType603:
+    properties:
+      request_three_d_secure: optional<string>
+
+  _InlinedType604:
+    properties:
+      card: optional<_InlinedType603>
+
+  _InlinedType605:
+    properties:
+      id:
+        docs: Unique Id
+        type: optional<string>
+      object: optional<string>
+      amount: optional<double>
+      amount_capturable: optional<double>
+      amount_received: optional<double>
+      application: optional<string>
+      capture_method: optional<string>
+      charges: optional<_InlinedType598>
+      client_secret: optional<string>
+      confirmation_method: optional<string>
+      created: optional<double>
+      currency: optional<string>
+      customer: optional<string>
+      description: optional<string>
+      livemode: optional<boolean>
+      metadata: optional<_InlinedType599>
+      next_action: optional<_InlinedType602>
+      payment_method: optional<string>
+      payment_method_options: optional<_InlinedType604>
+      payment_method_types: optional<list<unknown>>
+      statement_descriptor: optional<string>
+      status: optional<string>
+
+  _InlinedType606:
+    properties:
+      city: optional<string>
+      country: optional<string>
+      line1: optional<string>
+      line2: optional<string>
+      postal_code: optional<string>
+      state: optional<string>
+
+  _InlinedType607:
+    properties:
+      address: optional<_InlinedType606>
+      email: optional<string>
+      name: optional<string>
+      phone: optional<string>
+
+  _InlinedType608:
+    properties:
+      cvc_check: optional<string>
+
+  _InlinedType609:
+    properties:
+      available: optional<list<unknown>>
+
+  _InlinedType610:
+    properties:
+      supported: optional<boolean>
+
+  _InlinedType611:
+    properties:
+      brand: optional<string>
+      checks: optional<_InlinedType608>
+      country: optional<string>
+      exp_month: optional<double>
+      exp_year: optional<double>
+      fingerprint: optional<string>
+      funding: optional<string>
+      last4: optional<string>
+      networks: optional<_InlinedType609>
+      three_d_secure_usage: optional<_InlinedType610>
+
+  _InlinedType612:
+    properties:
+      id: optional<string>
+      object: optional<string>
+      billing_details: optional<_InlinedType607>
+      card: optional<_InlinedType611>
+      created: optional<double>
+      customer: optional<string>
+      livemode: optional<boolean>
+      type: optional<string>
+
+  _InlinedType613:
+    properties:
+      charge: optional<string>
+      code: optional<string>
+      decline_code: optional<string>
+      doc_url: optional<string>
+      message: optional<string>
+      payment_intent: optional<_InlinedType605>
+      payment_method: optional<_InlinedType612>
+      type: optional<string>
+      statusCode: optional<double>
+      requestId: optional<string>
+
+  _InlinedType614:
+    properties:
+      createdAt: optional<string>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      status: optional<string>
+      error: optional<string>
+      payload: optional<_InlinedType613>
+
+  _InlinedType615:
+    properties:
+      authenticationRequiredData: optional<_InlinedType588>
+      paymentMethodStatus: optional<string>
+      isAuthorizationHold: optional<boolean>
+      status: optional<string>
+      refunds: optional<list<unknown>>
+      authorizationHoldCaptures: optional<list<unknown>>
+      createdAt: optional<string>
+      attempts: optional<list<_InlinedType614>>
+      receiptTargets: optional<list<unknown>>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      amount: optional<double>
+      shouldBePaidAt: optional<string>
+      paymentMethodId:
+        docs: Unique Id
+        type: optional<string>
+      guestId:
+        docs: Unique Id
+        type: optional<string>
+      currency: optional<string>
+
+  _InlinedType616:
+    properties:
+      altered: optional<boolean>
+      invoiceItems: optional<list<_InlinedType587>>
+      payments: optional<list<_InlinedType615>>
+      autoPaymentsPolicy: optional<list<unknown>>
+      currency: optional<string>
+      paymentProviderIds: optional<list<unknown>>
+      fareAccommodationAdjustment: optional<double>
+      fareAccommodationDiscount: optional<double>
+      fareAccommodation: optional<double>
+      fareAccommodationAdjusted: optional<double>
+      fareCleaning: optional<double>
+      hostServiceFee: optional<double>
+      hostServiceFeeTax: optional<double>
+      hostServiceFeeIncTax: optional<double>
+      subTotalPrice: optional<double>
+      hostPayout: optional<double>
+      hostPayoutUsd: optional<double>
+      totalTaxes: optional<double>
+      totalRefunded: optional<double>
+      totalPaid: optional<double>
+      paymentsDue: optional<double>
+      balanceDue: optional<double>
+      isFullyPaid: optional<boolean>
+      useAccountRevenueShare: optional<boolean>
+      netIncomeFormula: optional<string>
+      netIncome: optional<double>
+      commissionFormula: optional<string>
+      commission: optional<double>
+      commissionTaxPercentage: optional<double>
+      commissionTax: optional<double>
+      commissionIncTax: optional<double>
+      ownerRevenueFormula: optional<string>
+      ownerRevenue: optional<double>
+      currencyConversionRateToAccount: optional<double>
+      isTouchedPayments: optional<boolean>
+
+  _InlinedType617:
+    properties:
+      assigned: optional<boolean>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType618:
+    properties:
+      automationSources: optional<list<unknown>>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      isPercentage: optional<boolean>
+      isAutomated: optional<boolean>
+      name: optional<string>
+      type: optional<string>
+      value: optional<double>
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      multiplier: optional<string>
+      targetFee: optional<string>
+
+  _InlinedType619:
+    properties:
+      integration: optional<_InlinedType581>
+      guestyFeeDetails: optional<_InlinedType582>
+      review: optional<_InlinedType583>
+      atTimeOfConfirmation: optional<_InlinedType586>
+      flag: optional<boolean>
+      accountingEnabled: optional<boolean>
+      isBMApplied: optional<boolean>
+      confirmedPreBookings: optional<list<unknown>>
+      pulledByDailySync: optional<boolean>
+      manuallyCreated: optional<boolean>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      status: optional<string>
+      checkIn: optional<string>
+      checkOut: optional<string>
+      nightsCount: optional<double>
+      guestsCount: optional<double>
+      money: optional<_InlinedType616>
+      listingId:
+        docs: Unique Id
+        type: optional<string>
+      checkInDateLocalized: optional<string>
+      checkOutDateLocalized: optional<string>
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      guestId:
+        docs: Unique Id
+        type: optional<string>
+      source: optional<string>
+      confirmationCode: optional<string>
+      mtl: optional<_InlinedType617>
+      isReturningGuest: optional<boolean>
+      confirmedAt: optional<string>
+      importedAt: optional<string>
+      additionalFeesAtCreation: optional<list<_InlinedType618>>
+      createdAt: optional<string>
+      pendingTasks: optional<list<unknown>>
+      customFields: optional<list<unknown>>
+      lastUpdatedAt: optional<string>
+      __v: optional<double>
+      conversationId:
+        docs: Unique Id
+        type: optional<string>
+      id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType620:
+    properties:
+      availableStatuses: optional<list<unknown>>
+
+  _InlinedType621:
+    properties:
+      invalidCreditCards: optional<list<unknown>>
+      reports: optional<list<unknown>>
+
+  _InlinedType622:
+    properties:
+      limitations: optional<_InlinedType620>
+      bookingCom: optional<_InlinedType621>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      platform: optional<string>
+
+  _InlinedType623:
+    properties:
+      commission: optional<double>
+      feeMinimum: optional<double>
+      fee: optional<double>
+      feeUsd: optional<double>
+      isMinimumFee: optional<boolean>
+      isMaximumFee: optional<boolean>
+      planItems: optional<list<unknown>>
+
+  _InlinedType624:
+    properties:
+      shouldReview: optional<boolean>
+
+  _InlinedType625:
+    properties:
+      useAccountSettings: optional<boolean>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      manual: optional<list<unknown>>
+
+  _InlinedType626:
+    properties:
+      appliedOnFees: optional<string>
+      appliedByDefaultOnChannels: optional<list<unknown>>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      name: optional<string>
+      units: optional<string>
+      quantifier: optional<string>
+      amount: optional<double>
+      appliedToAllFees: optional<boolean>
+      type: optional<string>
+
+  _InlinedType627:
+    properties:
+      snapshotCreated: optional<boolean>
+      channelCommission: optional<_InlinedType625>
+      taxes: optional<list<_InlinedType626>>
+      monthlyPriceFactor: optional<double>
+      weeklyPriceFactor: optional<double>
+      useAccountRevenueShare: optional<boolean>
+
+  _InlinedType628:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      title: optional<string>
+      amount: optional<double>
+      currency: optional<string>
+      type: optional<string>
+      isLocked: optional<boolean>
+      isTax: optional<boolean>
+      normalType: optional<string>
+      isAutoAdditionalFee: optional<boolean>
+      secondIdentifier: optional<string>
+
+  _InlinedType629:
+    properties:
+      lastAuthMsgSentDate: optional<string>
+      authenticationUrl: optional<string>
+
+  _InlinedType630:
+    properties:
+      city: optional<string>
+      country: optional<string>
+      line1: optional<string>
+      line2: optional<string>
+      postal_code: optional<string>
+      state: optional<string>
+
+  _InlinedType631:
+    properties:
+      address: optional<_InlinedType630>
+      email: optional<string>
+      name: optional<string>
+      phone: optional<string>
+
+  _InlinedType632:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      confirmationCode: optional<string>
+      reservationId:
+        docs: Unique Id
+        type: optional<string>
+      OTA: optional<string>
+      listingId:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType633:
+    properties:
+      network_status: optional<string>
+      reason: optional<string>
+      risk_level: optional<string>
+      risk_score: optional<double>
+      seller_message: optional<string>
+      type: optional<string>
+
+  _InlinedType634:
+    properties:
+      cvc_check: optional<string>
+
+  _InlinedType635:
+    properties:
+      brand: optional<string>
+      checks: optional<_InlinedType634>
+      country: optional<string>
+      exp_month: optional<double>
+      exp_year: optional<double>
+      fingerprint: optional<string>
+      funding: optional<string>
+      last4: optional<string>
+      network: optional<string>
+
+  _InlinedType636:
+    properties:
+      card: optional<_InlinedType635>
+      type: optional<string>
+
+  _InlinedType637:
+    properties:
+      object: optional<string>
+      data: optional<list<unknown>>
+      has_more: optional<boolean>
+      total_count: optional<double>
+      url: optional<string>
+
+  _InlinedType638:
+    properties:
+      id: optional<string>
+      object: optional<string>
+      amount: optional<double>
+      amount_captured: optional<double>
+      amount_refunded: optional<double>
+      application: optional<string>
+      billing_details: optional<_InlinedType631>
+      calculated_statement_descriptor: optional<string>
+      captured: optional<boolean>
+      created: optional<double>
+      currency: optional<string>
+      customer: optional<string>
+      description: optional<string>
+      disputed: optional<boolean>
+      failure_code: optional<string>
+      failure_message: optional<string>
+      livemode: optional<boolean>
+      metadata: optional<_InlinedType632>
+      outcome: optional<_InlinedType633>
+      paid: optional<boolean>
+      payment_intent: optional<string>
+      payment_method: optional<string>
+      payment_method_details: optional<_InlinedType636>
+      refunded: optional<boolean>
+      refunds: optional<_InlinedType637>
+      statement_descriptor: optional<string>
+      status: optional<string>
+
+  _InlinedType639:
+    properties:
+      object: optional<string>
+      data: optional<list<_InlinedType638>>
+      has_more: optional<boolean>
+      total_count: optional<double>
+      url: optional<string>
+
+  _InlinedType640:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      confirmationCode: optional<string>
+      reservationId:
+        docs: Unique Id
+        type: optional<string>
+      OTA: optional<string>
+      listingId:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType641:
+    properties:
+      directory_server_id: optional<string>
+      algorithm: optional<string>
+      certificate: optional<string>
+      root_certificate_authorities: optional<list<unknown>>
+
+  _InlinedType642:
+    properties:
+      type: optional<string>
+      merchant: optional<string>
+      three_d_secure_2_source: optional<string>
+      directory_server_name: optional<string>
+      server_transaction_id: optional<string>
+      three_ds_method_url: optional<string>
+      three_ds_optimizations: optional<string>
+      directory_server_encryption: optional<_InlinedType641>
+
+  _InlinedType643:
+    properties:
+      type: optional<string>
+      use_stripe_sdk: optional<_InlinedType642>
+
+  _InlinedType644:
+    properties:
+      request_three_d_secure: optional<string>
+
+  _InlinedType645:
+    properties:
+      card: optional<_InlinedType644>
+
+  _InlinedType646:
+    properties:
+      id:
+        docs: Unique Id
+        type: optional<string>
+      object: optional<string>
+      amount: optional<double>
+      amount_capturable: optional<double>
+      amount_received: optional<double>
+      application: optional<string>
+      capture_method: optional<string>
+      charges: optional<_InlinedType639>
+      client_secret: optional<string>
+      confirmation_method: optional<string>
+      created: optional<double>
+      currency: optional<string>
+      customer: optional<string>
+      description: optional<string>
+      livemode: optional<boolean>
+      metadata: optional<_InlinedType640>
+      next_action: optional<_InlinedType643>
+      payment_method: optional<string>
+      payment_method_options: optional<_InlinedType645>
+      payment_method_types: optional<list<unknown>>
+      statement_descriptor: optional<string>
+      status: optional<string>
+
+  _InlinedType647:
+    properties:
+      city: optional<string>
+      country: optional<string>
+      line1: optional<string>
+      line2: optional<string>
+      postal_code: optional<string>
+      state: optional<string>
+
+  _InlinedType648:
+    properties:
+      address: optional<_InlinedType647>
+      email: optional<string>
+      name: optional<string>
+      phone: optional<string>
+
+  _InlinedType649:
+    properties:
+      cvc_check: optional<string>
+
+  _InlinedType650:
+    properties:
+      available: optional<list<unknown>>
+
+  _InlinedType651:
+    properties:
+      supported: optional<boolean>
+
+  _InlinedType652:
+    properties:
+      brand: optional<string>
+      checks: optional<_InlinedType649>
+      country: optional<string>
+      exp_month: optional<double>
+      exp_year: optional<double>
+      fingerprint: optional<string>
+      funding: optional<string>
+      last4: optional<string>
+      networks: optional<_InlinedType650>
+      three_d_secure_usage: optional<_InlinedType651>
+
+  _InlinedType653:
+    properties:
+      id: optional<string>
+      object: optional<string>
+      billing_details: optional<_InlinedType648>
+      card: optional<_InlinedType652>
+      created: optional<double>
+      customer: optional<string>
+      livemode: optional<boolean>
+      type: optional<string>
+
+  _InlinedType654:
+    properties:
+      charge: optional<string>
+      code: optional<string>
+      decline_code: optional<string>
+      doc_url: optional<string>
+      message: optional<string>
+      payment_intent: optional<_InlinedType646>
+      payment_method: optional<_InlinedType653>
+      type: optional<string>
+      statusCode: optional<double>
+      requestId: optional<string>
+
+  _InlinedType655:
+    properties:
+      createdAt: optional<string>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      status: optional<string>
+      error: optional<string>
+      payload: optional<_InlinedType654>
+
+  _InlinedType656:
+    properties:
+      authenticationRequiredData: optional<_InlinedType629>
+      paymentMethodStatus: optional<string>
+      isAuthorizationHold: optional<boolean>
+      status: optional<string>
+      refunds: optional<list<unknown>>
+      authorizationHoldCaptures: optional<list<unknown>>
+      createdAt: optional<string>
+      attempts: optional<list<_InlinedType655>>
+      receiptTargets: optional<list<unknown>>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      amount: optional<double>
+      shouldBePaidAt: optional<string>
+      paymentMethodId:
+        docs: Unique Id
+        type: optional<string>
+      guestId:
+        docs: Unique Id
+        type: optional<string>
+      currency: optional<string>
+
+  _InlinedType657:
+    properties:
+      altered: optional<boolean>
+      invoiceItems: optional<list<_InlinedType628>>
+      payments: optional<list<_InlinedType656>>
+      autoPaymentsPolicy: optional<list<unknown>>
+      currency: optional<string>
+      paymentProviderIds: optional<list<unknown>>
+      fareAccommodationAdjustment: optional<double>
+      fareAccommodationDiscount: optional<double>
+      fareAccommodation: optional<double>
+      fareAccommodationAdjusted: optional<double>
+      fareCleaning: optional<double>
+      hostServiceFee: optional<double>
+      hostServiceFeeTax: optional<double>
+      hostServiceFeeIncTax: optional<double>
+      subTotalPrice: optional<double>
+      hostPayout: optional<double>
+      hostPayoutUsd: optional<double>
+      totalTaxes: optional<double>
+      totalRefunded: optional<double>
+      totalPaid: optional<double>
+      paymentsDue: optional<double>
+      balanceDue: optional<double>
+      isFullyPaid: optional<boolean>
+      useAccountRevenueShare: optional<boolean>
+      netIncomeFormula: optional<string>
+      netIncome: optional<double>
+      commissionFormula: optional<string>
+      commission: optional<double>
+      commissionTaxPercentage: optional<double>
+      commissionTax: optional<double>
+      commissionIncTax: optional<double>
+      ownerRevenueFormula: optional<string>
+      ownerRevenue: optional<double>
+      currencyConversionRateToAccount: optional<double>
+      isTouchedPayments: optional<boolean>
+
+  _InlinedType658:
+    properties:
+      assigned: optional<boolean>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType659:
+    properties:
+      automationSources: optional<list<unknown>>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      isPercentage: optional<boolean>
+      isAutomated: optional<boolean>
+      name: optional<string>
+      type: optional<string>
+      value: optional<double>
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      multiplier: optional<string>
+      targetFee: optional<string>
+
+  _InlinedType660:
+    properties:
+      integration: optional<_InlinedType622>
+      guestyFeeDetails: optional<_InlinedType623>
+      review: optional<_InlinedType624>
+      atTimeOfConfirmation: optional<_InlinedType627>
+      flag: optional<boolean>
+      accountingEnabled: optional<boolean>
+      isBMApplied: optional<boolean>
+      confirmedPreBookings: optional<list<unknown>>
+      pulledByDailySync: optional<boolean>
+      manuallyCreated: optional<boolean>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      status: optional<string>
+      checkIn: optional<string>
+      checkOut: optional<string>
+      nightsCount: optional<double>
+      guestsCount: optional<double>
+      money: optional<_InlinedType657>
+      listingId:
+        docs: Unique Id
+        type: optional<string>
+      checkInDateLocalized: optional<string>
+      checkOutDateLocalized: optional<string>
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      guestId:
+        docs: Unique Id
+        type: optional<string>
+      source: optional<string>
+      confirmationCode: optional<string>
+      mtl: optional<_InlinedType658>
+      isReturningGuest: optional<boolean>
+      confirmedAt: optional<string>
+      importedAt: optional<string>
+      additionalFeesAtCreation: optional<list<_InlinedType659>>
+      createdAt: optional<string>
+      pendingTasks: optional<list<unknown>>
+      customFields: optional<list<unknown>>
+      lastUpdatedAt: optional<string>
+      __v: optional<double>
+      conversationId:
+        docs: Unique Id
+        type: optional<string>
+      id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType661: map<string, unknown>
+
+  _InlinedType662:
+    properties:
+      availableStatuses: optional<list<unknown>>
+
+  _InlinedType663:
+    properties:
+      invalidCreditCards: optional<list<unknown>>
+      reports: optional<list<unknown>>
+
+  _InlinedType664:
+    properties:
+      limitations: optional<_InlinedType662>
+      bookingCom: optional<_InlinedType663>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      platform: optional<string>
+
+  _InlinedType665:
+    properties:
+      commission: optional<double>
+      feeMinimum: optional<double>
+      fee: optional<double>
+      feeUsd: optional<double>
+      isMinimumFee: optional<boolean>
+      isMaximumFee: optional<boolean>
+      planItems: optional<list<unknown>>
+
+  _InlinedType666:
+    properties:
+      shouldReview: optional<boolean>
+
+  _InlinedType667:
+    properties:
+      useAccountSettings: optional<boolean>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      manual: optional<list<unknown>>
+
+  _InlinedType668:
+    properties:
+      appliedOnFees: optional<string>
+      appliedByDefaultOnChannels: optional<list<unknown>>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      name: optional<string>
+      units: optional<string>
+      quantifier: optional<string>
+      amount: optional<double>
+      appliedToAllFees: optional<boolean>
+      type: optional<string>
+
+  _InlinedType669:
+    properties:
+      snapshotCreated: optional<boolean>
+      channelCommission: optional<_InlinedType667>
+      taxes: optional<list<_InlinedType668>>
+      monthlyPriceFactor: optional<double>
+      weeklyPriceFactor: optional<double>
+      useAccountRevenueShare: optional<boolean>
+
+  _InlinedType670:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      title: optional<string>
+      amount: optional<double>
+      currency: optional<string>
+      type: optional<string>
+      isLocked: optional<boolean>
+      isTax: optional<boolean>
+      normalType: optional<string>
+      isAutoAdditionalFee: optional<boolean>
+      secondIdentifier: optional<string>
+
+  _InlinedType671:
+    properties:
+      lastAuthMsgSentDate: optional<string>
+      authenticationUrl: optional<string>
+
+  _InlinedType672:
+    properties:
+      city: optional<string>
+      country: optional<string>
+      line1: optional<string>
+      line2: optional<string>
+      postal_code: optional<string>
+      state: optional<string>
+
+  _InlinedType673:
+    properties:
+      address: optional<_InlinedType672>
+      email: optional<string>
+      name: optional<string>
+      phone: optional<string>
+
+  _InlinedType674:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      confirmationCode: optional<string>
+      reservationId:
+        docs: Unique Id
+        type: optional<string>
+      OTA: optional<string>
+      listingId:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType675:
+    properties:
+      network_status: optional<string>
+      reason: optional<string>
+      risk_level: optional<string>
+      risk_score: optional<double>
+      seller_message: optional<string>
+      type: optional<string>
+
+  _InlinedType676:
+    properties:
+      cvc_check: optional<string>
+
+  _InlinedType677:
+    properties:
+      brand: optional<string>
+      checks: optional<_InlinedType676>
+      country: optional<string>
+      exp_month: optional<double>
+      exp_year: optional<double>
+      fingerprint: optional<string>
+      funding: optional<string>
+      last4: optional<string>
+      network: optional<string>
+
+  _InlinedType678:
+    properties:
+      card: optional<_InlinedType677>
+      type: optional<string>
+
+  _InlinedType679:
+    properties:
+      object: optional<string>
+      data: optional<list<unknown>>
+      has_more: optional<boolean>
+      total_count: optional<double>
+      url: optional<string>
+
+  _InlinedType680:
+    properties:
+      id: optional<string>
+      object: optional<string>
+      amount: optional<double>
+      amount_captured: optional<double>
+      amount_refunded: optional<double>
+      application: optional<string>
+      billing_details: optional<_InlinedType673>
+      calculated_statement_descriptor: optional<string>
+      captured: optional<boolean>
+      created: optional<double>
+      currency: optional<string>
+      customer: optional<string>
+      description: optional<string>
+      disputed: optional<boolean>
+      failure_code: optional<string>
+      failure_message: optional<string>
+      livemode: optional<boolean>
+      metadata: optional<_InlinedType674>
+      outcome: optional<_InlinedType675>
+      paid: optional<boolean>
+      payment_intent: optional<string>
+      payment_method: optional<string>
+      payment_method_details: optional<_InlinedType678>
+      refunded: optional<boolean>
+      refunds: optional<_InlinedType679>
+      statement_descriptor: optional<string>
+      status: optional<string>
+
+  _InlinedType681:
+    properties:
+      object: optional<string>
+      data: optional<list<_InlinedType680>>
+      has_more: optional<boolean>
+      total_count: optional<double>
+      url: optional<string>
+
+  _InlinedType682:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      confirmationCode: optional<string>
+      reservationId:
+        docs: Unique Id
+        type: optional<string>
+      OTA: optional<string>
+      listingId:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType683:
+    properties:
+      directory_server_id: optional<string>
+      algorithm: optional<string>
+      certificate: optional<string>
+      root_certificate_authorities: optional<list<unknown>>
+
+  _InlinedType684:
+    properties:
+      type: optional<string>
+      merchant: optional<string>
+      three_d_secure_2_source: optional<string>
+      directory_server_name: optional<string>
+      server_transaction_id: optional<string>
+      three_ds_method_url: optional<string>
+      three_ds_optimizations: optional<string>
+      directory_server_encryption: optional<_InlinedType683>
+
+  _InlinedType685:
+    properties:
+      type: optional<string>
+      use_stripe_sdk: optional<_InlinedType684>
+
+  _InlinedType686:
+    properties:
+      request_three_d_secure: optional<string>
+
+  _InlinedType687:
+    properties:
+      card: optional<_InlinedType686>
+
+  _InlinedType688:
+    properties:
+      id:
+        docs: Unique Id
+        type: optional<string>
+      object: optional<string>
+      amount: optional<double>
+      amount_capturable: optional<double>
+      amount_received: optional<double>
+      application: optional<string>
+      capture_method: optional<string>
+      charges: optional<_InlinedType681>
+      client_secret: optional<string>
+      confirmation_method: optional<string>
+      created: optional<double>
+      currency: optional<string>
+      customer: optional<string>
+      description: optional<string>
+      livemode: optional<boolean>
+      metadata: optional<_InlinedType682>
+      next_action: optional<_InlinedType685>
+      payment_method: optional<string>
+      payment_method_options: optional<_InlinedType687>
+      payment_method_types: optional<list<unknown>>
+      statement_descriptor: optional<string>
+      status: optional<string>
+
+  _InlinedType689:
+    properties:
+      city: optional<string>
+      country: optional<string>
+      line1: optional<string>
+      line2: optional<string>
+      postal_code: optional<string>
+      state: optional<string>
+
+  _InlinedType690:
+    properties:
+      address: optional<_InlinedType689>
+      email: optional<string>
+      name: optional<string>
+      phone: optional<string>
+
+  _InlinedType691:
+    properties:
+      cvc_check: optional<string>
+
+  _InlinedType692:
+    properties:
+      available: optional<list<unknown>>
+
+  _InlinedType693:
+    properties:
+      supported: optional<boolean>
+
+  _InlinedType694:
+    properties:
+      brand: optional<string>
+      checks: optional<_InlinedType691>
+      country: optional<string>
+      exp_month: optional<double>
+      exp_year: optional<double>
+      fingerprint: optional<string>
+      funding: optional<string>
+      last4: optional<string>
+      networks: optional<_InlinedType692>
+      three_d_secure_usage: optional<_InlinedType693>
+
+  _InlinedType695:
+    properties:
+      id: optional<string>
+      object: optional<string>
+      billing_details: optional<_InlinedType690>
+      card: optional<_InlinedType694>
+      created: optional<double>
+      customer: optional<string>
+      livemode: optional<boolean>
+      type: optional<string>
+
+  _InlinedType696:
+    properties:
+      charge: optional<string>
+      code: optional<string>
+      decline_code: optional<string>
+      doc_url: optional<string>
+      message: optional<string>
+      payment_intent: optional<_InlinedType688>
+      payment_method: optional<_InlinedType695>
+      type: optional<string>
+      statusCode: optional<double>
+      requestId: optional<string>
+
+  _InlinedType697:
+    properties:
+      createdAt: optional<string>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      status: optional<string>
+      error: optional<string>
+      payload: optional<_InlinedType696>
+
+  _InlinedType698:
+    properties:
+      authenticationRequiredData: optional<_InlinedType671>
+      paymentMethodStatus: optional<string>
+      isAuthorizationHold: optional<boolean>
+      status: optional<string>
+      refunds: optional<list<unknown>>
+      authorizationHoldCaptures: optional<list<unknown>>
+      createdAt: optional<string>
+      attempts: optional<list<_InlinedType697>>
+      receiptTargets: optional<list<unknown>>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      amount: optional<double>
+      shouldBePaidAt: optional<string>
+      paymentMethodId:
+        docs: Unique Id
+        type: optional<string>
+      guestId:
+        docs: Unique Id
+        type: optional<string>
+      currency: optional<string>
+
+  _InlinedType699:
+    properties:
+      altered: optional<boolean>
+      invoiceItems: optional<list<_InlinedType670>>
+      payments: optional<list<_InlinedType698>>
+      autoPaymentsPolicy: optional<list<unknown>>
+      currency: optional<string>
+      paymentProviderIds: optional<list<unknown>>
+      fareAccommodationAdjustment: optional<double>
+      fareAccommodationDiscount: optional<double>
+      fareAccommodation: optional<double>
+      fareAccommodationAdjusted: optional<double>
+      fareCleaning: optional<double>
+      hostServiceFee: optional<double>
+      hostServiceFeeTax: optional<double>
+      hostServiceFeeIncTax: optional<double>
+      subTotalPrice: optional<double>
+      hostPayout: optional<double>
+      hostPayoutUsd: optional<double>
+      totalTaxes: optional<double>
+      totalRefunded: optional<double>
+      totalPaid: optional<double>
+      paymentsDue: optional<double>
+      balanceDue: optional<double>
+      isFullyPaid: optional<boolean>
+      useAccountRevenueShare: optional<boolean>
+      netIncomeFormula: optional<string>
+      netIncome: optional<double>
+      commissionFormula: optional<string>
+      commission: optional<double>
+      commissionTaxPercentage: optional<double>
+      commissionTax: optional<double>
+      commissionIncTax: optional<double>
+      ownerRevenueFormula: optional<string>
+      ownerRevenue: optional<double>
+      currencyConversionRateToAccount: optional<double>
+      isTouchedPayments: optional<boolean>
+
+  _InlinedType700:
+    properties:
+      assigned: optional<boolean>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType701:
+    properties:
+      automationSources: optional<list<unknown>>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      isPercentage: optional<boolean>
+      isAutomated: optional<boolean>
+      name: optional<string>
+      type: optional<string>
+      value: optional<double>
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      multiplier: optional<string>
+      targetFee: optional<string>
+
+  _InlinedType702:
+    properties:
+      integration: optional<_InlinedType664>
+      guestyFeeDetails: optional<_InlinedType665>
+      review: optional<_InlinedType666>
+      atTimeOfConfirmation: optional<_InlinedType669>
+      flag: optional<boolean>
+      accountingEnabled: optional<boolean>
+      isBMApplied: optional<boolean>
+      confirmedPreBookings: optional<list<unknown>>
+      pulledByDailySync: optional<boolean>
+      manuallyCreated: optional<boolean>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      status: optional<string>
+      checkIn: optional<string>
+      checkOut: optional<string>
+      nightsCount: optional<double>
+      guestsCount: optional<double>
+      money: optional<_InlinedType699>
+      listingId:
+        docs: Unique Id
+        type: optional<string>
+      checkInDateLocalized: optional<string>
+      checkOutDateLocalized: optional<string>
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      guestId:
+        docs: Unique Id
+        type: optional<string>
+      source: optional<string>
+      confirmationCode: optional<string>
+      mtl: optional<_InlinedType700>
+      isReturningGuest: optional<boolean>
+      confirmedAt: optional<string>
+      importedAt: optional<string>
+      additionalFeesAtCreation: optional<list<_InlinedType701>>
+      createdAt: optional<string>
+      pendingTasks: optional<list<unknown>>
+      customFields: optional<list<unknown>>
+      lastUpdatedAt: optional<string>
+      __v: optional<double>
+      conversationId:
+        docs: Unique Id
+        type: optional<string>
+      id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType703:
+    enum:
+      - CASH
+      - STRIPE
+      - CREDIT
+      - DEBIT
+      - ECHECK
+      - AIRBNB
+      - BANK_TRANSFER
+      - CREDIT_NOTE
+      - VOUCHER
+      - CHECK
+      - OTHER
+
+  _InlinedType704:
+    properties:
+      method: optional<_InlinedType703>
+      saveForFutureUse: optional<boolean>
+      id: optional<string>
+
+  _InlinedType705:
+    properties:
+      availableStatuses: optional<list<unknown>>
+
+  _InlinedType706:
+    properties:
+      invalidCreditCards: optional<list<unknown>>
+      reports: optional<list<unknown>>
+
+  _InlinedType707:
+    properties:
+      limitations: optional<_InlinedType705>
+      bookingCom: optional<_InlinedType706>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      platform: optional<string>
+
+  _InlinedType708:
+    properties:
+      commission: optional<double>
+      feeMinimum: optional<double>
+      fee: optional<double>
+      feeUsd: optional<double>
+      isMinimumFee: optional<boolean>
+      isMaximumFee: optional<boolean>
+      planItems: optional<list<unknown>>
+
+  _InlinedType709:
+    properties:
+      shouldReview: optional<boolean>
+
+  _InlinedType710:
+    properties:
+      useAccountSettings: optional<boolean>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      manual: optional<list<unknown>>
+
+  _InlinedType711:
+    properties:
+      appliedOnFees: optional<string>
+      appliedByDefaultOnChannels: optional<list<unknown>>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      name: optional<string>
+      units: optional<string>
+      quantifier: optional<string>
+      amount: optional<double>
+      appliedToAllFees: optional<boolean>
+      type: optional<string>
+
+  _InlinedType712:
+    properties:
+      snapshotCreated: optional<boolean>
+      channelCommission: optional<_InlinedType710>
+      taxes: optional<list<_InlinedType711>>
+      monthlyPriceFactor: optional<double>
+      weeklyPriceFactor: optional<double>
+      useAccountRevenueShare: optional<boolean>
+
+  _InlinedType713:
+    properties:
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      title: optional<string>
+      amount: optional<double>
+      currency: optional<string>
+      type: optional<string>
+      isLocked: optional<boolean>
+      isTax: optional<boolean>
+      normalType: optional<string>
+      isAutoAdditionalFee: optional<boolean>
+      secondIdentifier: optional<string>
+
+  _InlinedType714:
+    properties:
+      lastAuthMsgSentDate: optional<string>
+      authenticationUrl: optional<string>
+
+  _InlinedType715:
+    properties:
+      city: optional<string>
+      country: optional<string>
+      line1: optional<string>
+      line2: optional<string>
+      postal_code: optional<string>
+      state: optional<string>
+
+  _InlinedType716:
+    properties:
+      address: optional<_InlinedType715>
+      email: optional<string>
+      name: optional<string>
+      phone: optional<string>
+
+  _InlinedType717:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      confirmationCode: optional<string>
+      reservationId:
+        docs: Unique Id
+        type: optional<string>
+      OTA: optional<string>
+      listingId:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType718:
+    properties:
+      network_status: optional<string>
+      reason: optional<string>
+      risk_level: optional<string>
+      risk_score: optional<double>
+      seller_message: optional<string>
+      type: optional<string>
+
+  _InlinedType719:
+    properties:
+      cvc_check: optional<string>
+
+  _InlinedType720:
+    properties:
+      brand: optional<string>
+      checks: optional<_InlinedType719>
+      country: optional<string>
+      exp_month: optional<double>
+      exp_year: optional<double>
+      fingerprint: optional<string>
+      funding: optional<string>
+      last4: optional<string>
+      network: optional<string>
+
+  _InlinedType721:
+    properties:
+      card: optional<_InlinedType720>
+      type: optional<string>
+
+  _InlinedType722:
+    properties:
+      object: optional<string>
+      data: optional<list<unknown>>
+      has_more: optional<boolean>
+      total_count: optional<double>
+      url: optional<string>
+
+  _InlinedType723:
+    properties:
+      id: optional<string>
+      object: optional<string>
+      amount: optional<double>
+      amount_captured: optional<double>
+      amount_refunded: optional<double>
+      application: optional<string>
+      billing_details: optional<_InlinedType716>
+      calculated_statement_descriptor: optional<string>
+      captured: optional<boolean>
+      created: optional<double>
+      currency: optional<string>
+      customer: optional<string>
+      description: optional<string>
+      disputed: optional<boolean>
+      failure_code: optional<string>
+      failure_message: optional<string>
+      livemode: optional<boolean>
+      metadata: optional<_InlinedType717>
+      outcome: optional<_InlinedType718>
+      paid: optional<boolean>
+      payment_intent: optional<string>
+      payment_method: optional<string>
+      payment_method_details: optional<_InlinedType721>
+      refunded: optional<boolean>
+      refunds: optional<_InlinedType722>
+      statement_descriptor: optional<string>
+      status: optional<string>
+
+  _InlinedType724:
+    properties:
+      object: optional<string>
+      data: optional<list<_InlinedType723>>
+      has_more: optional<boolean>
+      total_count: optional<double>
+      url: optional<string>
+
+  _InlinedType725:
+    properties:
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      confirmationCode: optional<string>
+      reservationId:
+        docs: Unique Id
+        type: optional<string>
+      OTA: optional<string>
+      listingId:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType726:
+    properties:
+      directory_server_id: optional<string>
+      algorithm: optional<string>
+      certificate: optional<string>
+      root_certificate_authorities: optional<list<unknown>>
+
+  _InlinedType727:
+    properties:
+      type: optional<string>
+      merchant: optional<string>
+      three_d_secure_2_source: optional<string>
+      directory_server_name: optional<string>
+      server_transaction_id: optional<string>
+      three_ds_method_url: optional<string>
+      three_ds_optimizations: optional<string>
+      directory_server_encryption: optional<_InlinedType726>
+
+  _InlinedType728:
+    properties:
+      type: optional<string>
+      use_stripe_sdk: optional<_InlinedType727>
+
+  _InlinedType729:
+    properties:
+      request_three_d_secure: optional<string>
+
+  _InlinedType730:
+    properties:
+      card: optional<_InlinedType729>
+
+  _InlinedType731:
+    properties:
+      id:
+        docs: Unique Id
+        type: optional<string>
+      object: optional<string>
+      amount: optional<double>
+      amount_capturable: optional<double>
+      amount_received: optional<double>
+      application: optional<string>
+      capture_method: optional<string>
+      charges: optional<_InlinedType724>
+      client_secret: optional<string>
+      confirmation_method: optional<string>
+      created: optional<double>
+      currency: optional<string>
+      customer: optional<string>
+      description: optional<string>
+      livemode: optional<boolean>
+      metadata: optional<_InlinedType725>
+      next_action: optional<_InlinedType728>
+      payment_method: optional<string>
+      payment_method_options: optional<_InlinedType730>
+      payment_method_types: optional<list<unknown>>
+      statement_descriptor: optional<string>
+      status: optional<string>
+
+  _InlinedType732:
+    properties:
+      city: optional<string>
+      country: optional<string>
+      line1: optional<string>
+      line2: optional<string>
+      postal_code: optional<string>
+      state: optional<string>
+
+  _InlinedType733:
+    properties:
+      address: optional<_InlinedType732>
+      email: optional<string>
+      name: optional<string>
+      phone: optional<string>
+
+  _InlinedType734:
+    properties:
+      cvc_check: optional<string>
+
+  _InlinedType735:
+    properties:
+      available: optional<list<unknown>>
+
+  _InlinedType736:
+    properties:
+      supported: optional<boolean>
+
+  _InlinedType737:
+    properties:
+      brand: optional<string>
+      checks: optional<_InlinedType734>
+      country: optional<string>
+      exp_month: optional<double>
+      exp_year: optional<double>
+      fingerprint: optional<string>
+      funding: optional<string>
+      last4: optional<string>
+      networks: optional<_InlinedType735>
+      three_d_secure_usage: optional<_InlinedType736>
+
+  _InlinedType738:
+    properties:
+      id: optional<string>
+      object: optional<string>
+      billing_details: optional<_InlinedType733>
+      card: optional<_InlinedType737>
+      created: optional<double>
+      customer: optional<string>
+      livemode: optional<boolean>
+      type: optional<string>
+
+  _InlinedType739:
+    properties:
+      charge: optional<string>
+      code: optional<string>
+      decline_code: optional<string>
+      doc_url: optional<string>
+      message: optional<string>
+      payment_intent: optional<_InlinedType731>
+      payment_method: optional<_InlinedType738>
+      type: optional<string>
+      statusCode: optional<double>
+      requestId: optional<string>
+
+  _InlinedType740:
+    properties:
+      createdAt: optional<string>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      status: optional<string>
+      error: optional<string>
+      payload: optional<_InlinedType739>
+
+  _InlinedType741:
+    properties:
+      authenticationRequiredData: optional<_InlinedType714>
+      paymentMethodStatus: optional<string>
+      isAuthorizationHold: optional<boolean>
+      status: optional<string>
+      refunds: optional<list<unknown>>
+      authorizationHoldCaptures: optional<list<unknown>>
+      createdAt: optional<string>
+      attempts: optional<list<_InlinedType740>>
+      receiptTargets: optional<list<unknown>>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      amount: optional<double>
+      shouldBePaidAt: optional<string>
+      paymentMethodId:
+        docs: Unique Id
+        type: optional<string>
+      guestId:
+        docs: Unique Id
+        type: optional<string>
+      currency: optional<string>
+
+  _InlinedType742:
+    properties:
+      altered: optional<boolean>
+      invoiceItems: optional<list<_InlinedType713>>
+      payments: optional<list<_InlinedType741>>
+      autoPaymentsPolicy: optional<list<unknown>>
+      currency: optional<string>
+      paymentProviderIds: optional<list<unknown>>
+      fareAccommodationAdjustment: optional<double>
+      fareAccommodationDiscount: optional<double>
+      fareAccommodation: optional<double>
+      fareAccommodationAdjusted: optional<double>
+      fareCleaning: optional<double>
+      hostServiceFee: optional<double>
+      hostServiceFeeTax: optional<double>
+      hostServiceFeeIncTax: optional<double>
+      subTotalPrice: optional<double>
+      hostPayout: optional<double>
+      hostPayoutUsd: optional<double>
+      totalTaxes: optional<double>
+      totalRefunded: optional<double>
+      totalPaid: optional<double>
+      paymentsDue: optional<double>
+      balanceDue: optional<double>
+      isFullyPaid: optional<boolean>
+      useAccountRevenueShare: optional<boolean>
+      netIncomeFormula: optional<string>
+      netIncome: optional<double>
+      commissionFormula: optional<string>
+      commission: optional<double>
+      commissionTaxPercentage: optional<double>
+      commissionTax: optional<double>
+      commissionIncTax: optional<double>
+      ownerRevenueFormula: optional<string>
+      ownerRevenue: optional<double>
+      currencyConversionRateToAccount: optional<double>
+      isTouchedPayments: optional<boolean>
+
+  _InlinedType743:
+    properties:
+      assigned: optional<boolean>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType744:
+    properties:
+      automationSources: optional<list<unknown>>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      isPercentage: optional<boolean>
+      isAutomated: optional<boolean>
+      name: optional<string>
+      type: optional<string>
+      value: optional<double>
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      multiplier: optional<string>
+      targetFee: optional<string>
+
+  _InlinedType745:
+    properties:
+      integration: optional<_InlinedType707>
+      guestyFeeDetails: optional<_InlinedType708>
+      review: optional<_InlinedType709>
+      atTimeOfConfirmation: optional<_InlinedType712>
+      flag: optional<boolean>
+      accountingEnabled: optional<boolean>
+      isBMApplied: optional<boolean>
+      confirmedPreBookings: optional<list<unknown>>
+      pulledByDailySync: optional<boolean>
+      manuallyCreated: optional<boolean>
+      _id:
+        docs: Unique Id
+        type: optional<string>
+      status: optional<string>
+      checkIn: optional<string>
+      checkOut: optional<string>
+      nightsCount: optional<double>
+      guestsCount: optional<double>
+      money: optional<_InlinedType742>
+      listingId:
+        docs: Unique Id
+        type: optional<string>
+      checkInDateLocalized: optional<string>
+      checkOutDateLocalized: optional<string>
+      accountId:
+        docs: Unique Id
+        type: optional<string>
+      guestId:
+        docs: Unique Id
+        type: optional<string>
+      source: optional<string>
+      confirmationCode: optional<string>
+      mtl: optional<_InlinedType743>
+      isReturningGuest: optional<boolean>
+      confirmedAt: optional<string>
+      importedAt: optional<string>
+      additionalFeesAtCreation: optional<list<_InlinedType744>>
+      createdAt: optional<string>
+      pendingTasks: optional<list<unknown>>
+      customFields: optional<list<unknown>>
+      lastUpdatedAt: optional<string>
+      __v: optional<double>
+      conversationId:
+        docs: Unique Id
+        type: optional<string>
+      id:
+        docs: Unique Id
+        type: optional<string>
+
+  _InlinedType746:
+    enum:
+      - PENDING
+      - PENDING_AUTH
+      - FAILED
+      - SUCCEEDED
+      - CANCELLED
+      - AUTHORIZATION_HOLD_SUCCEEDED
+      - FAILED_FULLY_PAID
+      - PENDING_ACTIVATION
+
+  _InlinedType747:
+    enum:
+      - CASH
+      - STRIPE
+      - CREDIT
+      - DEBIT
+      - ECHECK
+      - AIRBNB
+      - BANK_TRANSFER
+      - CREDIT_NOTE
+      - VOUCHER
+      - CHECK
+      - OTHER
+
+  _InlinedType748:
+    properties:
+      method: _InlinedType747
+      saveForFutureUse: optional<boolean>
+      id: optional<string>
+
+  _InlinedType749:
+    properties:
+      fieldId: optional<string>
+      value: optional<string>
